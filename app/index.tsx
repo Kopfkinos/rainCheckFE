@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, View, Image } from "react-native"
 
 export default function Index() {
   return (
@@ -9,7 +9,9 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Image source={require("../assets/images/rainCheck-logo.png")}></Image>
+      <Text>{`welcome to rainCheck... 
+        cool things incoming, save the date 25/04/25`}</Text>
     </View>
-  );
+  )
 }
