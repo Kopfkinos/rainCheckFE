@@ -1,4 +1,6 @@
-import { Text, View, Image } from "react-native"
+import { View } from "react-native"
+
+import Login from "./login"
 
 export default function Index() {
   return (
@@ -9,9 +11,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Image source={require("../assets/images/rainCheck-logo.png")}></Image>
-      <Text>{`welcome to rainCheck... 
-        cool things incoming, save the date 25/04/25`}</Text>
+      <Login></Login>
     </View>
   )
 }
