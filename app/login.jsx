@@ -7,7 +7,7 @@ import {
 } from "react-native-responsive-screen"
 
 import { EyeOffOutline, EyeOutline } from "react-ionicons"
-import { UserContext } from "./contexts/UserContext"
+import { UserContext } from "../contexts/UserContext"
 
 import { getUsers } from "@/utils/api-funcs"
 

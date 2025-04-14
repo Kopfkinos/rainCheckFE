@@ -3,7 +3,7 @@ import React, { useState, useContext } from "react"
 import { Redirect, Link } from "expo-router"
 import { useRouter } from "expo-router"
 import { postEvent } from "@/utils/api-funcs"
-import { UserContext } from "../contexts/UserContext"
+import { UserContext } from "../../contexts/UserContext"
 // POST /users/:username/events
 
 export default function CreateEvent() {

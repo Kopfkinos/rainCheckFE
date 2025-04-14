@@ -10,7 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context"
 
 import { getEvents } from "@/utils/api-funcs"
 
-import { UserContext } from "./contexts/UserContext"
+import { UserContext } from "../contexts/UserContext"
 
 import useFetch from "../utils/useFetch"
 
