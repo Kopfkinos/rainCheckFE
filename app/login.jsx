@@ -26,13 +26,13 @@ export default function Login() {
     setPasswordVisible(!passwordVisisble)
   }
 
-  const handleLogin = () => {
+  const handleSubmit = () => {
     getUsers().then((users) => {
       users.forEach((user) => {
         if (user.username === username && user.password === password) {
           setIsValidLogin(true)
           setUser(username)
-          router.push("/userpageplaceholder")
+          router.push("/event/createEvent")
         }
       })
     })
@@ -65,7 +65,7 @@ export default function Login() {
         {passwordVisisble ? <EyeOutline color={"#00000"} /> : <EyeOffOutline color={"#00000"} />}
       </TouchableOpacity>
       {isValidLogin ? null : <Text> Invalid Username or password! </Text>}
-      <Button color="purple" title="Submit" onPress={handleLogin} />
+      <Button color="purple" title="Submit" onPress={handleSubmit} />
     </View>
   )
 }
