@@ -14,10 +14,10 @@ export const getUsers = () => {
     });
 };
 
-export const getEvents = (userID) => {
+export const getEvents = (username) => {
   return api
-    .get(`users/${userID}/events`)
-    .then(({ data }) => data.events)
+    .get(`users/${username}/events`)
+    .then(({ data }) => data.events_by_user)
     .catch((error) => {
       console.error("Error fetching events:", error);
       throw error;

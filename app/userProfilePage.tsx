@@ -54,7 +54,7 @@ export default function UserProfilePage() {
             <Text style={styles.eventTitle}>{item.title}</Text>
             <Text>{item.date}</Text>
             <Text>{item.location}</Text>
-            {item.description && <Text>{item.description}</Text>}
+            <Text>{item.description}</Text>
           </View>
         )}
         ListEmptyComponent={<Text style={styles.noEvent}>No events found...</Text>}
@@ -67,7 +67,7 @@ export default function UserProfilePage() {
           <Text style={styles.viewPastEventsButtonText}>View Past Events</Text>
         </TouchableOpacity>
       </Link>
-      <Link href="/event/createEvent">
+      <Link href="/event/createEvent" asChild>
         <TouchableOpacity style={styles.createButton}>
           <Text style={styles.createButtonText}>Create Event</Text>
         </TouchableOpacity>
