@@ -36,10 +36,12 @@ export const postEvent = (eventData) => {
     });
 };
 
-export const getEventByEventID = () => {
+export const getEventByEventID = (event_id) => {
   return api
     .get(`/events/${event_id}`)
-    .then(({ data }) => data.event)
+    .then(({ data }) => {
+      return data.event[0];
+    })
     .catch((error) => {
       console.error("Error fetching event:", error);
       throw error;
