@@ -36,15 +36,15 @@ export default function UserProfilePage() {
   if (error) {
     return (
       <SafeAreaView style={styles.centered}>
-        <Text>{error.message}</Text>
+        <Text style={styles.text}>{error.message}</Text>
       </SafeAreaView>
     )
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.container}>
       <Image source={require("../assets/images/rainCheck-logo.png")} />
-      <Text>Hi {user}!</Text>
+      <Text style={styles.text}>Hi {user}!👋</Text>
 
       <FlatList
         data={events}
@@ -57,7 +57,7 @@ export default function UserProfilePage() {
             {item.description && <Text>{item.description}</Text>}
           </View>
         )}
-        ListEmptyComponent={<Text>No events found.</Text>}
+        ListEmptyComponent={<Text style={styles.noEvent}>No events found...</Text>}
         onRefresh={refetch}
         refreshing={loading}
       />
@@ -77,18 +77,38 @@ export default function UserProfilePage() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 20,
+    backgroundColor: "#FAF9F6",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 20,
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  noEvent: {
+    paddingTop: 20,
+    textAlign: "center",
+    color: "red",
+  },
   viewPastEventsButton: {
     backgroundColor: "#475569",
+    width: wp("20%"),
+    height: 50,
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
     alignSelf: "center",  
-    marginVertical: 20,   
+    marginVertical: 10,  
   },
   viewPastEventsButtonText: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16,
+    alignSelf: "center", 
   },
   createButton: {
     backgroundColor: "#D97742",
@@ -96,18 +116,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 8,
     alignSelf: "center",  
-    marginVertical: 20,   
+    height: 50,
+    width: wp("20%"),
   },
   createButtonText: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16,
-  },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 20,
-    backgroundColor: "white",
+    alignSelf: "center",
   },
   input: {
     height: hp("7%"),
