@@ -14,9 +14,9 @@ export const getUsers = () => {
     });
 };
 
-export const getEvents = (username) => {
+export const getEvents = (userID) => {
   return api
-    .get(`/${username}/events`)
+    .get(`users/${userID}/events`)
     .then(({ data }) => data.events)
     .catch((error) => {
       console.error("Error fetching events:", error);

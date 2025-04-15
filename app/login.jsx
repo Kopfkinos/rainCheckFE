@@ -1,73 +1,102 @@
-import { useState, useContext } from "react"
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Image } from "react-native"
-import { useRouter } from "expo-router"
+import { useState, useContext } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from "react-native";
+import { useRouter } from "expo-router";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from "react-native-responsive-screen"
+} from "react-native-responsive-screen";
 
-import { EyeOffOutline, EyeOutline } from "react-ionicons"
-import { UserContext } from "../contexts/UserContext"
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { getUsers } from "@/utils/api-funcs"
+import { EyeOffOutline, EyeOutline } from "react-ionicons";
+import { UserContext } from "../contexts/UserContext";
+
+import { getUsers } from "@/utils/api-funcs";
 
 export default function Login() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [passwordVisisble, setPasswordVisible] = useState(false)
-  const [isValidLogin, setIsValidLogin] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordVisisble, setPasswordVisible] = useState(false);
+  const [isValidLogin, setIsValidLogin] = useState(true);
 
-  const { user, setUser } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext);
 
-  const router = useRouter()
+  const router = useRouter();
 
   const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisisble)
-  }
+    setPasswordVisible(!passwordVisisble);
+  };
 
   const handleSubmit = () => {
     getUsers().then((users) => {
       users.forEach((user) => {
         if (user.username === username && user.password === password) {
-          setIsValidLogin(true)
-          setUser(username)
-          router.push("/userProfilePage")
+          setIsValidLogin(true);
+          setUser(username);
+          router.push("/userProfilePage");
         }
-      })
-    })
-  }
+      });
+    });
+  };
 
   return (
-    <View style={styles.container}>
-      <View>
-        <Image source={require("../assets/images/rainCheck-logo.png")} />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.logoWrapper}>
+        <View>
+          <Image
+            source={require("../assets/images/rainCheck-logo.png")}
+            style={styles.logo}
+          />
+        </View>
+        <Text style={styles.heading}>Login</Text>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Username"
+          value={username}
+          onChangeText={setUsername}
+          autoCapitalize="none"
+        />
+        <View style={styles.passwordWrapper}>
+          <TextInput
+            style={[styles.input, styles.passwordInput]}
+            onChangeText={setPassword}
+            value={password}
+            placeholder="Password"
+            secureTextEntry={!passwordVisisble}
+            //Ensures the password is hidden when typing
+          />
+          <TouchableOpacity
+            onPress={togglePasswordVisibility}
+            style={styles.eyeIcon}
+          >
+            {passwordVisisble ? (
+              <EyeOutline color={"#00000"} />
+            ) : (
+              <EyeOffOutline color={"#00000"} />
+            )}
+          </TouchableOpacity>
+        </View>
+
+        {isValidLogin ? null : (
+          <Text style={styles.errorText}> Invalid Username or password! </Text>
+        )}
+
+        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+          <Text style={styles.submitButtonText}>Submit</Text>
+        </TouchableOpacity>
       </View>
-      <Text style={styles.heading}>Login</Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
-        autoCapitalize="none"
-      />
-
-      <TextInput
-        style={styles.input}
-        onChangeText={setPassword}
-        value={password}
-        placeholder="Password"
-        secureTextEntry={!passwordVisisble}
-        //Ensures the password is hidden when typing
-      />
-      <TouchableOpacity onPress={togglePasswordVisibility} style={styles.eyeIcon}>
-        {passwordVisisble ? <EyeOutline color={"#00000"} /> : <EyeOffOutline color={"#00000"} />}
-      </TouchableOpacity>
-      {isValidLogin ? null : <Text> Invalid Username or password! </Text>}
-      <Button color="purple" title="Submit" onPress={handleSubmit} />
-    </View>
-  )
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -77,11 +106,46 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "white",
   },
+  logoWrapper: {
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  logo: {
+    width: 300,
+    height: 150,
+    resizeMode: "contain",
+  },
+  passwordWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  eyeIcon: {
+    paddingHorizontal: 10,
+  },
   heading: {
     color: "#824C71",
     fontSize: 24,
     marginBottom: 20,
     alignSelf: "center",
+  },
+  errorText: {
+    color: "#ef4444",
+    fontWeight: "600",
+    textAlign: "center",
+    marginBottom: 12,
+  },
+  submitButton: {
+    backgroundColor: "#D97742",
+    paddingVertical: 14,
+    borderRadius: 8,
+    alignItems: "center",
+    width: "100%",
+  },
+  submitButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
   },
   input: {
     height: hp("7%"),
@@ -92,5 +156,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: "#ddd",
   },
-  eyeIcon: {},
-})
+  passwordInput: {
+    flex: 1,
+    marginVertical: 0,
+    marginHorizontal: 0,
+  },
+});
