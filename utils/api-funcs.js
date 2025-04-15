@@ -1,62 +1,64 @@
-import axios from "axios"
+import axios from "axios";
 
 const api = axios.create({
   baseURL: "https://rain-check-be-334cee29484f.herokuapp.com/api/",
-})
+});
 
 export const getUsers = () => {
   return api
     .get("/users")
     .then(({ data }) => data.users)
     .catch((error) => {
-      console.error("Error fetching users:", error)
-      throw error
-    })
-}
+      console.error("Error fetching users:", error);
+      throw error;
+    });
+};
 
 export const getEvents = (username) => {
   return api
     .get(`/${username}/events`)
     .then(({ data }) => data.events)
     .catch((error) => {
-      console.error("Error fetching events:", error)
-      throw error
-    })
-}
+      console.error("Error fetching events:", error);
+      throw error;
+    });
+};
 
 export const postEvent = (eventData) => {
   return api
     .post(`/events`, eventData)
     .then(({ data }) => {
-      return data.event
+      return data.event;
     })
     .catch((error) => {
-      console.error("Error posting event:", error)
-      throw error
-    })
-}
+      console.error("Error posting event:", error);
+      throw error;
+    });
+};
 
-export const getEventByEventID = () => {
+export const getEventByEventID = (event_id) => {
   return api
     .get(`/events/${event_id}`)
-    .then(({ data }) => data.event)
-    .catch((error) => {
-      console.error("Error fetching event:", error)
-      throw error
+    .then(({ data }) => {
+      return data.event[0];
     })
-}
+    .catch((error) => {
+      console.error("Error fetching event:", error);
+      throw error;
+    });
+};
 
 export const updateEvents = (event_id) => {
   return api
     .patch(`/events/${event_id}`)
     .then(({ data }) => {
-      data.event
+      data.event;
     })
     .catch((error) => {
-      console.error("Error updating event:", error)
-      throw error
-    })
-}
+      console.error("Error updating event:", error);
+      throw error;
+    });
+};
 
 postEvent({
   title: "new test",
@@ -67,4 +69,4 @@ postEvent({
   invited: "steph",
   host_flaked: 0,
   invitee_flaked: 0,
-})
+});
