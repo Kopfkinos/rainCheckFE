@@ -32,7 +32,7 @@ export default function Login() {
         if (user.username === username && user.password === password) {
           setIsValidLogin(true)
           setUser(username)
-          router.push("/event/createEvent")
+          router.push("/userProfilePage")
         }
       })
     })
