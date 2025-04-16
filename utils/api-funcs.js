@@ -2,7 +2,8 @@ import axios from "axios"
 
 const api = axios.create({
   baseURL: "https://rain-check-be.onrender.com/api/",
-})
+});
+
 
 export const getUsers = () => {
   return api
