@@ -34,9 +34,11 @@ export default function CreateEvent() {
       location,
       created_by: user,
       invited: null,
-      host_flaked: 0,
-      invitee_flaked: 0,
+      host_flaked: false,
+      invitee_flaked: false,
     }
+
+    console.log(eventData)
 
     postEvent(eventData)
       .then((newEventData) => {

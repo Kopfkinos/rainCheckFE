@@ -1,12 +1,13 @@
 import { Text, View, Image, StyleSheet, TextInput, TouchableOpacity } from "react-native"
-import { useLocalSearchParams } from "expo-router"
-import { useEffect, useState } from "react"
+import { useLocalSearchParams, Redirect } from "expo-router"
+import { useEffect, useState, useContext } from "react"
 import { getEventByEventID } from "../../utils/api-funcs.js"
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen"
-import { getUsers } from "../../utils/api-funcs.js"
+import { getUsers, addInvitee } from "../../utils/api-funcs.js"
+import { UserContext } from "../../contexts/UserContext"
 import NotFeelingItButton from "../../components/NotFeelingItButton"
 
 // GET /events/:event_id
@@ -24,9 +25,16 @@ interface Event {
 }
 
 export default function EventPage() {
+  const { user } = useContext(UserContext)
   const [invitee, setInvitee] = useState("")
   const [inviteeAdded, setInviteeAdded] = useState(false)
   const [userNotFound, setUserNotFound] = useState(false)
+  const [inviteButtonMsg, setInviteButtonMsg] = useState("")
+  const [showInviteButtonMsg, setShowInviteButtonMsg] = useState(false)
+
+  if (!user) {
+    return <Redirect href="/" />
+  }
 
   const [event, setEvent] = useState<Event>({
     event_id: 0,
@@ -48,10 +56,14 @@ export default function EventPage() {
       setEvent(newEvent)
     })
   }, [])
-
+  console.log("This is the event state>>>>", event)
   const formattedDate = new Date(event.date).toLocaleString("en-GB")
 
   const handleSubmit = () => {
+    if (invitee === user) {
+      setInviteButtonMsg("We're all for self-love, but come on now...")
+      return
+    }
     setUserNotFound(false)
     setInviteeAdded(false)
     getUsers().then((users) => {
@@ -59,11 +71,21 @@ export default function EventPage() {
         return user.username === invitee
       })
       if (userFound) {
-        // SEND PATCH REQUEST TO UPDATE THE EVENT WITH THE INVITEE
-        // THEN UNCOMMENT LINE UNDER "Description" on the event details
-        setInviteeAdded(true)
+        addInvitee(event_id, invitee)
+          .then((updatedEvent) => {
+            console.log("updated event returned from the server >>>", updatedEvent)
+            setEvent(updatedEvent)
+            setInviteeAdded(true)
+            setInviteButtonMsg(`${invitee} has been invited to the event!`)
+            setShowInviteButtonMsg(true)
+          })
+          .catch((err) => {
+            setInviteButtonMsg("There was an error inviting your friend.")
+            setShowInviteButtonMsg(true)
+          })
       } else {
-        setUserNotFound(true)
+        setInviteButtonMsg(`That user doesn't exist...`)
+        setShowInviteButtonMsg(true)
       }
     })
   }
@@ -76,7 +98,7 @@ export default function EventPage() {
         <Text>Date: {formattedDate}</Text>
         <Text>Location: {event.location}</Text>
         <Text>Description: {event.description}</Text>
-        {/* {inviteeAdded ? <Text>Invitee: {event.invited}</Text> : null} */}
+        <Text>Invitee: {event.invited}</Text>
         <Text> Who are you invitin'...?</Text>
         <TextInput
           style={styles.input}
@@ -93,10 +115,7 @@ export default function EventPage() {
           <Text style={styles.submitButtonText}>Invite Friend</Text>
         </TouchableOpacity>
       </View>
-      {userNotFound ? <Text> That user doesn't exist! </Text> : null}
-      {inviteeAdded ? (
-        <Text> User found! (but not invited yet, we ran out of stamps...soz) </Text>
-      ) : null}
+      {showInviteButtonMsg ? <Text> {inviteButtonMsg} </Text> : null}
       <View>
         <NotFeelingItButton />
       </View>

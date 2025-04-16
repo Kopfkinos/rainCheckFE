@@ -2,8 +2,7 @@ import axios from "axios"
 
 const api = axios.create({
   baseURL: "https://rain-check-be.onrender.com/api/",
-});
-
+})
 
 export const getUsers = () => {
   return api
@@ -49,11 +48,13 @@ export const getEventByEventID = (event_id) => {
     })
 }
 
-export const updateEvent = (event_id) => {
+export const addInvitee = (event_id, invitee) => {
+  const params = { params: { action: "inviteFriend" } }
+  const inviteeObj = { invited: invitee }
   return api
-    .patch(`/events/${event_id}`)
+    .patch(`/events/${event_id}`, inviteeObj, params)
     .then(({ data }) => {
-      data.event
+      return data.event[0]
     })
     .catch((error) => {
       console.error("Error updating event:", error)
