@@ -8,17 +8,18 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context"
 
-import { EyeOffOutline, EyeOutline } from "react-ionicons"
-import { UserContext } from "../contexts/UserContext"
+import { EyeOffOutline, EyeOutline } from "react-ionicons";
+import { UserContext } from "../contexts/UserContext";
+import LoadingUmbrella from "@/components/LoadingUmbrella";
 
 import { getUsers } from "@/utils/api-funcs"
 
 export default function Login() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [passwordVisisble, setPasswordVisible] = useState(false)
-  const [isValidLogin, setIsValidLogin] = useState(true)
+  const [isLoading, setIsLoading] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordVisisble, setPasswordVisible] = useState(false);
+  const [isValidLogin, setIsValidLogin] = useState(true);
 
   const { user, setUser } = useContext(UserContext)
 
@@ -29,6 +30,7 @@ export default function Login() {
   }
 
   const handleSubmit = () => {
+    setIsLoading(true);
     getUsers().then((users) => {
       users.forEach((user) => {
         if (user.username === username && user.password === password) {
@@ -36,9 +38,18 @@ export default function Login() {
           setUser(username)
           router.push("/userProfilePage")
         }
-      })
-    })
-  }
+      });
+      setIsLoading(false);
+    });
+  };
+
+  // if (isLoading) {
+  //   return (
+  //     <View style={styles.container}>
+  //       <LoadingUmbrella />
+  //     </View>
+  //   );
+  // }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -126,6 +137,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     fontSize: 16,
+    boxShadow: "10px 4px 50px rgba(0, 0, 0, 0.1)",
   },
   input: {
     height: hp("7%"),

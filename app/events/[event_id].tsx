@@ -8,6 +8,7 @@ import {
 } from "react-native-responsive-screen"
 import { getUsers, addInvitee } from "../../utils/api-funcs.js"
 import { UserContext } from "../../contexts/UserContext"
+import LoadingUmbrella from "../../components/LoadingUmbrella"
 import NotFeelingItButton from "../../components/NotFeelingItButton"
 
 // GET /events/:event_id
@@ -29,6 +30,8 @@ export default function EventPage() {
   const [invitee, setInvitee] = useState("")
   const [inviteeAdded, setInviteeAdded] = useState(false)
   const [userNotFound, setUserNotFound] = useState(false)
+
+  const [isLoading, setIsLoading] = useState(false)
   const [inviteButtonMsg, setInviteButtonMsg] = useState("")
   const [showInviteButtonMsg, setShowInviteButtonMsg] = useState(false)
 
@@ -66,6 +69,7 @@ export default function EventPage() {
     }
     setUserNotFound(false)
     setInviteeAdded(false)
+    setIsLoading(true)
     getUsers().then((users) => {
       const userFound = users.some((user) => {
         return user.username === invitee
@@ -87,7 +91,12 @@ export default function EventPage() {
         setInviteButtonMsg(`That user doesn't exist...`)
         setShowInviteButtonMsg(true)
       }
+      setIsLoading(false)
     })
+  }
+
+  if (isLoading) {
+    return <LoadingUmbrella />
   }
 
   return (

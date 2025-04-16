@@ -4,10 +4,13 @@ import { Redirect, Link } from "expo-router"
 import { useRouter } from "expo-router"
 import { postEvent } from "@/utils/api-funcs"
 import { UserContext } from "../../contexts/UserContext"
+
+import LoadingUmbrella from "../../components/LoadingUmbrella"
 // POST /users/:username/events
 
 export default function CreateEvent() {
   // useState here
+  const [isLoading, setIsLoading] = useState(false)
   const [title, setTitle] = useState("")
   const [date, setDate] = useState("") //maybe? if using a calendar, could be diff? or MVP they use a set format?
   const [location, setLocation] = useState("")
@@ -38,7 +41,7 @@ export default function CreateEvent() {
       invitee_flaked: false,
     }
 
-    console.log(eventData)
+    setIsLoading(true)
 
     postEvent(eventData)
       .then((newEventData) => {
@@ -50,6 +53,13 @@ export default function CreateEvent() {
       .catch(() => {
         alert("Something went wrong creating the event Girly Pop!")
       })
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }
+  
+  if (isLoading) {
+    return <LoadingUmbrella />
   }
 
   return (

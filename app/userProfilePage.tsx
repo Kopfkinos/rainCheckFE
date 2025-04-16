@@ -6,10 +6,8 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-  Button,
-  Alert,
-  ActivityIndicator,
 } from "react-native"
+
 import { Redirect, Link } from "expo-router"
 
 import {
@@ -23,6 +21,8 @@ import { getEvents } from "@/utils/api-funcs"
 import { UserContext } from "../contexts/UserContext"
 
 import useFetch from "../utils/useFetch"
+
+import LoadingUmbrella from "../components/LoadingUmbrella"
 
 interface Event {
   event_id: number
@@ -51,7 +51,7 @@ export default function UserProfilePage() {
   if (loading) {
     return (
       <SafeAreaView style={styles.centered}>
-        <Text>Loading innit..</Text>
+      <LoadingUmbrella />
       </SafeAreaView>
     )
   }
@@ -63,10 +63,6 @@ export default function UserProfilePage() {
       </SafeAreaView>
     )
   }
-
-  // {loading ? (
-  //   <ActivityIndicator /> ) : error ? (<Text>Error: {error?.message}</Text>)
-  // )}
 
   return (
     <SafeAreaView style={styles.container}>
@@ -106,6 +102,24 @@ export default function UserProfilePage() {
 }
 
 const styles = StyleSheet.create({
+  loadingCard: {
+    backgroundColor: "#fff",
+    padding: 24,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 4,
+  },
+lottie: {
+  width: wp("20%"),
+  height: wp("20%"),
+},
+loadingText: {
+  marginTop: 16,
+  fontSize: 16,
+  fontWeight: "500",
+  color: "#555",
+},
   container: {
     flex: 1,
     justifyContent: "center",
