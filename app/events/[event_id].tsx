@@ -7,7 +7,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen"
 import { getUsers } from "../../utils/api-funcs.js"
-import NotFeelingItButton from "../../components/NotFeelingItButton.js"
+import NotFeelingItButton from "../../components/NotFeelingItButton"
 
 // GET /events/:event_id
 
