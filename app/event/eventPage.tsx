@@ -7,6 +7,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen"
 import { getUsers } from "../../utils/api-funcs.js"
+import NotFeelingItButton from "../../components/NotFeelingItButton"
 
 // GET /events/:event_id
 
@@ -89,13 +90,16 @@ export default function EventPage() {
           onPress={handleSubmit}
           disabled={invitee.length === 0}
         >
-          <Text style={styles.submitButtonText}>Submit</Text>
+          <Text style={styles.submitButtonText}>Invite Friend</Text>
         </TouchableOpacity>
       </View>
       {userNotFound ? <Text> That user doesn't exist! </Text> : null}
       {inviteeAdded ? (
         <Text> User found! (but not invited yet, we ran out of stamps...soz) </Text>
       ) : null}
+      <View>
+        <NotFeelingItButton />
+      </View>
     </View>
   )
 }
