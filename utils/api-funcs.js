@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://rain-check-be-334cee29484f.herokuapp.com/api/",
+  baseURL: "https://rain-check-be.onrender.com/api/",
 });
 
 export const getUsers = () => {
