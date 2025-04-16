@@ -5,12 +5,12 @@ import { useRouter } from "expo-router"
 import { postEvent } from "@/utils/api-funcs"
 import { UserContext } from "../../contexts/UserContext"
 
-import LoadingUmbrella from "@/components/LoadingUmbrella"
+import LoadingUmbrella from "../../components/LoadingUmbrella"
 // POST /users/:username/events
 
 export default function CreateEvent() {
   // useState here
-  const [loading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [title, setTitle] = useState("")
   const [date, setDate] = useState("") //maybe? if using a calendar, could be diff? or MVP they use a set format?
   const [location, setLocation] = useState("")
