@@ -1,26 +1,18 @@
-import { useState, useContext } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from "react-native";
-import { useRouter } from "expo-router";
+import { useState, useContext } from "react"
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Image } from "react-native"
+import { useRouter } from "expo-router"
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+} from "react-native-responsive-screen"
 
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context"
 
 import { EyeOffOutline, EyeOutline } from "react-ionicons";
 import { UserContext } from "../contexts/UserContext";
 import LoadingUmbrella from "@/components/LoadingUmbrella";
 
-import { getUsers } from "@/utils/api-funcs";
+import { getUsers } from "@/utils/api-funcs"
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,22 +21,22 @@ export default function Login() {
   const [passwordVisisble, setPasswordVisible] = useState(false);
   const [isValidLogin, setIsValidLogin] = useState(true);
 
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext)
 
-  const router = useRouter();
+  const router = useRouter()
 
   const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisisble);
-  };
+    setPasswordVisible(!passwordVisisble)
+  }
 
   const handleSubmit = () => {
     setIsLoading(true);
     getUsers().then((users) => {
       users.forEach((user) => {
         if (user.username === username && user.password === password) {
-          setIsValidLogin(true);
-          setUser(username);
-          router.push("/userProfilePage");
+          setIsValidLogin(true)
+          setUser(username)
+          router.push("/userProfilePage")
         }
       });
       setIsLoading(false);
@@ -63,10 +55,7 @@ export default function Login() {
     <SafeAreaView style={styles.container}>
       <View style={styles.logoWrapper}>
         <View>
-          <Image
-            source={require("../assets/images/rainCheck-logo.png")}
-            style={styles.logo}
-          />
+          <Image source={require("../assets/images/rainCheck-logo.png")} style={styles.logo} />
         </View>
         <Text style={styles.heading}>Login</Text>
 
@@ -84,12 +73,8 @@ export default function Login() {
             value={password}
             placeholder="Password"
             secureTextEntry={!passwordVisisble}
-            //Ensures the password is hidden when typing
           />
-          <TouchableOpacity
-            onPress={togglePasswordVisibility}
-            style={styles.eyeIcon}
-          >
+          <TouchableOpacity onPress={togglePasswordVisibility} style={styles.eyeIcon}>
             {passwordVisisble ? (
               <EyeOutline color={"#00000"} />
             ) : (
@@ -107,7 +92,7 @@ export default function Login() {
         </TouchableOpacity>
       </View>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -126,16 +111,11 @@ const styles = StyleSheet.create({
     height: 150,
     resizeMode: "contain",
   },
-  passwordWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 12,
-  },
   eyeIcon: {
     paddingHorizontal: 10,
   },
   heading: {
-    color: "#824C71",
+    color: "#568aff",
     fontSize: 24,
     marginBottom: 20,
     alignSelf: "center",
@@ -147,7 +127,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   submitButton: {
-    backgroundColor: "#D97742",
+    backgroundColor: "#cc56ff",
     paddingVertical: 14,
     borderRadius: 8,
     alignItems: "center",
@@ -173,4 +153,9 @@ const styles = StyleSheet.create({
     marginVertical: 0,
     marginHorizontal: 0,
   },
-});
+  passwordWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+})
