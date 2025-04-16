@@ -18,11 +18,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { EyeOffOutline, EyeOutline } from "react-ionicons";
 import { UserContext } from "../contexts/UserContext";
+import LoadingUmbrella from "@/components/LoadingUmbrella";
 
 import { getUsers } from "@/utils/api-funcs";
 
 export default function Login() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisisble, setPasswordVisible] = useState(false);
@@ -37,6 +38,7 @@ export default function Login() {
   };
 
   const handleSubmit = () => {
+    setIsLoading(true);
     getUsers().then((users) => {
       users.forEach((user) => {
         if (user.username === username && user.password === password) {
@@ -45,9 +47,15 @@ export default function Login() {
           router.push("/userProfilePage");
         }
       });
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     });
   };
 
+  if (isLoading) {
+    return <LoadingUmbrella />;
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoWrapper}>
