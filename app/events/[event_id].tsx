@@ -8,7 +8,7 @@ import {
 } from "react-native-responsive-screen"
 import { getUsers } from "../../utils/api-funcs.js"
 
-import LoadingUmbrella from "@/components/LoadingUmbrella.js"
+import LoadingUmbrella from "../../components/LoadingUmbrella"
 import NotFeelingItButton from "../../components/NotFeelingItButton"
 
 // GET /events/:event_id
