@@ -7,6 +7,8 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen"
 import { getUsers } from "../../utils/api-funcs.js"
+
+import LoadingUmbrella from "@/components/LoadingUmbrella.js"
 import NotFeelingItButton from "../../components/NotFeelingItButton"
 
 // GET /events/:event_id
@@ -27,6 +29,7 @@ export default function EventPage() {
   const [invitee, setInvitee] = useState("")
   const [inviteeAdded, setInviteeAdded] = useState(false)
   const [userNotFound, setUserNotFound] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const [event, setEvent] = useState<Event>({
     event_id: 0,
@@ -54,6 +57,7 @@ export default function EventPage() {
   const handleSubmit = () => {
     setUserNotFound(false)
     setInviteeAdded(false)
+    setIsLoading(true)
     getUsers().then((users) => {
       const userFound = users.some((user) => {
         return user.username === invitee
@@ -65,7 +69,12 @@ export default function EventPage() {
       } else {
         setUserNotFound(true)
       }
+      setIsLoading(false)
     })
+  }
+
+  if (isLoading) {
+    return <LoadingUmbrella />
   }
 
   return (
