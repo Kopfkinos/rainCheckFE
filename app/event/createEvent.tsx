@@ -9,7 +9,7 @@ import {
   Image,
   SafeAreaView,
 } from "react-native";
-import { useState, useContext } from "react";
+import { useState, useContext, forwardRef } from "react";
 import { Redirect } from "expo-router";
 import { useRouter } from "expo-router";
 import { postEvent } from "@/utils/api-funcs";
@@ -19,24 +19,18 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-import DateTimePicker from "@react-native-community/datetimepicker";
-// iOS / Android only
+import DateTimePicker from "@react-native-community/datetimepicker"; // iOS / Android only
 import DatePicker from "react-datepicker"; // Web only
-
-// Web app calendar style
-import "react-datepicker/dist/react-datepicker.css";
-import React, { forwardRef } from "react";
-import DropShadow from "react-native-drop-shadow";
+import "react-datepicker/dist/react-datepicker.css"; // Web app calendar style
 
 // Create a proper forwardRef wrapper for custom input
 const WebDateInput = forwardRef(({ value, onClick }, ref) => (
   <button onClick={onClick} ref={ref} style={styles.dateInput}>
-    <Text style={styles.dateInputText}>{value}</Text>
+    {value} {/* Display the value directly */}
   </button>
 ));
 
 export default function CreateEvent() {
-  // Form state
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
@@ -44,12 +38,10 @@ export default function CreateEvent() {
   const { user } = useContext(UserContext);
   const router = useRouter();
 
-  // Date picker state
   const [dateOfEvent, setDateOfEvent] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
   const today = new Date();
 
-  // Handle event submission
   const handleSubmit = () => {
     if (!title || !location || !description || !dateOfEvent) {
       alert("Please fill in all fields before submitting Girly Pop!");
@@ -60,7 +52,6 @@ export default function CreateEvent() {
       title,
       description,
       date: dateOfEvent.toDateString(),
-      // date: dateOfEvent.toISOString(), // Optional: use this for API precision
       location,
       created_by: user,
       invited: null,
@@ -82,10 +73,14 @@ export default function CreateEvent() {
       });
   };
 
-  // Redirect if no user is logged in
   if (!user) {
     return <Redirect href="/" />;
   }
+
+  const day = dateOfEvent.getDate();
+  const formattedDate = `${format(dateOfEvent, "EEE")} ${day}${getDaySuffix(
+    day
+  )} ${format(dateOfEvent, "MMMM yyyy")}`;
 
   return (
     <SafeAreaView style={styles.logoWrapper}>
@@ -96,7 +91,6 @@ export default function CreateEvent() {
         />
       </View>
       <View>
-        {/* Event title input */}
         <TextInput
           placeholder="Enter Event Title"
           style={styles.input}
@@ -104,7 +98,6 @@ export default function CreateEvent() {
           onChangeText={setTitle}
         />
 
-        {/* Event date picker */}
         {Platform.OS === "web" ? (
           <View>
             <DatePicker
@@ -112,7 +105,7 @@ export default function CreateEvent() {
               onChange={(date) => setDateOfEvent(date)}
               dateFormat="dd-MM-yyyy"
               minDate={today}
-              customInput={<WebDateInput />}
+              customInput={<WebDateInput value={formattedDate} />}
             />
           </View>
         ) : (
@@ -135,7 +128,6 @@ export default function CreateEvent() {
           </>
         )}
 
-        {/* Event location input */}
         <TextInput
           placeholder="Enter Event Location"
           style={styles.input}
@@ -143,7 +135,6 @@ export default function CreateEvent() {
           onChangeText={setLocation}
         />
 
-        {/* Event description input */}
         <TextInput
           placeholder="Enter Event Description"
           style={styles.input}
@@ -152,7 +143,6 @@ export default function CreateEvent() {
           multiline={true}
         />
 
-        {/* Submit button */}
         {!showPicker && (
           <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
             <Text style={styles.submitButtonText}>Submit</Text>
