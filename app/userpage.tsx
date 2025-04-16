@@ -36,7 +36,7 @@ export default function UserPage() {
   if (error) {
     return (
       <SafeAreaView style={styles.centered}>
-        <Text>{error}</Text>
+        <Text>{error.message}</Text>
       </SafeAreaView>
     )
   }
@@ -62,7 +62,7 @@ export default function UserPage() {
         refreshing={loading}
       />
 
-      <Link href="/createEvent" passHref>
+      <Link href="/event/createEvent">
         <TouchableOpacity>
           <Text>Create Event</Text>
         </TouchableOpacity>

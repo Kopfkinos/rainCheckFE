@@ -1,19 +1,34 @@
-import React from "react"
-import { View, Text, StyleSheet } from "react-native"
+import { View, Text, StyleSheet, Animated, Easing } from "react-native"
 import LottieView from "lottie-react-native"
+import React, { useEffect, useRef } from "react";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
+const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
 
 const LoadingUmbrella = ({ message = "Loading..." }: { message?: string }) => {
+    const animationProgress = useRef(new Animated.Value(0));
+
+    useEffect(() => {
+        Animated.timing(animationProgress.current, {
+          toValue: 1,
+          duration: 5000,
+          easing: Easing.linear,
+          useNativeDriver: false,
+        }).start();
+      }, []);
+
   return (
     <View style={styles.container}>
-      <View style={styles.card}>
-        <LottieView
+        <AnimatedLottieView
           source={require("../assets/animations/umbrella.json")}
           autoPlay
           loop
-          style={styles.lottie}
+          style={{width: wp("15%"), height: wp("15%")}}
         />
-        <Text style={styles.text}>{message}</Text>
-      </View>
+        <Text style={styles.text}>Loading...</Text>
     </View>
   )
 }
@@ -35,13 +50,14 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   lottie: {
-    width: 100,
-    height: 100,
+    width: wp("30%"),
+    height: wp("30%"),
   },
   text: {
     marginTop: 16,
     fontSize: 16,
     fontWeight: "500",
     color: "#555",
+    textAlign: "center",
   },
 })
