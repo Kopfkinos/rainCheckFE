@@ -39,12 +39,12 @@ export default function NotFeelingItButton() {
               {confirmedFlake ? (
                 <View>
                   <Text style={styles.modalText}>{`Your secret is safe with us girly pop!`}</Text>
-                  <Image source={require("../assets/images/shhh.gif")} />
+                  <Image source={require("../assets/images/shhh.gif")} style={styles.shhgif} />
                   <Pressable
                     style={[styles.button, styles.dismiss]}
                     onPress={() => setModalVisible(!modalVisible)}
                   >
-                    <Text style={styles.textStyle}>Okay cool thanks </Text>
+                    <Text style={styles.textStyle}>Okay, cool, thanks? </Text>
                   </Pressable>
                 </View>
               ) : (
@@ -126,5 +126,9 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+  },
+  shhgif: {
+    height: 50,
+    width: 50,
   },
 })
