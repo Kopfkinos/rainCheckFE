@@ -47,15 +47,18 @@ export default function Login() {
           router.push("/userProfilePage");
         }
       });
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
+      setIsLoading(false);
     });
   };
 
-  if (isLoading) {
-    return <LoadingUmbrella />;
-  }
+  // if (isLoading) {
+  //   return (
+  //     <View style={styles.container}>
+  //       <LoadingUmbrella />
+  //     </View>
+  //   );
+  // }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoWrapper}>
@@ -154,6 +157,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     fontSize: 16,
+    boxShadow: "10px 4px 50px rgba(0, 0, 0, 0.1)",
   },
   input: {
     height: hp("7%"),
