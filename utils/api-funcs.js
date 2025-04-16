@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const api = axios.create({
-  baseURL: "https://rain-check-be-334cee29484f.herokuapp.com/api/",
+  baseURL: "https://rain-check-be.onrender.com/api/",
 })
 
 export const getUsers = () => {
@@ -59,14 +59,3 @@ export const updateEvent = (event_id) => {
       throw error
     })
 }
-
-postEvent({
-  title: "new test",
-  description: "testtytesttty!",
-  date: "2025-04-11T18:00:00.000Z",
-  location: "test",
-  created_by: "connor",
-  invited: "steph",
-  host_flaked: 0,
-  invitee_flaked: 0,
-})

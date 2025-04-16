@@ -33,7 +33,7 @@ export default function CreateEvent() {
       date,
       location,
       created_by: user,
-      invited: "deedee",
+      invited: null,
       host_flaked: 0,
       invitee_flaked: 0,
     }
