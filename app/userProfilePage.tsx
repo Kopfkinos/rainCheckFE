@@ -1,3 +1,4 @@
+
 import React, { useState, useContext, useCallback } from "react"
 import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity, Button, Alert, ActivityIndicator } from "react-native"
 import { Redirect, Link } from "expo-router"
@@ -25,7 +26,6 @@ interface Event {
   host_flaked: number
   invitee_flaked: number
 }
-
 export default function UserProfilePage() {
   const { user } = useContext(UserContext)
 
@@ -81,8 +81,8 @@ export default function UserProfilePage() {
         onRefresh={refetch}
         refreshing={loading}
       />
-{/* this is just a placeholder for now!! */}
-<Link href="/event/viewPastEvents">
+      {/* this is just a placeholder for now!! */}
+      <Link href="/event/viewPastEvents">
         <TouchableOpacity style={styles.viewPastEventsButton}>
           <Text style={styles.viewPastEventsButtonText}>View Past Events</Text>
         </TouchableOpacity>
@@ -122,21 +122,21 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
-    alignSelf: "center",  
-    marginVertical: 10,  
+    alignSelf: "center",
+    marginVertical: 10,
   },
   viewPastEventsButtonText: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16,
-    alignSelf: "center", 
+    alignSelf: "center",
   },
   createButton: {
     backgroundColor: "#D97742",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
-    alignSelf: "center",  
+    alignSelf: "center",
     height: 50,
     width: wp("20%"),
   },
@@ -179,4 +179,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 })
-
