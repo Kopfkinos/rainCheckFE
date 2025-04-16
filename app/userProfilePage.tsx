@@ -1,6 +1,15 @@
-
 import React, { useState, useContext, useCallback } from "react"
-import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity, Button, Alert, ActivityIndicator } from "react-native"
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  Button,
+  Alert,
+  ActivityIndicator,
+} from "react-native"
 import { Redirect, Link } from "expo-router"
 
 import {
@@ -68,7 +77,7 @@ export default function UserProfilePage() {
         data={events}
         keyExtractor={(item) => item.event_id.toString()}
         renderItem={({ item }) => (
-          <Link href={`/event/${item.event_id}`} asChild>
+          <Link href={`/events/${item.event_id}`} asChild>
             <TouchableOpacity style={styles.eventItem}>
               <Text style={styles.eventTitle}>{item.title}</Text>
               <Text>{new Date(item.date).toLocaleString()}</Text>
@@ -82,12 +91,12 @@ export default function UserProfilePage() {
         refreshing={loading}
       />
       {/* this is just a placeholder for now!! */}
-      <Link href="/event/viewPastEvents">
+      <Link href="/events/viewPastEvents">
         <TouchableOpacity style={styles.viewPastEventsButton}>
           <Text style={styles.viewPastEventsButtonText}>View Past Events</Text>
         </TouchableOpacity>
       </Link>
-      <Link href="/event/createEvent" asChild>
+      <Link href="/events/createEvent" asChild>
         <TouchableOpacity style={styles.createButton}>
           <Text style={styles.createButtonText}>Create Event</Text>
         </TouchableOpacity>

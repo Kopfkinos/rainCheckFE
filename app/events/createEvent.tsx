@@ -41,11 +41,8 @@ export default function CreateEvent() {
     postEvent(eventData)
       .then((newEventData) => {
         router.push({
-          pathname: "/event/eventPage" as const,
+          pathname: `/events/${newEventData.event_id}` as const,
           // 'as const' is saying 'yes TS, this is a real path'
-          params: {
-            event_id: newEventData.event_id,
-          },
         } as any)
       })
       .catch(() => {
