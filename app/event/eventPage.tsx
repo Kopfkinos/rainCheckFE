@@ -1,7 +1,12 @@
-import { Text, View } from "react-native"
+import { Text, View, Image, StyleSheet, TextInput, TouchableOpacity } from "react-native"
 import { useLocalSearchParams } from "expo-router"
 import { useEffect, useState } from "react"
 import { getEventByEventID } from "../../utils/api-funcs.js"
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen"
+import { getUsers } from "../../utils/api-funcs.js"
 
 // GET /events/:event_id
 
@@ -18,6 +23,10 @@ interface Event {
 }
 
 export default function EventPage() {
+  const [invitee, setInvitee] = useState("")
+  const [inviteeAdded, setInviteeAdded] = useState(false)
+  const [userNotFound, setUserNotFound] = useState(false)
+
   const [event, setEvent] = useState<Event>({
     event_id: 0,
     title: "",
@@ -41,12 +50,85 @@ export default function EventPage() {
 
   const formattedDate = new Date(event.date).toLocaleString("en-GB")
 
+  const handleSubmit = () => {
+    setUserNotFound(false)
+    setInviteeAdded(false)
+    getUsers().then((users) => {
+      const userFound = users.some((user) => {
+        return user.username === invitee
+      })
+      if (userFound) {
+        // SEND PATCH REQUEST TO UPDATE THE EVENT WITH THE INVITEE
+        // THEN UNCOMMENT LINE UNDER "Description" on the event details
+        setInviteeAdded(true)
+      } else {
+        setUserNotFound(true)
+      }
+    })
+  }
+
   return (
-    <View>
-      <Text>{event.title}</Text>
-      <Text>Date: {formattedDate}</Text>
-      <Text>Location: {event.location}</Text>
-      <Text>Description: {event.description}</Text>
+    <View style={styles.logoWrapper}>
+      <Image source={require("../../assets/images/rainCheck-logo.png")} style={styles.logo} />
+      <View>
+        <Text>Event Title: {event.title}</Text>
+        <Text>Date: {formattedDate}</Text>
+        <Text>Location: {event.location}</Text>
+        <Text>Description: {event.description}</Text>
+        {/* {inviteeAdded ? <Text>Invitee: {event.invited}</Text> : null} */}
+        <Text> Who are you invitin'...?</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Your friend's name"
+          value={invitee}
+          onChangeText={setInvitee}
+          autoCapitalize="none"
+        ></TextInput>
+        <TouchableOpacity
+          style={styles.submitButton}
+          onPress={handleSubmit}
+          disabled={invitee.length === 0}
+        >
+          <Text style={styles.submitButtonText}>Submit</Text>
+        </TouchableOpacity>
+      </View>
+      {userNotFound ? <Text> That user doesn't exist! </Text> : null}
+      {inviteeAdded ? (
+        <Text> User found! (but not invited yet, we ran out of stamps...soz) </Text>
+      ) : null}
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  logoWrapper: {
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  logo: {
+    width: 300,
+    height: 150,
+    resizeMode: "contain",
+  },
+  input: {
+    height: hp("4%"),
+    width: "100%",
+    marginVertical: hp("1%"),
+    borderWidth: 1,
+    padding: wp("1%"),
+    borderRadius: 5,
+    borderColor: "#ddd",
+  },
+  submitButton: {
+    backgroundColor: "#D97742",
+    paddingVertical: 14,
+    borderRadius: 8,
+    alignItems: "center",
+    width: "100%",
+  },
+  submitButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+})
