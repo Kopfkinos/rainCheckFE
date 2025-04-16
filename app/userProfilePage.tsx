@@ -1,12 +1,5 @@
 import React, { useState, useContext, useCallback } from "react"
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  FlatList,
-  TouchableOpacity,
-} from "react-native"
+import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity } from "react-native"
 
 import { Redirect, Link } from "expo-router"
 
@@ -51,7 +44,7 @@ export default function UserProfilePage() {
   if (loading) {
     return (
       <SafeAreaView style={styles.centered}>
-      <LoadingUmbrella />
+        <LoadingUmbrella />
       </SafeAreaView>
     )
   }
@@ -110,16 +103,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     elevation: 4,
   },
-lottie: {
-  width: wp("20%"),
-  height: wp("20%"),
-},
-loadingText: {
-  marginTop: 16,
-  fontSize: 16,
-  fontWeight: "500",
-  color: "#555",
-},
+  lottie: {
+    width: wp("20%"),
+    height: wp("20%"),
+  },
+  loadingText: {
+    marginTop: 16,
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#555",
+  },
   container: {
     flex: 1,
     justifyContent: "center",
@@ -140,7 +133,7 @@ loadingText: {
   },
   viewPastEventsButton: {
     backgroundColor: "#475569",
-    width: wp("20%"),
+    width: wp("45%"),
     height: 50,
     paddingVertical: 12,
     paddingHorizontal: 20,
@@ -161,7 +154,7 @@ loadingText: {
     borderRadius: 8,
     alignSelf: "center",
     height: 50,
-    width: wp("20%"),
+    width: wp("45%"),
   },
   createButtonText: {
     color: "#fff",

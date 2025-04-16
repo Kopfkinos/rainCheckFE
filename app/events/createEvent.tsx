@@ -39,10 +39,11 @@ export default function CreateEvent() {
       invited: null,
       host_flaked: false,
       invitee_flaked: false,
+      time: "20:00:00",
     }
 
     setIsLoading(true)
-
+    console.log(eventData)
     postEvent(eventData)
       .then((newEventData) => {
         router.push({
@@ -57,7 +58,7 @@ export default function CreateEvent() {
         setIsLoading(false)
       })
   }
-  
+
   if (isLoading) {
     return <LoadingUmbrella />
   }

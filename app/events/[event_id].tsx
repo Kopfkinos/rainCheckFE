@@ -26,7 +26,10 @@ interface Event {
 }
 
 export default function EventPage() {
+  const { event_id } = useLocalSearchParams()
+  //An Expo Router Hook, allowing access to the query params
   const { user } = useContext(UserContext)
+  const [role, setRole] = useState("host")
   const [invitee, setInvitee] = useState("")
   const [inviteeAdded, setInviteeAdded] = useState(false)
   const [userNotFound, setUserNotFound] = useState(false)
@@ -34,6 +37,8 @@ export default function EventPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [inviteButtonMsg, setInviteButtonMsg] = useState("")
   const [showInviteButtonMsg, setShowInviteButtonMsg] = useState(false)
+
+  const [confirmedFlake, setConfirmedFlake] = useState(false)
 
   if (!user) {
     return <Redirect href="/" />
@@ -52,14 +57,16 @@ export default function EventPage() {
     invitee_flaked: 0,
   })
 
-  const { event_id } = useLocalSearchParams()
-  //An Expo Router Hook, allowing access to the query params
   useEffect(() => {
     getEventByEventID(event_id).then((newEvent) => {
       setEvent(newEvent)
+      // the "role" is used in the NotFeelingIt to decide whether to update the 'invitee_flaked" or "host_flaked" values
+      // role is automatically set to "host", but if the user === invitee, then the role is set to "invitee"
+      if (event.invited === user) {
+        setRole("invitee")
+      }
     })
   }, [])
-  console.log("This is the event state>>>>", event)
   const formattedDate = new Date(event.date).toLocaleString("en-GB")
 
   const handleSubmit = () => {
@@ -102,31 +109,53 @@ export default function EventPage() {
   return (
     <View style={styles.logoWrapper}>
       <Image source={require("../../assets/images/rainCheck-logo.png")} style={styles.logo} />
+      <View />
       <View>
-        <Text>Event Title: {event.title}</Text>
-        <Text>Date: {formattedDate}</Text>
-        <Text>Location: {event.location}</Text>
-        <Text>Description: {event.description}</Text>
-        <Text>Invitee: {event.invited}</Text>
-        <Text> Who are you invitin'...?</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Your friend's name"
-          value={invitee}
-          onChangeText={setInvitee}
-          autoCapitalize="none"
-        ></TextInput>
-        <TouchableOpacity
-          style={styles.submitButton}
-          onPress={handleSubmit}
-          disabled={invitee.length === 0}
-        >
-          <Text style={styles.submitButtonText}>Invite Friend</Text>
-        </TouchableOpacity>
+        <Text style={styles.italic}>Event Title:</Text>{" "}
+        <Text style={styles.bold}>{event.title}</Text>
+        <Text style={styles.italic}>Date: </Text> <Text style={styles.bold}>{formattedDate}</Text>
+        <Text style={styles.italic}>Location: </Text>{" "}
+        <Text style={styles.bold}>{event.location}</Text>
+        <Text style={styles.italic}>Description: </Text>{" "}
+        <Text style={styles.bold}>{event.description}</Text>
+        {inviteeAdded ? (
+          <View>
+            <Text style={styles.italic}>Invited: </Text>
+            <Text style={styles.bold}>{event.invited}</Text>{" "}
+          </View>
+        ) : null}
       </View>
-      {showInviteButtonMsg ? <Text> {inviteButtonMsg} </Text> : null}
+      {event.invited ? (
+        <View style={[styles.flakeButton, confirmedFlake && { backgroundColor: "#bdabfd" }]}>
+          <NotFeelingItButton
+            event_id={event_id}
+            role={role}
+            confirmedFlake={confirmedFlake}
+            setConfirmedFlake={setConfirmedFlake}
+          />
+        </View>
+      ) : (
+        <View style={styles.inviteSection}>
+          <Text style={styles.bold}> So, who're you inviting...?</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Your friend's name"
+            value={invitee}
+            onChangeText={setInvitee}
+            autoCapitalize="none"
+          ></TextInput>
+          <TouchableOpacity
+            style={styles.submitButton}
+            onPress={handleSubmit}
+            disabled={invitee.length === 0}
+          >
+            <Text style={styles.submitButtonText}>Invite Friend</Text>
+          </TouchableOpacity>
+          {showInviteButtonMsg ? <Text> {inviteButtonMsg} </Text> : null}
+        </View>
+      )}
       <View>
-        <NotFeelingItButton />
+        {event.host_flaked && event.invitee_flaked ? <Text> You both have flaked!</Text> : null}
       </View>
     </View>
   )
@@ -142,6 +171,12 @@ const styles = StyleSheet.create({
     height: 150,
     resizeMode: "contain",
   },
+  bold: { fontWeight: "bold" },
+  italic: { fontStyle: "italic" },
+  underline: { textDecorationLine: "underline" },
+  inviteSection: {
+    margin: "5%",
+  },
   input: {
     height: hp("4%"),
     width: "100%",
@@ -152,7 +187,7 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
   },
   submitButton: {
-    backgroundColor: "#D97742",
+    backgroundColor: "#623dff",
     paddingVertical: 14,
     borderRadius: 8,
     alignItems: "center",
@@ -162,5 +197,14 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     fontSize: 16,
+  },
+  flakeButton: {
+    margin: "10%",
+    backgroundColor: "red",
+    paddingVertical: 14,
+    borderRadius: 8,
+    alignItems: "center",
+    height: hp("20%"),
+    width: wp("75%"),
   },
 })
