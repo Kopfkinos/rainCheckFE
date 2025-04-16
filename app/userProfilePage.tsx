@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react"
-import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity, Button, Alert } from "react-native"
+import React, { useState, useContext, useCallback } from "react"
+import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity, Button, Alert, ActivityIndicator } from "react-native"
 import { Redirect, Link } from "expo-router"
 
 import {
@@ -14,16 +14,30 @@ import { UserContext } from "../contexts/UserContext"
 
 import useFetch from "../utils/useFetch"
 
+interface Event {
+  event_id: number
+  title: string
+  description: string
+  date: object
+  location: string
+  created_by: string
+  invited: string
+  host_flaked: number
+  invitee_flaked: number
+}
 
 export default function UserProfilePage() {
-  const { user, setUser } = useContext(UserContext)
+  const { user } = useContext(UserContext)
 
   // Redirect if no user is logged in
   if (!user) {
     return <Redirect href="/" />
   }
 
-  const { data: events, loading, error, refetch } = useFetch(() => getEvents(user))
+  // Memoize the fetch function
+  const fetchEvents = useCallback(() => getEvents(user), [user])
+
+  const { data: events, loading, error, refetch } = useFetch<Event[]>(fetchEvents, true)
 
   if (loading) {
     return (
@@ -41,6 +55,10 @@ export default function UserProfilePage() {
     )
   }
 
+  // {loading ? (
+  //   <ActivityIndicator /> ) : error ? (<Text>Error: {error?.message}</Text>)
+  // )}
+
   return (
     <SafeAreaView style={styles.container}>
       <Image source={require("../assets/images/rainCheck-logo.png")} />
@@ -48,14 +66,16 @@ export default function UserProfilePage() {
 
       <FlatList
         data={events}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.event_id.toString()}
         renderItem={({ item }) => (
-          <View style={styles.eventItem}>
-            <Text style={styles.eventTitle}>{item.title}</Text>
-            <Text>{item.date}</Text>
-            <Text>{item.location}</Text>
-            <Text>{item.description}</Text>
-          </View>
+          <Link href={`/event/${item.event_id}`} asChild>
+            <TouchableOpacity style={styles.eventItem}>
+              <Text style={styles.eventTitle}>{item.title}</Text>
+              <Text>{new Date(item.date).toLocaleString()}</Text>
+              <Text>{item.location}</Text>
+              <Text>{item.description}</Text>
+            </TouchableOpacity>
+          </Link>
         )}
         ListEmptyComponent={<Text style={styles.noEvent}>No events found...</Text>}
         onRefresh={refetch}
@@ -88,6 +108,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     fontWeight: "bold",
+    marginBottom: 10,
   },
   noEvent: {
     paddingTop: 20,
@@ -144,6 +165,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: "#f9f9f9",
     borderRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 3,
   },
   eventTitle: {
     fontWeight: "bold",
