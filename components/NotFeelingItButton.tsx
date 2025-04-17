@@ -12,7 +12,13 @@ import {
 } from "react-native"
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context"
 
-export default function NotFeelingItButton({ confirmedFlake, setConfirmedFlake, event_id, role }) {
+export default function NotFeelingItButton({
+  confirmedFlake,
+  setConfirmedFlake,
+  event_id,
+  role,
+  invited,
+}) {
   const [modalVisible, setModalVisible] = useState(false)
   // const [confirmedFlake, setconfirmedFlake] = useState(false)
 
@@ -20,6 +26,7 @@ export default function NotFeelingItButton({ confirmedFlake, setConfirmedFlake, 
 
   const confirmClick = () => {
     setConfirmedFlake(!confirmedFlake)
+    console.log(role)
     addFlake(event_id, role)
     // func to update the event with the {invitee/host flaked}
   }
@@ -77,7 +84,10 @@ export default function NotFeelingItButton({ confirmedFlake, setConfirmedFlake, 
           onPress={() => setModalVisible(true)}
         >
           {confirmedFlake ? (
-            <Text style={styles.flakeButtonText}>You're Not Feeling It!</Text>
+            <View>
+              {" "}
+              <Text style={styles.flakeButtonText}>You're Not Feeling It!</Text>
+            </View>
           ) : (
             <Text style={styles.flakeButtonText}>I'm Not Feelin' It</Text>
           )}
