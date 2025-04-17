@@ -1,6 +1,6 @@
-import { View } from "react-native"
+import { View } from "react-native";
 
-import TestLogin from "./test-login"
+import TestLogin from "./test-login";
 
 export default function Index() {
   return (
@@ -11,7 +11,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <TestLogin></TestLogin>
+      <Login></Login>
     </View>
-  )
+  );
 }
