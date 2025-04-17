@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     elevation: 4,
   },
+
 lottie: {
   width: wp("20%"),
   height: hp("20%"),
@@ -153,6 +154,7 @@ loadingText: {
   viewPastEventsButton: {
     backgroundColor: "#475569",
     width: wp("70%"),
+
     height: 50,
     paddingVertical: 12,
     paddingHorizontal: 20,
@@ -174,6 +176,7 @@ loadingText: {
     alignSelf: "center",
     height: 50,
     width: wp("70%"),
+
   },
   createButtonText: {
     color: "#fff",
