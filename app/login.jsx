@@ -8,18 +8,18 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context"
 
-import { EyeOffOutline, EyeOutline } from "react-ionicons";
-import { UserContext } from "../contexts/UserContext";
-import LoadingUmbrella from "@/components/LoadingUmbrella";
+import { EyeOffOutline, EyeOutline } from "react-ionicons"
+import { UserContext } from "../contexts/UserContext"
+import LoadingUmbrella from "@/components/LoadingUmbrella"
 
 import { getUsers } from "@/utils/api-funcs"
 
 export default function Login() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordVisisble, setPasswordVisible] = useState(false);
-  const [isValidLogin, setIsValidLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(false)
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [passwordVisisble, setPasswordVisible] = useState(false)
+  const [isValidLogin, setIsValidLogin] = useState(true)
 
   const { user, setUser } = useContext(UserContext)
 
@@ -30,7 +30,7 @@ export default function Login() {
   }
 
   const handleSubmit = () => {
-    setIsLoading(true);
+    setIsLoading(true)
     getUsers().then((users) => {
       users.forEach((user) => {
         if (user.username === username && user.password === password) {
@@ -38,10 +38,10 @@ export default function Login() {
           setUser(username)
           router.push("/userProfilePage")
         }
-      });
-      setIsLoading(false);
-    });
-  };
+      })
+      setIsLoading(false)
+    })
+  }
 
   // if (isLoading) {
   //   return (
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   heading: {
-    color: "#568aff",
+    color: "#cc56ff",
     fontSize: 24,
     marginBottom: 20,
     alignSelf: "center",
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   submitButton: {
-    backgroundColor: "#cc56ff",
+    backgroundColor: "#623dff",
     paddingVertical: 14,
     borderRadius: 8,
     alignItems: "center",

@@ -50,9 +50,10 @@ export default function CreateEvent() {
       host_flaked: false,
       invitee_flaked: false,
       time: "20:00:00", // HardCoded Time whilst the server requires a time
-    };
 
-    setIsLoading(true);
+    }
+
+    setIsLoading(true)
 
     postEvent(eventData)
       .then((newEventData) => {
@@ -65,9 +66,10 @@ export default function CreateEvent() {
         alert("Something went wrong creating the event Girly Pop!");
       })
       .finally(() => {
-        setIsLoading(false);
-      });
-  };
+
+        setIsLoading(false)
+      })
+  }
 
   if (isLoading) {
     return <LoadingUmbrella />;
