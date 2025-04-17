@@ -94,7 +94,7 @@ export default function UserProfilePage() {
           <Link href={`/events/${item.event_id}`} asChild>
             <TouchableOpacity style={styles.eventItem}>
               <Text style={styles.eventTitle}>{item.title}</Text>
-              <Text>{new Date(item.date).toLocaleString()}</Text>
+              <Text>{new Date(item.date).toLocaleString("en-GB")}</Text>
               <Text>{item.location}</Text>
               <Text>{item.description}</Text>
             </TouchableOpacity>
