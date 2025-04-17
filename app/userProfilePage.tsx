@@ -1,73 +1,80 @@
-import React, { useState, useContext, useCallback, useEffect } from "react"
-import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity } from "react-native"
+import React, { useState, useContext, useCallback, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 
-import { Redirect, Link } from "expo-router"
+import { Redirect, Link } from "expo-router";
 
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from "react-native-responsive-screen"
-import { SafeAreaView } from "react-native-safe-area-context"
+} from "react-native-responsive-screen";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { getEvents } from "@/utils/api-funcs"
+import { getEvents } from "@/utils/api-funcs";
 
-import { UserContext } from "../contexts/UserContext"
+import { UserContext } from "../contexts/UserContext";
 
-import useFetch from "../utils/useFetch"
+import useFetch from "../utils/useFetch";
 
-import LoadingUmbrella from "../components/LoadingUmbrella"
+import LoadingUmbrella from "../components/LoadingUmbrella";
 
 interface Event {
-  event_id: number
-  title: string
-  description: string
-  date: object
-  location: string
-  created_by: string
-  invited: string
-  host_flaked: number
-  invitee_flaked: number
+  event_id: number;
+  title: string;
+  description: string;
+  date: object;
+  location: string;
+  created_by: string;
+  invited: string;
+  host_flaked: number;
+  invitee_flaked: number;
 }
 export default function UserProfilePage() {
-  const { user } = useContext(UserContext)
+  const { user } = useContext(UserContext);
 
   // Redirect if no user is logged in
   if (!user) {
-    return <Redirect href="/" />
+    return <Redirect href="/" />;
   }
 
   // Memoize the fetch function
-  const fetchEvents = useCallback(() => getEvents(user), [user])
+  const fetchEvents = useCallback(() => getEvents(user), [user]);
 
   const {
     data: events,
     loading: fetchLoading,
     error,
     refetch,
-  } = useFetch<Event[]>(fetchEvents, true)
-  /* 
-  events_created: [],
-  events_invited: []
- */
-  const [showLoading, setShowLoading] = useState(true)
+
+  } = useFetch<Event[]>(fetchEvents, true);
+
+  const [showLoading, setShowLoading] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShowLoading(false)
-    }, 3000) // should show umbrella for 3 seconds no matter what
+      setShowLoading(false);
+    }, 3000); // should show umbrella for 3 seconds no matter what
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
   const loading = fetchLoading || showLoading
 
   if (loading) {
     return (
       <SafeAreaView style={styles.centered}>
-        <LoadingUmbrella />
+
+        <LoadingUmbrella style={styles.lottie} />
+
         <Text style={styles.loadingText}>Loading profile...</Text>
       </SafeAreaView>
-    )
+    );
   }
 
   if (error) {
@@ -75,13 +82,14 @@ export default function UserProfilePage() {
       <SafeAreaView style={styles.centered}>
         <Text style={styles.text}>{error.message}</Text>
       </SafeAreaView>
-    )
+    );
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <Image source={require("../assets/images/rainCheck-logo.png")} />
       <Text style={styles.text}>Hi {user}!👋</Text>
+
       <View style={styles.eventsList}>
         <Text style={styles.text}>Events You're Hosting</Text>
         <FlatList
@@ -122,6 +130,7 @@ export default function UserProfilePage() {
           refreshing={loading}
         />
       </View>
+
       {/* this is just a placeholder for now!! */}
       <Link href="/events/viewPastEvents">
         <TouchableOpacity style={styles.viewPastEventsButton}>
@@ -134,7 +143,7 @@ export default function UserProfilePage() {
         </TouchableOpacity>
       </Link>
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -240,7 +249,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
   },
+
   eventsList: {
     marginBottom: 50,
   },
 })
+

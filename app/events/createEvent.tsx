@@ -1,4 +1,4 @@
-import { Text, View, TextInput, Button } from "react-native";
+import { Text, View, TextInput, Button, Image, StyleSheet } from "react-native";
 import { useState, useContext } from "react";
 import { Redirect, Link } from "expo-router";
 import { useRouter } from "expo-router";
@@ -14,6 +14,8 @@ import {
 } from "react-native-responsive-screen";
 
 import "react-datepicker/dist/react-datepicker.css"; // Web app calendar style
+import { SafeAreaView } from "react-native-safe-area-context";
+import { isAbsolute } from "path";
 
 export default function CreateEvent() {
   // useState here
@@ -48,10 +50,11 @@ export default function CreateEvent() {
       host_flaked: false,
       invitee_flaked: false,
       time: "20:00:00", // HardCoded Time whilst the server requires a time
+
     }
 
     setIsLoading(true)
-    
+
     postEvent(eventData)
       .then((newEventData) => {
         router.push({
@@ -73,29 +76,35 @@ export default function CreateEvent() {
   }
 
   return (
-    <>
+    <SafeAreaView style={styles.logoWrapper}>
+      <View>
+        <Image
+          source={require("../../assets/images/rainCheck-logo.png")}
+          style={styles.logo}
+        />
+      </View>
       <View>
         <TextInput
           placeholder="Enter Event Title"
-          //add Tailwind CSS coding here
+          style={styles.input}
           value={title}
           onChangeText={setTitle}
         />
 
-        <View>
+        <View style={styles.datePicker}>
           <DatePickerComponent setDate={setDate} />
         </View>
 
         <TextInput
           placeholder="Enter Event Location"
-          //add Tailwind CSS coding here
+          style={styles.input}
           value={location}
           onChangeText={setLocation}
         />
 
         <TextInput
           placeholder="Enter Event Description"
-          //add Tailwind CSS coding here
+          style={styles.input}
           value={description}
           onChangeText={setDescription}
           multiline={true}
@@ -106,6 +115,36 @@ export default function CreateEvent() {
           // Input to eventPage needed here - forogt how to do it atm
         />
       </View>
-    </>
+    </SafeAreaView>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 20,
+    backgroundColor: "F7F7F7",
+  },
+  logoWrapper: {
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  logo: {
+    width: 300,
+    height: 150,
+    resizeMode: "contain",
+  },
+  input: {
+    height: hp("7%"),
+    width: "100%",
+    marginVertical: hp("1%"),
+    borderWidth: 1,
+    padding: wp("2.5%"),
+    borderRadius: 5,
+    borderColor: "#ddd",
+    boxShadow: "10px 4px 50px rgba(0, 0, 0, 0.1)",
+  },
+  datePicker: {
+    position: "relative",
+  },
+});
