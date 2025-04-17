@@ -205,6 +205,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: "center",
     height: hp("20%"),
-    width: wp("75%"),
+    width: wp("60%"),
   },
 })
