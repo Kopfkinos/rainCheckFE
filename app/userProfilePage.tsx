@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, useEffect } from "react"
+import React, { useState, useContext, useCallback, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,56 +6,61 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-} from "react-native"
+} from "react-native";
 
-import { Redirect, Link } from "expo-router"
+import { Redirect, Link } from "expo-router";
 
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from "react-native-responsive-screen"
-import { SafeAreaView } from "react-native-safe-area-context"
+} from "react-native-responsive-screen";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { getEvents } from "@/utils/api-funcs"
+import { getEvents } from "@/utils/api-funcs";
 
-import { UserContext } from "../contexts/UserContext"
+import { UserContext } from "../contexts/UserContext";
 
-import useFetch from "../utils/useFetch"
+import useFetch from "../utils/useFetch";
 
-import LoadingUmbrella from "../components/LoadingUmbrella"
+import LoadingUmbrella from "../components/LoadingUmbrella";
 
 interface Event {
-  event_id: number
-  title: string
-  description: string
-  date: object
-  location: string
-  created_by: string
-  invited: string
-  host_flaked: number
-  invitee_flaked: number
+  event_id: number;
+  title: string;
+  description: string;
+  date: object;
+  location: string;
+  created_by: string;
+  invited: string;
+  host_flaked: number;
+  invitee_flaked: number;
 }
 export default function UserProfilePage() {
-  const { user } = useContext(UserContext)
+  const { user } = useContext(UserContext);
 
   // Redirect if no user is logged in
   if (!user) {
-    return <Redirect href="/" />
+    return <Redirect href="/" />;
   }
 
   // Memoize the fetch function
-  const fetchEvents = useCallback(() => getEvents(user), [user])
+  const fetchEvents = useCallback(() => getEvents(user), [user]);
 
-  const { data: events, loading: fetchLoading, error, refetch } = useFetch<Event[]>(fetchEvents, true)
+  const {
+    data: events,
+    loading: fetchLoading,
+    error,
+    refetch,
+  } = useFetch<Event[]>(fetchEvents, true);
 
-  const [showLoading, setShowLoading] = useState(true)
+  const [showLoading, setShowLoading] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowLoading(false);
-    }, 3000) // should show umbrella for 3 seconds no matter what
+    }, 3000); // should show umbrella for 3 seconds no matter what
 
-    return () => clearTimeout(timer)
+    return () => clearTimeout(timer);
   }, []);
 
   const loading = fetchLoading || showLoading;
@@ -63,10 +68,10 @@ export default function UserProfilePage() {
   if (loading) {
     return (
       <SafeAreaView style={styles.centered}>
-      <LoadingUmbrella />
-      <Text style={styles.loadingText}>Loading profile...</Text>
+        <LoadingUmbrella style={styles.lottie} />
+        <Text style={styles.loadingText}>Loading profile...</Text>
       </SafeAreaView>
-    )
+    );
   }
 
   if (error) {
@@ -74,7 +79,7 @@ export default function UserProfilePage() {
       <SafeAreaView style={styles.centered}>
         <Text style={styles.text}>{error.message}</Text>
       </SafeAreaView>
-    )
+    );
   }
 
   return (
@@ -95,7 +100,9 @@ export default function UserProfilePage() {
             </TouchableOpacity>
           </Link>
         )}
-        ListEmptyComponent={<Text style={styles.noEvent}>No events found...</Text>}
+        ListEmptyComponent={
+          <Text style={styles.noEvent}>No events found...</Text>
+        }
         onRefresh={refetch}
         refreshing={loading}
       />
@@ -111,7 +118,7 @@ export default function UserProfilePage() {
         </TouchableOpacity>
       </Link>
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -123,16 +130,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     elevation: 4,
   },
-
-lottie: {
-  width: wp("20%"),
-  height: hp("20%"),
-},
-loadingText: {
-  fontSize: 16,
-  fontWeight: "500",
-  color: "#555",
-},
+  lottie: {
+    width: wp("20%"),
+    height: hp("20%"),
+  },
+  loadingText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#555",
+  },
   container: {
     flex: 1,
     justifyContent: "center",
@@ -176,7 +182,6 @@ loadingText: {
     alignSelf: "center",
     height: 50,
     width: wp("70%"),
-
   },
   createButtonText: {
     color: "#fff",
@@ -216,4 +221,4 @@ loadingText: {
     fontWeight: "bold",
     fontSize: 16,
   },
-})
+});
