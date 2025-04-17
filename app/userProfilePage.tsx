@@ -1,5 +1,12 @@
-import React, { useState, useContext, useCallback } from "react"
-import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity } from "react-native"
+import React, { useState, useContext, useCallback, useEffect } from "react"
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  TouchableOpacity,
+} from "react-native"
 
 import { Redirect, Link } from "expo-router"
 
@@ -39,12 +46,25 @@ export default function UserProfilePage() {
   // Memoize the fetch function
   const fetchEvents = useCallback(() => getEvents(user), [user])
 
-  const { data: events, loading, error, refetch } = useFetch<Event[]>(fetchEvents, true)
+  const { data: events, loading: fetchLoading, error, refetch } = useFetch<Event[]>(fetchEvents, true)
+
+  const [showLoading, setShowLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoading(false);
+    }, 3000) // should show umbrella for 3 seconds no matter what
+
+    return () => clearTimeout(timer)
+  }, []);
+
+  const loading = fetchLoading || showLoading;
 
   if (loading) {
     return (
       <SafeAreaView style={styles.centered}>
-        <LoadingUmbrella />
+      <LoadingUmbrella />
+      <Text style={styles.loadingText}>Loading profile...</Text>
       </SafeAreaView>
     )
   }
@@ -103,16 +123,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     elevation: 4,
   },
-  lottie: {
-    width: wp("20%"),
-    height: wp("20%"),
-  },
-  loadingText: {
-    marginTop: 16,
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#555",
-  },
+
+lottie: {
+  width: wp("20%"),
+  height: hp("20%"),
+},
+loadingText: {
+  fontSize: 16,
+  fontWeight: "500",
+  color: "#555",
+},
   container: {
     flex: 1,
     justifyContent: "center",
@@ -133,7 +153,8 @@ const styles = StyleSheet.create({
   },
   viewPastEventsButton: {
     backgroundColor: "#475569",
-    width: wp("45%"),
+    width: wp("70%"),
+
     height: 50,
     paddingVertical: 12,
     paddingHorizontal: 20,
@@ -154,7 +175,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignSelf: "center",
     height: 50,
-    width: wp("45%"),
+    width: wp("70%"),
+
   },
   createButtonText: {
     color: "#fff",
