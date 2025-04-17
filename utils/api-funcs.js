@@ -61,3 +61,23 @@ export const addInvitee = (event_id, invitee) => {
       throw error
     })
 }
+
+export const addFlake = (event_id, role) => {
+  const params = { params: { action: `${role}Flaked` } }
+  let patchObj = null
+  if (role === "invitee") {
+    patchObj = { invitee_flaked: true }
+  }
+  if (role === "host") {
+    patchObj = { host_flaked: true }
+  }
+  return api
+    .patch(`/events/${event_id}`, patchObj, params)
+    .then(({ data }) => {
+      return data.success
+    })
+    .catch((error) => {
+      console.error("Error updating event:", error)
+      throw error
+    })
+}

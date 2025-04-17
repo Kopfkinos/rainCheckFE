@@ -1,3 +1,4 @@
+import { addFlake } from "@/utils/api-funcs"
 import React, { useState } from "react"
 import {
   Alert,
@@ -11,14 +12,15 @@ import {
 } from "react-native"
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context"
 
-export default function NotFeelingItButton() {
+export default function NotFeelingItButton({ confirmedFlake, setConfirmedFlake, event_id, role }) {
   const [modalVisible, setModalVisible] = useState(false)
-  const [confirmedFlake, setconfirmedFlake] = useState(false)
+  // const [confirmedFlake, setconfirmedFlake] = useState(false)
 
   // Pass in a piece of state you can update when the button is confirmed to be pressed e.g. flakedConfirmed
 
   const confirmClick = () => {
-    setconfirmedFlake(!confirmedFlake)
+    setConfirmedFlake(!confirmedFlake)
+    addFlake(event_id, role)
     // func to update the event with the {invitee/host flaked}
   }
 
@@ -44,23 +46,25 @@ export default function NotFeelingItButton() {
                     style={[styles.button, styles.dismiss]}
                     onPress={() => setModalVisible(!modalVisible)}
                   >
-                    <Text style={styles.textStyle}>Okay, cool, thanks? </Text>
+                    <Text style={styles.flakeButtonText}>Phew, thanks! </Text>
                   </Pressable>
                 </View>
               ) : (
                 <View>
+                  <Text style={styles.modalHeader}>You sure, girl? </Text>
                   <Text style={styles.modalText}>
-                    {`You sure, girl? 
-                Don't worry, we won’t notify your friend unless they also hit the button.`}
+                    (Don't worry, we won’t notify your friend unless they also hit the button!)
                   </Text>
                   <Pressable style={[styles.button, styles.confirm]} onPress={confirmClick}>
-                    <Text style={styles.textStyle}>Yes diva needs a lie down!!!</Text>
+                    <Text style={styles.modalButtonsText}>Yes!! Diva needs a lie down!!!</Text>
                   </Pressable>
                   <Pressable
                     style={[styles.button, styles.dismiss]}
                     onPress={() => setModalVisible(!modalVisible)}
                   >
-                    <Text style={styles.textStyle}>I'm not sure! Take me back</Text>
+                    <Text style={styles.modalButtonsText}>
+                      Uhh, wait, I'm not sure! Take me back!
+                    </Text>
                   </Pressable>
                 </View>
               )}
@@ -68,14 +72,14 @@ export default function NotFeelingItButton() {
           </View>
         </Modal>
         <Pressable
-          style={[styles.button, styles.buttonOpen]}
+          style={[styles.button]}
           disabled={confirmedFlake}
           onPress={() => setModalVisible(true)}
         >
           {confirmedFlake ? (
-            <Text style={styles.textStyle}>You're not feeling it!</Text>
+            <Text style={styles.flakeButtonText}>You're Not Feeling It!</Text>
           ) : (
-            <Text style={styles.textStyle}>Not Feelin' It</Text>
+            <Text style={styles.flakeButtonText}>I'm Not Feelin' It</Text>
           )}
         </Pressable>
       </SafeAreaView>
@@ -109,19 +113,33 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
   },
-  buttonOpen: {
-    backgroundColor: "red",
+  postClickButton: {
+    backgroundColor: "#7756FF",
   },
+  bold: { fontWeight: "bold" },
+  italic: { fontStyle: "italic" },
+  underline: { textDecorationLine: "underline" },
   confirm: {
     backgroundColor: "green",
   },
   dismiss: {
     backgroundColor: "red",
   },
-  textStyle: {
+  flakeButtonText: {
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
+    fontSize: 30,
+  },
+  modalButtonsText: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalHeader: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontWeight: "bold",
   },
   modalText: {
     marginBottom: 15,
@@ -130,5 +148,6 @@ const styles = StyleSheet.create({
   shhgif: {
     height: 50,
     width: 50,
+    alignSelf: "center",
   },
 })
