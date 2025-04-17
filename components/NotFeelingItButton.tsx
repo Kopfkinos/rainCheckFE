@@ -26,7 +26,6 @@ export default function NotFeelingItButton({
 
   const confirmClick = () => {
     setConfirmedFlake(!confirmedFlake)
-    console.log(role)
     addFlake(event_id, role)
     // func to update the event with the {invitee/host flaked}
   }
@@ -87,6 +86,10 @@ export default function NotFeelingItButton({
             <View>
               {" "}
               <Text style={styles.flakeButtonText}>You're Not Feeling It!</Text>
+              <Text style={[styles.flakeButtonText, { fontSize: 12, color: "gray" }]}>
+                {" "}
+                (We'll let you know if you're friend feels the same...)
+              </Text>
             </View>
           ) : (
             <Text style={styles.flakeButtonText}>I'm Not Feelin' It</Text>

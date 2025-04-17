@@ -8,8 +8,10 @@ import {
 } from "react-native-responsive-screen"
 import { getUsers, addInvitee } from "../../utils/api-funcs.js"
 import { UserContext } from "../../contexts/UserContext"
+import { SafeAreaView } from "react-native-safe-area-context"
 import LoadingUmbrella from "../../components/LoadingUmbrella"
 import NotFeelingItButton from "../../components/NotFeelingItButton"
+import BothFlaked from "../../components/BothFlaked"
 
 // GET /events/:event_id
 
@@ -29,16 +31,18 @@ export default function EventPage() {
   const { event_id } = useLocalSearchParams()
   //An Expo Router Hook, allowing access to the query params
   const { user } = useContext(UserContext)
-  const [role, setRole] = useState("host")
+  const [role, setRole] = useState("")
   const [invitee, setInvitee] = useState("")
   const [inviteeAdded, setInviteeAdded] = useState(false)
   const [userNotFound, setUserNotFound] = useState(false)
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [inviteButtonMsg, setInviteButtonMsg] = useState("")
   const [showInviteButtonMsg, setShowInviteButtonMsg] = useState(false)
 
   const [confirmedFlake, setConfirmedFlake] = useState(false)
+  const [otherHasFlaked, setOtherHasFlaked] = useState(false)
+  const [bothFlaked, setBothFlaked] = useState(false)
 
   if (!user) {
     return <Redirect href="/" />
@@ -58,35 +62,44 @@ export default function EventPage() {
   })
 
   useEffect(() => {
-    getEventByEventID(event_id).then((newEvent) => {
-      setEvent(newEvent)
-      if (user === event.created_by && event.host_flaked === true) {
+    setIsLoading(true)
+    getEventByEventID(event_id).then((fetchedEvent) => {
+      setEvent(fetchedEvent)
+      if (user === fetchedEvent.invited) {
+        setRole("invitee")
+        console.log("user set as the invitee")
+      } else {
+        setRole("host")
+        console.log("user set as the host")
+      }
+      if (user === fetchedEvent.created_by && fetchedEvent.host_flaked === true) {
         console.log("confirmedflake because user flaked and user is host")
         setConfirmedFlake(true)
       }
-      if (user === event.invited && event.invitee_flaked === true) {
+      if (user === fetchedEvent.invited && fetchedEvent.invitee_flaked === true) {
         console.log("confirmedflake because user flaked and user is invitee")
         setConfirmedFlake(true)
       }
-      // the "role" is used in the NotFeelingIt to decide whether to update the 'invitee_flaked" or "host_flaked" values
-      // role is automatically set to "host", but if the user === invitee, then the role is set to "invitee"
-      if (user === event.invited) {
-        console.log("the role has been changed to invitee")
-        setRole("invitee")
-        console.log("Role is...", role)
+      if (fetchedEvent.host_flaked && fetchedEvent.invitee_flaked) {
+        setBothFlaked(true)
       }
+      const timer = setTimeout(() => {
+        setIsLoading(false)
+      }, 1500)
+      return () => clearTimeout(timer)
     })
-  }, [confirmedFlake])
+  }, [bothFlaked])
   const formattedDate = new Date(event.date).toLocaleString("en-GB")
 
   const handleSubmit = () => {
     if (invitee === user) {
       setInviteButtonMsg("We're all for self-love, but come on now...")
+      setShowInviteButtonMsg(true)
       return
     }
+    setIsLoading(true)
     setUserNotFound(false)
     setInviteeAdded(false)
-    setIsLoading(true)
     getUsers().then((users) => {
       const userFound = users.some((user) => {
         return user.username === invitee
@@ -113,72 +126,77 @@ export default function EventPage() {
   }
 
   if (isLoading) {
-    return <LoadingUmbrella />
-  }
+    return (
+      <SafeAreaView style={styles.centered}>
+        <LoadingUmbrella style={styles.lottie} />
 
-  return (
-    <View style={styles.logoWrapper}>
-      <Image source={require("../../assets/images/rainCheck-logo.png")} style={styles.logo} />
-      <View />
-      <View>
-        {user === event.created_by ? (
-          <Text style={styles.heading}>Hi {user}, you're hosting...</Text>
+        <Text style={styles.loadingText}>Loading profile...</Text>
+      </SafeAreaView>
+    )
+  } else if (bothFlaked) {
+    return <BothFlaked />
+  } else if (!isLoading && !bothFlaked) {
+    return (
+      <View style={styles.logoWrapper}>
+        <Image source={require("../../assets/images/rainCheck-logo.png")} style={styles.logo} />
+        <View />
+        <View>
+          {user === event.created_by ? (
+            <Text style={styles.heading}>Hi {user}, you're hosting...</Text>
+          ) : (
+            <Text style={styles.heading}>Hi {user}, you've been invited to...</Text>
+          )}
+        </View>
+        <View>
+          <Text style={styles.italic}>Event Title:</Text>{" "}
+          <Text style={styles.bold}>{event.title}</Text>
+          <Text style={styles.italic}>Date: </Text> <Text style={styles.bold}>{formattedDate}</Text>
+          <Text style={styles.italic}>Location: </Text>{" "}
+          <Text style={styles.bold}>{event.location}</Text>
+          <Text style={styles.italic}>Description: </Text>{" "}
+          <Text style={styles.bold}>{event.description}</Text>
+          {event.invited ? (
+            <View>
+              <Text style={styles.italic}>Invited: </Text>
+              <Text style={styles.bold}>{event.invited}</Text>{" "}
+            </View>
+          ) : null}
+          <Text style={styles.italic}>Host: </Text>
+          <Text style={styles.bold}>{event.created_by}</Text>
+        </View>
+        {event.invited ? (
+          <View style={[styles.flakeButton, confirmedFlake && { backgroundColor: "#bdabfd" }]}>
+            <NotFeelingItButton
+              event_id={event_id}
+              role={role}
+              confirmedFlake={confirmedFlake}
+              setConfirmedFlake={setConfirmedFlake}
+              invitee={event.invited}
+            />
+          </View>
         ) : (
-          <Text style={styles.heading}>Hi {user}, you've been invited to...</Text>
+          <View style={styles.inviteSection}>
+            <Text style={styles.bold}> So, who're you inviting...?</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Your friend's name"
+              value={invitee}
+              onChangeText={setInvitee}
+              autoCapitalize="none"
+            ></TextInput>
+            <TouchableOpacity
+              style={styles.submitButton}
+              onPress={handleSubmit}
+              disabled={invitee.length === 0}
+            >
+              <Text style={styles.submitButtonText}>Invite Friend</Text>
+            </TouchableOpacity>
+            {showInviteButtonMsg ? <Text> {inviteButtonMsg} </Text> : null}
+          </View>
         )}
       </View>
-      <View>
-        <Text style={styles.italic}>Event Title:</Text>{" "}
-        <Text style={styles.bold}>{event.title}</Text>
-        <Text style={styles.italic}>Date: </Text> <Text style={styles.bold}>{formattedDate}</Text>
-        <Text style={styles.italic}>Location: </Text>{" "}
-        <Text style={styles.bold}>{event.location}</Text>
-        <Text style={styles.italic}>Description: </Text>{" "}
-        <Text style={styles.bold}>{event.description}</Text>
-        {event.invited ? (
-          <View>
-            <Text style={styles.italic}>Invited: </Text>
-            <Text style={styles.bold}>{event.invited}</Text>{" "}
-          </View>
-        ) : null}
-        <Text style={styles.italic}>Host: </Text>
-        <Text style={styles.bold}>{event.created_by}</Text>
-      </View>
-      {event.invited ? (
-        <View style={[styles.flakeButton, confirmedFlake && { backgroundColor: "#bdabfd" }]}>
-          <NotFeelingItButton
-            event_id={event_id}
-            role={role}
-            confirmedFlake={confirmedFlake}
-            setConfirmedFlake={setConfirmedFlake}
-            invitee={event.invited}
-          />
-        </View>
-      ) : (
-        <View style={styles.inviteSection}>
-          <Text style={styles.bold}> So, who're you inviting...?</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Your friend's name"
-            value={invitee}
-            onChangeText={setInvitee}
-            autoCapitalize="none"
-          ></TextInput>
-          <TouchableOpacity
-            style={styles.submitButton}
-            onPress={handleSubmit}
-            disabled={invitee.length === 0}
-          >
-            <Text style={styles.submitButtonText}>Invite Friend</Text>
-          </TouchableOpacity>
-          {showInviteButtonMsg ? <Text> {inviteButtonMsg} </Text> : null}
-        </View>
-      )}
-      <View>
-        {event.host_flaked && event.invitee_flaked ? <Text> You both have flaked!</Text> : null}
-      </View>
-    </View>
-  )
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -232,5 +250,19 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 20,
     alignSelf: "center",
+  },
+  lottie: {
+    width: wp("20%"),
+    height: hp("20%"),
+  },
+  loadingText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#555",
+  },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 })

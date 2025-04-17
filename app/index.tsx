@@ -1,6 +1,8 @@
-import { View } from "react-native";
+import { View } from "react-native"
 
-import Login from "./login";
+import { useEffect, useState, lazy } from "react"
+
+import Login from "./login"
 
 export default function Index() {
   return (
@@ -13,5 +15,5 @@ export default function Index() {
     >
       <Login></Login>
     </View>
-  );
+  )
 }
