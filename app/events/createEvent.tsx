@@ -7,14 +7,12 @@ import { UserContext } from "../../contexts/UserContext";
 
 import LoadingUmbrella from "../../components/LoadingUmbrella";
 // POST /users/:username/events
-
+import DatePickerComponent from "../../components/DatePicker";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-import DateTimePicker from "@react-native-community/datetimepicker"; // iOS / Android only
-import DatePicker from "react-datepicker"; // Web only
 import "react-datepicker/dist/react-datepicker.css"; // Web app calendar style
 
 export default function CreateEvent() {
@@ -43,6 +41,7 @@ export default function CreateEvent() {
       title,
       description,
       date,
+      time: "20:00:00",
       location,
       created_by: user,
       invited: null,
@@ -52,7 +51,7 @@ export default function CreateEvent() {
     }
 
     setIsLoading(true)
-
+    
     postEvent(eventData)
       .then((newEventData) => {
         router.push({
@@ -83,12 +82,9 @@ export default function CreateEvent() {
           onChangeText={setTitle}
         />
 
-        <TextInput
-          placeholder="Enter Event Date"
-          //add Tailwind CSS coding here
-          value={date}
-          onChangeText={setDate}
-        />
+        <View>
+          <DatePickerComponent setDate={setDate} />
+        </View>
 
         <TextInput
           placeholder="Enter Event Location"
