@@ -1,6 +1,6 @@
 import { View } from "react-native";
 
-import Login from "./test-login";
+import Login from "./login";
 
 export default function Index() {
   return (
