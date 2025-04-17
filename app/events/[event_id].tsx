@@ -21,8 +21,8 @@ interface Event {
   location: string
   created_by: string
   invited: string
-  host_flaked: number
-  invitee_flaked: number
+  host_flaked: boolean
+  invitee_flaked: boolean
 }
 
 export default function EventPage() {
@@ -53,20 +53,30 @@ export default function EventPage() {
     location: "",
     created_by: "",
     invited: "",
-    host_flaked: 0,
-    invitee_flaked: 0,
+    host_flaked: false,
+    invitee_flaked: false,
   })
 
   useEffect(() => {
     getEventByEventID(event_id).then((newEvent) => {
       setEvent(newEvent)
+      if (user === event.created_by && event.host_flaked === true) {
+        console.log("confirmedflake because user flaked and user is host")
+        setConfirmedFlake(true)
+      }
+      if (user === event.invited && event.invitee_flaked === true) {
+        console.log("confirmedflake because user flaked and user is invitee")
+        setConfirmedFlake(true)
+      }
       // the "role" is used in the NotFeelingIt to decide whether to update the 'invitee_flaked" or "host_flaked" values
       // role is automatically set to "host", but if the user === invitee, then the role is set to "invitee"
-      if (event.invited === user) {
+      if (user === event.invited) {
+        console.log("the role has been changed to invitee")
         setRole("invitee")
+        console.log("Role is...", role)
       }
     })
-  }, [])
+  }, [confirmedFlake])
   const formattedDate = new Date(event.date).toLocaleString("en-GB")
 
   const handleSubmit = () => {
@@ -111,6 +121,13 @@ export default function EventPage() {
       <Image source={require("../../assets/images/rainCheck-logo.png")} style={styles.logo} />
       <View />
       <View>
+        {user === event.created_by ? (
+          <Text style={styles.heading}>Hi {user}, you're hosting...</Text>
+        ) : (
+          <Text style={styles.heading}>Hi {user}, you've been invited to...</Text>
+        )}
+      </View>
+      <View>
         <Text style={styles.italic}>Event Title:</Text>{" "}
         <Text style={styles.bold}>{event.title}</Text>
         <Text style={styles.italic}>Date: </Text> <Text style={styles.bold}>{formattedDate}</Text>
@@ -118,12 +135,14 @@ export default function EventPage() {
         <Text style={styles.bold}>{event.location}</Text>
         <Text style={styles.italic}>Description: </Text>{" "}
         <Text style={styles.bold}>{event.description}</Text>
-        {inviteeAdded ? (
+        {event.invited ? (
           <View>
             <Text style={styles.italic}>Invited: </Text>
             <Text style={styles.bold}>{event.invited}</Text>{" "}
           </View>
         ) : null}
+        <Text style={styles.italic}>Host: </Text>
+        <Text style={styles.bold}>{event.created_by}</Text>
       </View>
       {event.invited ? (
         <View style={[styles.flakeButton, confirmedFlake && { backgroundColor: "#bdabfd" }]}>
@@ -132,6 +151,7 @@ export default function EventPage() {
             role={role}
             confirmedFlake={confirmedFlake}
             setConfirmedFlake={setConfirmedFlake}
+            invitee={event.invited}
           />
         </View>
       ) : (
@@ -206,5 +226,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: hp("20%"),
     width: wp("60%"),
+  },
+  heading: {
+    color: "#cc56ff",
+    fontSize: 24,
+    marginBottom: 20,
+    alignSelf: "center",
   },
 })

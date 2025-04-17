@@ -1,12 +1,5 @@
 import React, { useState, useContext, useCallback, useEffect } from "react"
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  FlatList,
-  TouchableOpacity,
-} from "react-native"
+import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity } from "react-native"
 
 import { Redirect, Link } from "expo-router"
 
@@ -46,25 +39,33 @@ export default function UserProfilePage() {
   // Memoize the fetch function
   const fetchEvents = useCallback(() => getEvents(user), [user])
 
-  const { data: events, loading: fetchLoading, error, refetch } = useFetch<Event[]>(fetchEvents, true)
-
+  const {
+    data: events,
+    loading: fetchLoading,
+    error,
+    refetch,
+  } = useFetch<Event[]>(fetchEvents, true)
+  /* 
+  events_created: [],
+  events_invited: []
+ */
   const [showLoading, setShowLoading] = useState(true)
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShowLoading(false);
+      setShowLoading(false)
     }, 3000) // should show umbrella for 3 seconds no matter what
 
     return () => clearTimeout(timer)
-  }, []);
+  }, [])
 
-  const loading = fetchLoading || showLoading;
+  const loading = fetchLoading || showLoading
 
   if (loading) {
     return (
       <SafeAreaView style={styles.centered}>
-      <LoadingUmbrella />
-      <Text style={styles.loadingText}>Loading profile...</Text>
+        <LoadingUmbrella />
+        <Text style={styles.loadingText}>Loading profile...</Text>
       </SafeAreaView>
     )
   }
@@ -81,24 +82,46 @@ export default function UserProfilePage() {
     <SafeAreaView style={styles.container}>
       <Image source={require("../assets/images/rainCheck-logo.png")} />
       <Text style={styles.text}>Hi {user}!👋</Text>
-
-      <FlatList
-        data={events}
-        keyExtractor={(item) => item.event_id.toString()}
-        renderItem={({ item }) => (
-          <Link href={`/events/${item.event_id}`} asChild>
-            <TouchableOpacity style={styles.eventItem}>
-              <Text style={styles.eventTitle}>{item.title}</Text>
-              <Text>{new Date(item.date).toLocaleString()}</Text>
-              <Text>{item.location}</Text>
-              <Text>{item.description}</Text>
-            </TouchableOpacity>
-          </Link>
-        )}
-        ListEmptyComponent={<Text style={styles.noEvent}>No events found...</Text>}
-        onRefresh={refetch}
-        refreshing={loading}
-      />
+      <View style={styles.eventsList}>
+        <Text style={styles.text}>Events You're Hosting</Text>
+        <FlatList
+          data={events.events_created}
+          keyExtractor={(item) => item.event_id.toString()}
+          renderItem={({ item }) => (
+            <Link href={`/events/${item.event_id}`} asChild>
+              <TouchableOpacity style={styles.eventItem}>
+                <Text style={styles.eventTitle}>{item.title}</Text>
+                <Text>{new Date(item.date).toLocaleString()}</Text>
+                <Text>{item.location}</Text>
+                <Text>{item.description}</Text>
+              </TouchableOpacity>
+            </Link>
+          )}
+          ListEmptyComponent={<Text style={styles.noEvent}>No events found...</Text>}
+          onRefresh={refetch}
+          refreshing={loading}
+        />
+      </View>
+      <View style={styles.eventList}>
+        <Text style={styles.text}>Events You're Invited to</Text>
+        <FlatList
+          data={events.events_invited}
+          keyExtractor={(item) => item.event_id.toString()}
+          renderItem={({ item }) => (
+            <Link href={`/events/${item.event_id}`} asChild>
+              <TouchableOpacity style={styles.eventItem}>
+                <Text style={styles.eventTitle}>{item.title}</Text>
+                <Text>{new Date(item.date).toLocaleString()}</Text>
+                <Text>{item.location}</Text>
+                <Text>{item.description}</Text>
+              </TouchableOpacity>
+            </Link>
+          )}
+          ListEmptyComponent={<Text style={styles.noEvent}>No events found...</Text>}
+          onRefresh={refetch}
+          refreshing={loading}
+        />
+      </View>
       {/* this is just a placeholder for now!! */}
       <Link href="/events/viewPastEvents">
         <TouchableOpacity style={styles.viewPastEventsButton}>
@@ -124,15 +147,15 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
 
-lottie: {
-  width: wp("20%"),
-  height: hp("20%"),
-},
-loadingText: {
-  fontSize: 16,
-  fontWeight: "500",
-  color: "#555",
-},
+  lottie: {
+    width: wp("20%"),
+    height: hp("20%"),
+  },
+  loadingText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#555",
+  },
   container: {
     flex: 1,
     justifyContent: "center",
@@ -176,7 +199,6 @@ loadingText: {
     alignSelf: "center",
     height: 50,
     width: wp("70%"),
-
   },
   createButtonText: {
     color: "#fff",
@@ -199,10 +221,12 @@ loadingText: {
     alignItems: "center",
   },
   eventItem: {
-    padding: 12,
+    padding: 25,
     marginBottom: 10,
     backgroundColor: "#f9f9f9",
     borderRadius: 8,
+    width: 400,
+    height: 100,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -215,5 +239,8 @@ loadingText: {
   eventTitle: {
     fontWeight: "bold",
     fontSize: 16,
+  },
+  eventsList: {
+    marginBottom: 50,
   },
 })
