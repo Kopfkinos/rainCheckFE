@@ -62,6 +62,9 @@ export default function EventPage() {
   })
 
   useEffect(() => {
+    if (bothFlaked) {
+      return
+    }
     setIsLoading(true)
     getEventByEventID(event_id).then((fetchedEvent) => {
       setEvent(fetchedEvent)
