@@ -65,28 +65,27 @@ export default function EventPage() {
     setIsLoading(true)
     getEventByEventID(event_id).then((fetchedEvent) => {
       setEvent(fetchedEvent)
-      if (user === fetchedEvent.invited) {
-        setRole("invitee")
-        console.log("user set as the invitee")
-      } else {
+      const { invited, created_by, host_flaked, invitee_flaked } = fetchedEvent
+      if (user === created_by) {
+        // user is host
         setRole("host")
-        console.log("user set as the host")
+        if (host_flaked) {
+          setConfirmedFlake(true)
+        }
+        if (invitee_flaked) {
+          setOtherHasFlaked(true)
+        }
+      } else {
+        // user is invitee
+        setRole("invitee")
+        if (invitee_flaked) {
+          setConfirmedFlake(true)
+        }
+        if (host_flaked) {
+          setOtherHasFlaked(true)
+        }
       }
-      if (user === fetchedEvent.created_by && fetchedEvent.host_flaked === true) {
-        console.log("user is the host and has flaked")
-        setConfirmedFlake(true)
-      }
-      if (user === fetchedEvent.invited && fetchedEvent.invitee_flaked === true) {
-        console.log("user is the invitee and has flaked")
-        setConfirmedFlake(true)
-      }
-      if (user !== fetchedEvent.created_by && fetchedEvent.host_flaked === true) {
-        setOtherHasFlaked(true)
-      }
-      if (user !== fetchedEvent.invited && fetchedEvent.invitee_flaked === true) {
-        setOtherHasFlaked(true)
-      }
-      if (fetchedEvent.host_flaked && fetchedEvent.invitee_flaked) {
+      if (host_flaked && invitee_flaked) {
         setBothFlaked(true)
       }
       const timer = setTimeout(() => {
