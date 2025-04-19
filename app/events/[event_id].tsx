@@ -73,12 +73,18 @@ export default function EventPage() {
         console.log("user set as the host")
       }
       if (user === fetchedEvent.created_by && fetchedEvent.host_flaked === true) {
-        console.log("confirmedflake because user flaked and user is host")
+        console.log("user is the host and has flaked")
         setConfirmedFlake(true)
       }
       if (user === fetchedEvent.invited && fetchedEvent.invitee_flaked === true) {
-        console.log("confirmedflake because user flaked and user is invitee")
+        console.log("user is the invitee and has flaked")
         setConfirmedFlake(true)
+      }
+      if (user !== fetchedEvent.created_by && fetchedEvent.host_flaked === true) {
+        setOtherHasFlaked(true)
+      }
+      if (user !== fetchedEvent.invited && fetchedEvent.invitee_flaked === true) {
+        setOtherHasFlaked(true)
       }
       if (fetchedEvent.host_flaked && fetchedEvent.invitee_flaked) {
         setBothFlaked(true)
@@ -172,6 +178,8 @@ export default function EventPage() {
               confirmedFlake={confirmedFlake}
               setConfirmedFlake={setConfirmedFlake}
               invitee={event.invited}
+              otherHasFlaked={otherHasFlaked}
+              setBothFlaked={setBothFlaked}
             />
           </View>
         ) : (

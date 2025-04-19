@@ -18,6 +18,8 @@ export default function NotFeelingItButton({
   event_id,
   role,
   invited,
+  otherHasFlaked,
+  setBothFlaked,
 }) {
   const [modalVisible, setModalVisible] = useState(false)
   // const [confirmedFlake, setconfirmedFlake] = useState(false)
@@ -25,6 +27,9 @@ export default function NotFeelingItButton({
   // Pass in a piece of state you can update when the button is confirmed to be pressed e.g. flakedConfirmed
 
   const confirmClick = () => {
+    if (otherHasFlaked) {
+      setBothFlaked(true)
+    }
     setConfirmedFlake(!confirmedFlake)
     addFlake(event_id, role)
     // func to update the event with the {invitee/host flaked}
