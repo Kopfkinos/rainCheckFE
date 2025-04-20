@@ -40,8 +40,8 @@ export default function EventPage() {
   const [inviteButtonMsg, setInviteButtonMsg] = useState("")
   const [showInviteButtonMsg, setShowInviteButtonMsg] = useState(false)
 
-  const [confirmedFlake, setConfirmedFlake] = useState(false)
-  const [otherHasFlaked, setOtherHasFlaked] = useState(false)
+  const [userFlaked, setUserFlaked] = useState(false)
+  const [otherUserFlaked, setOtherUserFlaked] = useState(false)
   const [bothFlaked, setBothFlaked] = useState(false)
 
   if (!user) {
@@ -73,19 +73,19 @@ export default function EventPage() {
         // user is host
         setRole("host")
         if (host_flaked) {
-          setConfirmedFlake(true)
+          setUserFlaked(true)
         }
         if (invitee_flaked) {
-          setOtherHasFlaked(true)
+          setOtherUserFlaked(true)
         }
       } else {
         // user is invitee
         setRole("invitee")
         if (invitee_flaked) {
-          setConfirmedFlake(true)
+          setUserFlaked(true)
         }
         if (host_flaked) {
-          setOtherHasFlaked(true)
+          setOtherUserFlaked(true)
         }
       }
       if (host_flaked && invitee_flaked) {
@@ -173,14 +173,14 @@ export default function EventPage() {
           <Text style={styles.bold}>{event.created_by}</Text>
         </View>
         {event.invited ? (
-          <View style={[styles.flakeButton, confirmedFlake && { backgroundColor: "#bdabfd" }]}>
+          <View style={styles.flakeButton}>
             <NotFeelingItButton
               event_id={event_id}
               role={role}
-              confirmedFlake={confirmedFlake}
-              setConfirmedFlake={setConfirmedFlake}
+              userFlaked={userFlaked}
+              setUserFlaked={setUserFlaked}
               invitee={event.invited}
-              otherHasFlaked={otherHasFlaked}
+              otherUserFlaked={otherUserFlaked}
               setBothFlaked={setBothFlaked}
             />
           </View>
@@ -247,13 +247,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   flakeButton: {
-    margin: "10%",
-    backgroundColor: "red",
-    paddingVertical: 14,
+    margin: "2.5%",
+    paddingVertical: 7,
     borderRadius: 8,
     alignItems: "center",
-    height: hp("20%"),
-    width: wp("60%"),
   },
   heading: {
     color: "#cc56ff",
