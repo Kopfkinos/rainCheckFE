@@ -1,5 +1,13 @@
 import React, { useState, useContext, useCallback, useEffect } from "react"
-import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity } from "react-native"
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  SectionList,
+} from "react-native"
 
 import { Redirect, Link } from "expo-router"
 
@@ -85,26 +93,6 @@ export default function UserProfilePage() {
         <Text style={styles.text}>Events You're Hosting</Text>
         <FlatList
           data={events.events_created}
-          keyExtractor={(item) => item.event_id.toString()}
-          renderItem={({ item }) => (
-            <Link href={`/events/${item.event_id}`} asChild>
-              <TouchableOpacity style={styles.eventItem}>
-                <Text style={styles.eventTitle}>{item.title}</Text>
-                <Text>{new Date(item.date).toLocaleString()}</Text>
-                <Text>{item.location}</Text>
-                <Text>{item.description}</Text>
-              </TouchableOpacity>
-            </Link>
-          )}
-          ListEmptyComponent={<Text style={styles.noEvent}>No events found...</Text>}
-          onRefresh={refetch}
-          refreshing={loading}
-        />
-      </View>
-      <View style={styles.eventList}>
-        <Text style={styles.text}>Events You're Invited to</Text>
-        <FlatList
-          data={events.events_invited}
           keyExtractor={(item) => item.event_id.toString()}
           renderItem={({ item }) => (
             <Link href={`/events/${item.event_id}`} asChild>

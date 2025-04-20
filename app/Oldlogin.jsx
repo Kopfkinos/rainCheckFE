@@ -8,17 +8,17 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context"
 
-import { EyeOffOutline, EyeOutline } from "react-ionicons"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { UserContext } from "../contexts/UserContext"
 import LoadingUmbrella from "@/components/LoadingUmbrella"
 
 import { getUsers } from "@/utils/api-funcs"
 
-export default function Login() {
+export default function OldLogin() {
   const [isLoading, setIsLoading] = useState(false)
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const [passwordVisisble, setPasswordVisible] = useState(false)
+  const [passwordVisible, setPasswordVisible] = useState(false)
   const [isValidLogin, setIsValidLogin] = useState(true)
 
   const { user, setUser } = useContext(UserContext)
@@ -26,7 +26,7 @@ export default function Login() {
   const router = useRouter()
 
   const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisisble)
+    setPasswordVisible(!passwordVisible)
   }
 
   const handleSubmit = () => {
@@ -53,36 +53,38 @@ export default function Login() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.logoWrapper}>
-        <View>
+      <View>
+        <View style={styles.logoWrapper}>
           <Image source={require("../assets/images/rainCheck-logo.png")} style={styles.logo} />
         </View>
         <Text style={styles.heading}>Login</Text>
-
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          value={username}
-          onChangeText={setUsername}
-          autoCapitalize="none"
-        />
-        <View style={styles.passwordWrapper}>
-          <TextInput
-            style={[styles.input, styles.passwordInput]}
-            onChangeText={setPassword}
-            value={password}
-            placeholder="Password"
-            secureTextEntry={!passwordVisisble}
-          />
-          <TouchableOpacity onPress={togglePasswordVisibility} style={styles.eyeIcon}>
-            {passwordVisisble ? (
-              <EyeOutline color={"#00000"} />
-            ) : (
-              <EyeOffOutline color={"#00000"} />
-            )}
-          </TouchableOpacity>
+        <View style={styles.inputArea}>
+          <View style={styles.usernameWrapper}>
+            <TextInput
+              style={styles.input}
+              placeholder="Username"
+              value={username}
+              onChangeText={setUsername}
+              autoCapitalize="none"
+            />
+          </View>
+          <View style={styles.passwordWrapper}>
+            <TextInput
+              style={[styles.input, styles.passwordInput]}
+              onChangeText={setPassword}
+              value={password}
+              placeholder="Password"
+              secureTextEntry={!passwordVisible}
+            />
+            <MaterialCommunityIcons
+              name={passwordVisible ? "eye-off" : "eye"}
+              size={24}
+              color="black"
+              style={styles.eyeIcon}
+              onPress={togglePasswordVisibility}
+            />
+          </View>
         </View>
-
         {isValidLogin ? null : (
           <Text style={styles.errorText}> Invalid Username or password! </Text>
         )}
@@ -111,9 +113,6 @@ const styles = StyleSheet.create({
     height: 150,
     resizeMode: "contain",
   },
-  eyeIcon: {
-    paddingHorizontal: 10,
-  },
   heading: {
     color: "#cc56ff",
     fontSize: 24,
@@ -126,18 +125,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 12,
   },
-  submitButton: {
-    backgroundColor: "#623dff",
-    paddingVertical: 14,
-    borderRadius: 8,
-    alignItems: "center",
-    width: "100%",
-  },
-  submitButtonText: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 16,
-    boxShadow: "10px 4px 50px rgba(0, 0, 0, 0.1)",
+  inputArea: {
+    margin: 30,
   },
   input: {
     height: hp("7%"),
@@ -148,14 +137,41 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: "#ddd",
   },
-  passwordInput: {
-    flex: 1,
-    marginVertical: 0,
-    marginHorizontal: 0,
+  usernameWrapper: {
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    backgroundColor: "white",
+    width: wp("75%"),
   },
   passwordWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 12,
+    justifyContent: "center",
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    backgroundColor: "white",
+    width: wp("87%"),
+  },
+  passwordInput: {
+    flex: 1,
+    color: "#333",
+    fontSize: 16,
+  },
+  eyeIcon: {
+    paddingHorizontal: 10,
+  },
+  submitButton: {
+    backgroundColor: "#623dff",
+    paddingVertical: 14,
+    borderRadius: 8,
+    alignItems: "center",
+    alignSelf: "center",
+    width: "80%",
+  },
+  submitButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+    boxShadow: "10px 4px 50px rgba(0, 0, 0, 0.1)",
   },
 })

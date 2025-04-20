@@ -1,8 +1,8 @@
 import { View } from "react-native"
-
 import { useEffect, useState, lazy } from "react"
 
 import Login from "./login"
+import OldLogin from "./Oldlogin"
 
 export default function Index() {
   return (
@@ -13,7 +13,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Login></Login>
+      <OldLogin />
     </View>
   )
 }
