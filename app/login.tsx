@@ -1,77 +1,65 @@
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Alert,
-  Image,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
-import { useState, useContext } from "react";
-import { getUsers } from "@/utils/api-funcs";
-import { UserContext } from "@/contexts/UserContext";
-import { useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { EyeOffOutline, EyeOutline } from "react-ionicons";
+import { useForm, SubmitHandler, Controller } from "react-hook-form"
+import { View, Text, StyleSheet, Alert, Image, TextInput, TouchableOpacity } from "react-native"
+import { useState, useContext } from "react"
+import { getUsers } from "@/utils/api-funcs"
+import { UserContext } from "@/contexts/UserContext"
+import { useRouter } from "expo-router"
+import { SafeAreaView } from "react-native-safe-area-context"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+} from "react-native-responsive-screen"
 
 type Inputs = {
-  username: string;
-  password: string;
-};
+  username: string
+  password: string
+}
 
 export default function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>()
 
-  const [isLoading, setIsLoading] = useState(false);
-  const { user, setUser } = useContext(UserContext);
-  const router = useRouter();
-  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+  const { user, setUser } = useContext(UserContext)
+  const router = useRouter()
+  const [passwordVisible, setPasswordVisible] = useState(false)
 
   const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
+    setPasswordVisible(!passwordVisible)
+  }
 
   const onSubmit = async (data: Inputs) => {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      const users = await getUsers();
+      const users = await getUsers()
 
       const matchedUser = users.find(
-        (user: any) =>
-          user.username === data.username && user.password === data.password
-      );
+        (user: any) => user.username === data.username && user.password === data.password
+      )
 
       if (matchedUser) {
-        setUser(data.username);
-        router.push("/userProfilePage");
+        setUser(data.username)
+        router.push("/userProfilePage")
       } else {
-        alert("Login failed. Incorrect username or password.");
+        alert("Login failed. Incorrect username or password.")
         // Need to change this to Alert.alert later to work on iPhone and Android
       }
     } catch (err) {
-      alert("Error. Could not fetch users. Please try again later");
+      alert("Error. Could not fetch users. Please try again later")
       // Need to change this to Alert.alert later to work on iPhone and Android
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image
-        source={require("../assets/images/rainCheck-logo.png")}
-        style={styles.logo}
-      />
+      <Image source={require("../assets/images/rainCheck-logo.png")} style={styles.logo} />
       <Text style={styles.heading}>Login</Text>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -82,9 +70,7 @@ export default function Login() {
             {...register("username", { required: true })}
           />
 
-          {errors.username && (
-            <Text style={styles.errorMessage}>Username is required</Text>
-          )}
+          {errors.username && <Text style={styles.errorMessage}>Username is required</Text>}
 
           <input
             placeholder="Password"
@@ -93,30 +79,26 @@ export default function Login() {
             {...register("password", { required: true })}
           />
 
-          {errors.password && (
-            <Text style={styles.errorMessage}>Password is required</Text>
-          )}
-          <TouchableOpacity
-            onPress={togglePasswordVisibility}
+          {errors.password && <Text style={styles.errorMessage}>Password is required</Text>}
+          <MaterialCommunityIcons
+            name={passwordVisible ? "eye-off" : "eye"}
+            size={24}
+            color="#aaa"
             style={styles.eyeIcon}
-          >
-            {passwordVisible ? (
-              <EyeOutline color={"#00000"} />
-            ) : (
-              <EyeOffOutline color={"#00000"} />
-            )}
-          </TouchableOpacity>
+            onPress={togglePasswordVisibility}
+          />
+          {/* 
+          <TouchableOpacity onPress={togglePasswordVisibility} style={styles.eyeIcon}>
+            {passwordVisible ? <EyeOutline color={"#00000"} /> : <EyeOffOutline color={"#00000"} />}
+          </TouchableOpacity> */}
 
-          <TouchableOpacity
-            style={styles.submitButton}
-            onPress={handleSubmit(onSubmit)}
-          >
+          <TouchableOpacity style={styles.submitButton} onPress={handleSubmit(onSubmit)}>
             <Text style={styles.submitButtonText}>Submit</Text>
           </TouchableOpacity>
         </View>
       </form>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -138,8 +120,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   inputWrapper: {
     flex: 1,
@@ -181,4 +161,7 @@ const styles = StyleSheet.create({
     elevation: 4,
     backgroundColor: "#ECECEC",
   },
-});
+  eyeIcon: {
+    marginLeft: 10,
+  },
+})
