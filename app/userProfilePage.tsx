@@ -87,32 +87,10 @@ export default function UserProfilePage() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* The container needs to be lower on the page */}
       <Image style={styles.logo} source={require("../assets/images/rainCheck-logo.png")} />
       <Text style={styles.text}>Hi {user}!👋</Text>
       <Text style={styles.text}>Events You're Hosting...</Text>
       <EventsList events={events} loading={loading} refetch={refetch} />
-
-      {/* <View style={styles.eventsList}>
-        <Text style={styles.text}>Events You're Hosting</Text>
-        <FlatList
-          data={events.events_created}
-          keyExtractor={(item) => item.event_id.toString()}
-          renderItem={({ item }) => (
-            <Link href={`/events/${item.event_id}`} asChild>
-              <TouchableOpacity style={styles.eventItem}>
-                <Text style={styles.eventTitle}>{item.title}</Text>
-                <Text>{`📆 ${new Date(item.date).toLocaleString("en-GB")}`}</Text>
-                <Text>{`📍 ${item.location}`}</Text>
-                <Text style={styles.eventDescription}>{item.description}</Text>
-              </TouchableOpacity>
-            </Link>
-          )}
-          ListEmptyComponent={<Text style={styles.noEvent}>No events found...</Text>}
-          onRefresh={refetch}
-          refreshing={loading}
-        />
-      </View> */}
 
       <Link href="/events/createEvent" asChild>
         <TouchableOpacity style={styles.createButton}>

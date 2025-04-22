@@ -32,10 +32,7 @@ export default function EventDetails({ event_id, setEvent }) {
       if (userFound) {
         addInvitee(event_id, invitee)
           .then((updatedEvent) => {
-            setEvent((prev) => ({
-              ...prev,
-              invitee: updatedEvent.invitee,
-            }))
+            setEvent(updatedEvent)
             setInviteButtonMsg(`${invitee} has been invited to the event!`)
             setShowInviteButtonMsg(true)
           })
