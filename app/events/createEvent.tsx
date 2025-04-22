@@ -21,7 +21,7 @@ export default function CreateEvent() {
   // useState here
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date());
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const { user, setUser } = useContext(UserContext);
@@ -42,16 +42,16 @@ export default function CreateEvent() {
     const eventData = {
       title,
       description,
-      date,
+      date: date.toISOString().split("T")[0], // YYYY-MM-DD
       time: "20:00:00",
       location,
       created_by: user,
       invited: null,
       host_flaked: false,
       invitee_flaked: false,
-    }
+    };
 
-    setIsLoading(true)
+    setIsLoading(true);
 
     postEvent(eventData)
       .then((newEventData) => {
@@ -64,18 +64,17 @@ export default function CreateEvent() {
         alert("Something went wrong creating the event Girly Pop!");
       })
       .finally(() => {
-
-        setIsLoading(false)
-      })
-  }
+        setIsLoading(false);
+      });
+  };
 
   if (isLoading) {
     return <LoadingUmbrella />;
   }
 
   return (
-    <SafeAreaView style={styles.logoWrapper}>
-      <View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.logoWrapper}>
         <Image
           source={require("../../assets/images/rainCheck-logo.png")}
           style={styles.logo}
@@ -90,7 +89,7 @@ export default function CreateEvent() {
         />
 
         <View style={{ overflow: "visible", zIndex: 1 }}>
-          <DatePickerComponent setDate={setDate} />
+          <DatePickerComponent onChange={setDate} currentDate={date} />
         </View>
 
         <TextInput
