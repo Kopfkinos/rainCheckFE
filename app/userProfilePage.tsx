@@ -86,7 +86,8 @@ export default function UserProfilePage() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image source={require("../assets/images/rainCheck-logo.png")} />
+      {/* The container needs to be lower on the page */}
+      <Image style={styles.logo} source={require("../assets/images/rainCheck-logo.png")} />
       <Text style={styles.text}>Hi {user}!👋</Text>
 
       <View style={styles.eventsList}>
@@ -98,9 +99,9 @@ export default function UserProfilePage() {
             <Link href={`/events/${item.event_id}`} asChild>
               <TouchableOpacity style={styles.eventItem}>
                 <Text style={styles.eventTitle}>{item.title}</Text>
-                <Text>{new Date(item.date).toLocaleString()}</Text>
-                <Text>{item.location}</Text>
-                <Text>{item.description}</Text>
+                <Text>{`📆 ${new Date(item.date).toLocaleString("en-GB")}`}</Text>
+                <Text>{`📍 ${item.location}`}</Text>
+                <Text style={styles.eventDescription}>{item.description}</Text>
               </TouchableOpacity>
             </Link>
           )}
@@ -111,11 +112,11 @@ export default function UserProfilePage() {
       </View>
 
       {/* this is just a placeholder for now!! */}
-      <Link href="/events/viewPastEvents">
+      {/* <Link href="/events/viewPastEvents">
         <TouchableOpacity style={styles.viewPastEventsButton}>
           <Text style={styles.viewPastEventsButtonText}>View Past Events</Text>
         </TouchableOpacity>
-      </Link>
+      </Link> */}
       <Link href="/events/createEvent" asChild>
         <TouchableOpacity style={styles.createButton}>
           <Text style={styles.createButtonText}>Create Event</Text>
@@ -136,8 +137,8 @@ const styles = StyleSheet.create({
   },
 
   lottie: {
-    width: wp("20%"),
-    height: hp("20%"),
+    width: wp("50%"),
+    height: hp("50%"),
   },
   loadingText: {
     fontSize: 16,
@@ -147,9 +148,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    padding: 20,
+    paddingTop: 150,
+    paddingBottom:200,
     backgroundColor: "#FAF9F6",
     alignItems: "center",
+  },
+  logo:{
+    height: hp("40%"),
+    width:wp("85%"),
+    resizeMode: "contain",
+    marginBottom: -80,
   },
   text: {
     fontSize: 20,
@@ -165,7 +173,6 @@ const styles = StyleSheet.create({
   viewPastEventsButton: {
     backgroundColor: "#475569",
     width: wp("50"),
-
     height: 50,
     paddingVertical: 12,
     paddingHorizontal: 20,
@@ -187,6 +194,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     height: 50,
     width: wp("70%"),
+    marginTop: 10,
+    marginBottom: 15,
   },
   createButtonText: {
     color: "#fff",
@@ -194,7 +203,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     alignSelf: "center",
   },
-  input: {
+  input: { /* what is this being used for? */
     height: hp("7%"),
     width: "100%",
     marginVertical: hp("1%"),
@@ -214,7 +223,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f9f9f9",
     borderRadius: 8,
     width: 400,
-    height: 100,
+    height: 120,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -226,10 +235,15 @@ const styles = StyleSheet.create({
   },
   eventTitle: {
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 18,
   },
-
+  eventDescription:{
+    marginTop: 5,
+    fontStyle: "italic",
+    fontWeight:"bold",
+    fontSize: 14
+  },
   eventsList: {
-    marginBottom: 50,
+    marginBottom: 10,
   },
 })
