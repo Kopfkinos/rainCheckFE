@@ -12,6 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import LoadingUmbrella from "../../components/LoadingUmbrella"
 import NotFeelingItButton from "../../components/NotFeelingItButton"
 import BothFlaked from "../../components/BothFlaked"
+import EventDetails from "../../components/EventDetails"
 
 interface Event {
   event_id: number
@@ -93,7 +94,6 @@ export default function EventPage() {
       return () => clearTimeout(timer)
     })
   }, [bothFlaked])
-  const formattedDate = new Date(event.date).toLocaleString("en-GB")
 
   const handleSubmit = () => {
     if (invitee === user) {
@@ -141,30 +141,7 @@ export default function EventPage() {
       <View style={styles.logoWrapper}>
         <Image source={require("../../assets/images/rainCheck-logo.png")} style={styles.logo} />
         <View />
-        <View>
-          {user === event.created_by ? (
-            <Text style={styles.heading}>Hi {user}, you're hosting...</Text>
-          ) : (
-            <Text style={styles.heading}>Hi {user}, you've been invited to...</Text>
-          )}
-        </View>
-        <View>
-          <Text style={styles.italic}>Event Title:</Text>{" "}
-          <Text style={styles.bold}>{event.title}</Text>
-          <Text style={styles.italic}>Date: </Text> <Text style={styles.bold}>{formattedDate}</Text>
-          <Text style={styles.italic}>Location: </Text>{" "}
-          <Text style={styles.bold}>{event.location}</Text>
-          <Text style={styles.italic}>Description: </Text>{" "}
-          <Text style={styles.bold}>{event.description}</Text>
-          {event.invited ? (
-            <View>
-              <Text style={styles.italic}>Invited: </Text>
-              <Text style={styles.bold}>{event.invited}</Text>{" "}
-            </View>
-          ) : null}
-          <Text style={styles.italic}>Host: </Text>
-          <Text style={styles.bold}>{event.created_by}</Text>
-        </View>
+        <EventDetails event={event} />
         {event.invited ? (
           <View style={styles.flakeButton}>
             <NotFeelingItButton
