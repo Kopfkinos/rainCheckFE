@@ -13,7 +13,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <OldLogin />
+      <Login />
     </View>
   )
 }
