@@ -91,7 +91,7 @@ export default function UserProfilePage() {
       <Image style={styles.logo} source={require("../assets/images/rainCheck-logo.png")} />
       <Text style={styles.text}>Hi {user}!👋</Text>
       <Text style={styles.text}>Events You're Hosting...</Text>
-      <EventsList events={events.events_created} loading={loading} refetch={refetch} />
+      <EventsList events={events} loading={loading} refetch={refetch} />
 
       {/* <View style={styles.eventsList}>
         <Text style={styles.text}>Events You're Hosting</Text>
