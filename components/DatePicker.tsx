@@ -6,7 +6,7 @@ import DatePicker from "react-datepicker"; // Web only
 import "react-datepicker/dist/react-datepicker.css"; // Web app calendar style
 
 export default function DatePickerComponent({ setDate }) {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null);
   const today = new Date();
 
   const handleChange = (date) => {
@@ -19,6 +19,7 @@ export default function DatePickerComponent({ setDate }) {
         selected={selectedDate}
         onChange={handleChange}
         dateFormat="dd-MM-yyyy"
+        placeholderText="Select a date Girly Pop!"
         minDate={today}
       />
     </View>
