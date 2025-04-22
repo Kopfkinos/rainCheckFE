@@ -16,6 +16,7 @@ import { UserContext } from "@/contexts/UserContext"
 import { useRouter, withLayoutContext } from "expo-router"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
+
 import { useFonts } from "expo-font"
 
 import {

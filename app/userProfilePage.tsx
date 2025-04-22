@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   SectionList,
+  ImageBackground,
 } from "react-native"
 
 import { Redirect, Link } from "expo-router"
@@ -86,22 +87,35 @@ export default function UserProfilePage() {
   }
 
   return (
+          <ImageBackground 
+            source={require("../assets/images/userProfilePage-bg.jpg")}
+            style={styles.backgroundImage}
+          >
     <SafeAreaView style={styles.container}>
       <Image style={styles.logo} source={require("../assets/images/rainCheck-logo.png")} />
       <Text style={styles.text}>Hi {user}!👋</Text>
       <Text style={styles.text}>Events You're Hosting...</Text>
-      <EventsList events={events} loading={loading} refetch={refetch} />
-
+      <EventsList style={styles.eventList} events={events.events_created} loading={loading} refetch={refetch} />
       <Link href="/events/createEvent" asChild>
         <TouchableOpacity style={styles.createButton}>
           <Text style={styles.createButtonText}>Create Event</Text>
         </TouchableOpacity>
       </Link>
     </SafeAreaView>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    width: "100%",
+    height: "100%",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 0,
+    margin: 0,
+  },
   loadingCard: {
     backgroundColor: "#fff",
     padding: 24,
@@ -123,43 +137,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    // paddingTop: 150,
-    // paddingBottom: 200,
-    backgroundColor: "#FAF9F6",
     alignItems: "center",
   },
   logo: {
     height: hp("40%"),
     width: wp("85%"),
     resizeMode: "contain",
-    marginBottom: -80,
+    marginBottom: -95,
+    marginTop: -100,
   },
   text: {
     fontSize: 20,
     textAlign: "center",
     fontWeight: "bold",
     marginBottom: 10,
+    color: "#fff"
   },
   noEvent: {
     paddingTop: 20,
     textAlign: "center",
     color: "red",
-  },
-  viewPastEventsButton: {
-    backgroundColor: "#475569",
-    width: wp("50"),
-    height: 50,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    alignSelf: "center",
-    marginVertical: 10,
-  },
-  viewPastEventsButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 16,
-    alignSelf: "center",
   },
   createButton: {
     backgroundColor: "#402B8B",
@@ -179,7 +176,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   input: {
-    /* what is this being used for? */ height: hp("7%"),
+    /* what is this being used for? */ 
+    height: hp("7%"),
     width: "100%",
     marginVertical: hp("1%"),
     borderWidth: 1,
@@ -208,17 +206,13 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 3,
   },
-  eventTitle: {
-    fontWeight: "bold",
-    fontSize: 18,
-  },
-  eventDescription: {
-    marginTop: 5,
-    fontStyle: "italic",
-    fontWeight: "bold",
-    fontSize: 14,
-  },
   eventsList: {
     marginBottom: 10,
   },
 })
+
+
+
+
+
+
