@@ -21,7 +21,6 @@ export default function NotFeelingItButton({
   setUserFlaked,
   event_id,
   role,
-  invited,
   otherUserFlaked,
   setBothFlaked,
 }) {
@@ -107,13 +106,11 @@ export default function NotFeelingItButton({
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
   },
   button: {
     backgroundColor: "red",
     borderRadius: 20,
-    padding: 5,
     elevation: 2,
     height: hp("20%"),
     width: wp("60%"),
@@ -124,7 +121,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
-    fontSize: 30,
   },
   bold: { fontWeight: "bold" },
   italic: { fontStyle: "italic" },
