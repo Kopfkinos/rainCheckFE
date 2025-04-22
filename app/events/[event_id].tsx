@@ -13,6 +13,7 @@ import LoadingUmbrella from "../../components/LoadingUmbrella"
 import NotFeelingItButton from "../../components/NotFeelingItButton"
 import BothFlaked from "../../components/BothFlaked"
 import EventDetails from "../../components/EventDetails"
+import InviteFriendButton from "../../components/InviteFriendButton"
 
 interface Event {
   event_id: number
@@ -95,7 +96,7 @@ export default function EventPage() {
     })
   }, [bothFlaked])
 
-  const handleSubmit = () => {
+  /* const handleSubmit = () => {
     if (invitee === user) {
       setInviteButtonMsg("We're all for self-love, but come on now...")
       setShowInviteButtonMsg(true)
@@ -124,7 +125,7 @@ export default function EventPage() {
       }
       setIsLoading(false)
     })
-  }
+  } */
 
   if (isLoading) {
     return (
@@ -142,36 +143,18 @@ export default function EventPage() {
         <Image source={require("../../assets/images/rainCheck-logo.png")} style={styles.logo} />
         <View />
         <EventDetails event={event} />
-        {event.invited ? (
+        {!event.invited ? (
+          <InviteFriendButton event_id={event_id} setEvent={setEvent} />
+        ) : (
           <View style={styles.flakeButton}>
             <NotFeelingItButton
               event_id={event_id}
               role={role}
               userFlaked={userFlaked}
               setUserFlaked={setUserFlaked}
-              invitee={event.invited}
               otherUserFlaked={otherUserFlaked}
               setBothFlaked={setBothFlaked}
             />
-          </View>
-        ) : (
-          <View style={styles.inviteSection}>
-            <Text style={styles.bold}> So, who're you inviting...?</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Your friend's name"
-              value={invitee}
-              onChangeText={setInvitee}
-              autoCapitalize="none"
-            ></TextInput>
-            <TouchableOpacity
-              style={styles.submitButton}
-              onPress={handleSubmit}
-              disabled={invitee.length === 0}
-            >
-              <Text style={styles.submitButtonText}>Invite Friend</Text>
-            </TouchableOpacity>
-            {showInviteButtonMsg ? <Text> {inviteButtonMsg} </Text> : null}
           </View>
         )}
       </View>
