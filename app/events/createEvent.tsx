@@ -8,6 +8,7 @@ import { UserContext } from "../../contexts/UserContext";
 import LoadingUmbrella from "../../components/LoadingUmbrella";
 // POST /users/:username/events
 import DatePickerComponent from "../../components/DatePicker";
+import TimePickerComponent from "../../components/TimePicker";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -22,6 +23,7 @@ export default function CreateEvent() {
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const { user, setUser } = useContext(UserContext);
@@ -43,7 +45,7 @@ export default function CreateEvent() {
       title,
       description,
       date: date.toISOString().split("T")[0], // YYYY-MM-DD
-      time: "20:00:00",
+      time: time.toTimeString().split(" ")[0], // gets "HH:MM:SS"
       location,
       created_by: user,
       invited: null,
@@ -90,6 +92,10 @@ export default function CreateEvent() {
 
         <View style={{ overflow: "visible", zIndex: 1 }}>
           <DatePickerComponent onChange={setDate} currentDate={date} />
+        </View>
+
+        <View style={{ overflow: "visible", zIndex: 1 }}>
+          <TimePickerComponent onChange={setTime} currentTime={time} />
         </View>
 
         <TextInput
