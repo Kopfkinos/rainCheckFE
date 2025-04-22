@@ -6,8 +6,8 @@ const useFetch = <T>(getFunction: () => Promise<T>, autoFetch = true) => {
   const [error, setError] = useState<Error | null>(null)
 
   const fetchData = async () => {
+    setLoading(true)
     try {
-      setLoading(true)
       setError(null)
 
       const result = await getFunction()

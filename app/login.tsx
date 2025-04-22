@@ -1,16 +1,18 @@
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
-import { View, Text, StyleSheet, Alert, Image, TextInput, TouchableOpacity } from "react-native"
+import { View, Text, StyleSheet, Alert, Image, TextInput, TouchableOpacity, ActivityIndicator, ImageBackground } from "react-native"
 import { useState, useContext } from "react"
 import { getUsers } from "@/utils/api-funcs"
 import { UserContext } from "@/contexts/UserContext"
-import { useRouter } from "expo-router"
+import { useRouter, withLayoutContext } from "expo-router"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
+import { useFonts } from 'expo-font';
 
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen"
+import { BodyOutline } from "react-ionicons"
 
 type Inputs = {
   username: string
@@ -18,8 +20,9 @@ type Inputs = {
 }
 
 export default function Login() {
+
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>()
@@ -46,11 +49,11 @@ export default function Login() {
         setUser(data.username)
         router.push("/userProfilePage")
       } else {
-        alert("Login failed. Incorrect username or password.")
+        Alert.alert("Login failed. Incorrect username or password.")
         // Need to change this to Alert.alert later to work on iPhone and Android
       }
     } catch (err) {
-      alert("Error. Could not fetch users. Please try again later")
+      Alert.alert("Error. Could not fetch users. Please try again later")
       // Need to change this to Alert.alert later to work on iPhone and Android
     } finally {
       setIsLoading(false)
@@ -58,50 +61,94 @@ export default function Login() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    // <SafeAreaView style={styles.container}>
+      <ImageBackground 
+        source={require("../assets/images/homepage-bg.jpg")}
+        style={styles.backgroundImage}
+      >
+      <View style={styles.overlay}>
       <Image source={require("../assets/images/rainCheck-logo.png")} style={styles.logo} />
-      <Text style={styles.heading}>Login</Text>
+      <Text style={styles.heading}>LOGIN</Text>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
         <View style={styles.inputWrapper}>
-          <input
-            placeholder="Username"
-            style={styles.usernameBox}
-            {...register("username", { required: true })}
+          <Controller
+          control={control}
+            name="username"
+            rules={{ required: true }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={styles.input}
+                placeholder="Username"
+                onChangeText={onChange}
+                value={value}
+                autoCapitalize="none"
+                placeholderTextColor="#636363" 
+              />
+            )}
           />
 
           {errors.username && <Text style={styles.errorMessage}>Username is required</Text>}
 
-          <input
-            placeholder="Password"
-            type={passwordVisible ? "text" : "password"}
-            style={styles.passwordBox}
-            {...register("password", { required: true })}
-          />
-
-          {errors.password && <Text style={styles.errorMessage}>Password is required</Text>}
+          <View style={{ position: "relative" }}>
+            <Controller
+            control={control}
+            name="password"
+            rules={{ required: true }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+              style={styles.input}
+              placeholder="Password"
+              onChangeText={onChange}
+              value={value}
+              secureTextEntry={!passwordVisible}
+              placeholderTextColor="#636363" 
+            />
+            )}
+            />
+          <TouchableOpacity style={styles.eyeIcon} onPress={togglePasswordVisibility}>
           <MaterialCommunityIcons
             name={passwordVisible ? "eye-off" : "eye"}
             size={24}
             color="#aaa"
             style={styles.eyeIcon}
-            onPress={togglePasswordVisibility}
           />
-          {/* 
-          <TouchableOpacity onPress={togglePasswordVisibility} style={styles.eyeIcon}>
-            {passwordVisible ? <EyeOutline color={"#00000"} /> : <EyeOffOutline color={"#00000"} />}
-          </TouchableOpacity> */}
+          </TouchableOpacity>
+          </View>
+          {errors.password && <Text style={styles.errorMessage}>Password is required</Text>}
 
           <TouchableOpacity style={styles.submitButton} onPress={handleSubmit(onSubmit)}>
+          {isLoading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
             <Text style={styles.submitButtonText}>Submit</Text>
+          )}
           </TouchableOpacity>
         </View>
-      </form>
-    </SafeAreaView>
+        </View>
+        </ImageBackground>
+    // </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    width: "100%",
+    height: "100%",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 0,
+    margin: 0,
+  },
+  overlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    // backgroundColor: "rgba(255, 255, 255, 0.18)",  // Should make overlay semi-transparent to help with readability
+    width: "100%",
+    height: "100%",
+    padding: 20,
+  },
   logo: {
     width: 300,
     height: 150,
@@ -112,6 +159,23 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     textAlign: "center",
     marginBottom: 12,
+    marginTop: 12,
+    fontSize: 15,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 10,
+    fontSize: 16,
+    backgroundColor: "rgba(255, 255, 255, 0.56)",
+  },
+  eyeIcon: {
+    position: "absolute",
+    right: 2,
+    top: 4,
+    color: "#fff",
   },
   heading: {
     fontSize: 20,
@@ -119,7 +183,10 @@ const styles = StyleSheet.create({
     color: "#7756FF",
   },
   container: {
+    width: "100%",
     flex: 1,
+    alignItems: "center",
+    backgroundColor: "#fff",
   },
   inputWrapper: {
     flex: 1,
@@ -130,38 +197,14 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 8,
     alignItems: "center",
-    width: "80%",
     marginTop: 20,
     alignSelf: "center",
+    width: wp("70%"),
   },
   submitButtonText: {
     color: "white",
     fontWeight: "bold",
     fontSize: 16,
     boxShadow: "10px 4px 50px rgba(0, 0, 0, 0.1)",
-  },
-  usernameBox: {
-    height: 50,
-    width: "95%",
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "#ddd",
-    marginBottom: 10,
-    alignSelf: "center",
-    elevation: 4,
-    backgroundColor: "#ECECEC",
-  },
-  passwordBox: {
-    height: hp("7%"),
-    width: "95%",
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "#ddd",
-    alignSelf: "center",
-    elevation: 4,
-    backgroundColor: "#ECECEC",
-  },
-  eyeIcon: {
-    marginLeft: 10,
   },
 })
