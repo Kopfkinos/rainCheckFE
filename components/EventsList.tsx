@@ -1,7 +1,7 @@
 import { FlatList, Text, TouchableOpacity, StyleSheet } from "react-native"
 import { Link } from "expo-router"
 
-export default function EventList({ events, refetch, loading }) {
+export default function EventsList({ events, refetch, loading }) {
   return (
     <FlatList
       data={events}
