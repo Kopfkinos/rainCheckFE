@@ -26,8 +26,8 @@ export default function EventDetails({ event }) {
 
 const styles = StyleSheet.create({
   heading: {
-    color: "#cc56ff",
-    fontSize: 24,
+    color: "#5B3EC6",
+    fontSize: 30,
     marginBottom: 20,
     alignSelf: "center",
   },

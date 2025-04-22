@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#7756FF",
+    color: "#5B3EC6",
   },
   container: {
     width: "100%",
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   submitButton: {
-    backgroundColor: "#623dff",
+    backgroundColor: "#402B8B",
     paddingVertical: 14,
     borderRadius: 8,
     alignItems: "center",
