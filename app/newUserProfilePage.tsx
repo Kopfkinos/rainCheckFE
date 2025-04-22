@@ -1,30 +1,19 @@
 import React, { useState, useContext, useCallback, useEffect } from "react"
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  FlatList,
-  TouchableOpacity,
-  SectionList,
-} from "react-native"
+import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity } from "react-native"
 
 import { Redirect, Link } from "expo-router"
-
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen"
-import { SafeAreaView } from "react-native-safe-area-context"
-
-import { getEvents } from "@/utils/api-funcs"
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context"
 
 import { UserContext } from "../contexts/UserContext"
-
+import { getEvents } from "@/utils/api-funcs"
 import useFetch from "../utils/useFetch"
 
 import LoadingUmbrella from "../components/LoadingUmbrella"
-import EventsList from "@/components/EventsList"
+import EventsList from "../components/EventsList"
 
 interface Event {
   event_id: number
@@ -70,7 +59,7 @@ export default function UserProfilePage() {
   if (loading) {
     return (
       <SafeAreaView style={styles.centered}>
-        <LoadingUmbrella style={styles.lottie} />
+        <LoadingUmbrella />
 
         <Text style={styles.loadingText}>Loading profile...</Text>
       </SafeAreaView>
@@ -86,40 +75,11 @@ export default function UserProfilePage() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* The container needs to be lower on the page */}
-      <Image style={styles.logo} source={require("../assets/images/rainCheck-logo.png")} />
+    <View style={styles.container}>
+      <Image source={require("../assets/images/rainCheck-logo.png")} />
       <Text style={styles.text}>Hi {user}!👋</Text>
-      <Text style={styles.text}>Events You're Hosting...</Text>
       <EventsList events={events.events_created} loading={loading} refetch={refetch} />
-
-      {/* <View style={styles.eventsList}>
-        <Text style={styles.text}>Events You're Hosting</Text>
-        <FlatList
-          data={events.events_created}
-          keyExtractor={(item) => item.event_id.toString()}
-          renderItem={({ item }) => (
-            <Link href={`/events/${item.event_id}`} asChild>
-              <TouchableOpacity style={styles.eventItem}>
-                <Text style={styles.eventTitle}>{item.title}</Text>
-                <Text>{`📆 ${new Date(item.date).toLocaleString("en-GB")}`}</Text>
-                <Text>{`📍 ${item.location}`}</Text>
-                <Text style={styles.eventDescription}>{item.description}</Text>
-              </TouchableOpacity>
-            </Link>
-          )}
-          ListEmptyComponent={<Text style={styles.noEvent}>No events found...</Text>}
-          onRefresh={refetch}
-          refreshing={loading}
-        />
-      </View> */}
-
-      <Link href="/events/createEvent" asChild>
-        <TouchableOpacity style={styles.createButton}>
-          <Text style={styles.createButtonText}>Create Event</Text>
-        </TouchableOpacity>
-      </Link>
-    </SafeAreaView>
+    </View>
   )
 }
 
@@ -134,8 +94,8 @@ const styles = StyleSheet.create({
   },
 
   lottie: {
-    width: wp("50%"),
-    height: hp("50%"),
+    width: wp("20%"),
+    height: hp("20%"),
   },
   loadingText: {
     fontSize: 16,
@@ -145,16 +105,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    // paddingTop: 150,
-    // paddingBottom: 200,
+    padding: 20,
     backgroundColor: "#FAF9F6",
     alignItems: "center",
-  },
-  logo: {
-    height: hp("40%"),
-    width: wp("85%"),
-    resizeMode: "contain",
-    marginBottom: -80,
   },
   text: {
     fontSize: 20,
@@ -170,6 +123,7 @@ const styles = StyleSheet.create({
   viewPastEventsButton: {
     backgroundColor: "#475569",
     width: wp("50"),
+
     height: 50,
     paddingVertical: 12,
     paddingHorizontal: 20,
@@ -191,8 +145,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     height: 50,
     width: wp("70%"),
-    marginTop: 10,
-    marginBottom: 15,
   },
   createButtonText: {
     color: "#fff",
@@ -201,7 +153,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   input: {
-    /* what is this being used for? */ height: hp("7%"),
+    height: hp("7%"),
     width: "100%",
     marginVertical: hp("1%"),
     borderWidth: 1,
@@ -219,8 +171,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: "#f9f9f9",
     borderRadius: 8,
-    width: 400,
-    height: 120,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -232,15 +182,10 @@ const styles = StyleSheet.create({
   },
   eventTitle: {
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: 16,
   },
-  eventDescription: {
-    marginTop: 5,
-    fontStyle: "italic",
-    fontWeight: "bold",
-    fontSize: 14,
-  },
+
   eventsList: {
-    marginBottom: 10,
+    marginBottom: 50,
   },
 })

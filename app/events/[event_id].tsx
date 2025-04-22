@@ -13,8 +13,6 @@ import LoadingUmbrella from "../../components/LoadingUmbrella"
 import NotFeelingItButton from "../../components/NotFeelingItButton"
 import BothFlaked from "../../components/BothFlaked"
 
-// GET /events/:event_id
-
 interface Event {
   event_id: number
   title: string
@@ -33,8 +31,6 @@ export default function EventPage() {
   const { user } = useContext(UserContext)
   const [role, setRole] = useState("")
   const [invitee, setInvitee] = useState("")
-  const [inviteeAdded, setInviteeAdded] = useState(false)
-  const [userNotFound, setUserNotFound] = useState(false)
 
   const [isLoading, setIsLoading] = useState(true)
   const [inviteButtonMsg, setInviteButtonMsg] = useState("")
@@ -106,18 +102,15 @@ export default function EventPage() {
       return
     }
     setIsLoading(true)
-    setUserNotFound(false)
-    setInviteeAdded(false)
     getUsers().then((users) => {
+      // use a .find instead?
       const userFound = users.some((user) => {
         return user.username === invitee
       })
       if (userFound) {
         addInvitee(event_id, invitee)
           .then((updatedEvent) => {
-            console.log("updated event returned from the server >>>", updatedEvent)
             setEvent(updatedEvent)
-            setInviteeAdded(true)
             setInviteButtonMsg(`${invitee} has been invited to the event!`)
             setShowInviteButtonMsg(true)
           })
