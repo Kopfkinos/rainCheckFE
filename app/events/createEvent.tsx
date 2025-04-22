@@ -21,7 +21,7 @@ export default function CreateEvent() {
   // useState here
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState("");
-  const [date, setDate] = useState(""); //maybe? if using a calendar, could be diff? or MVP they use a set format?
+  const [date, setDate] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const { user, setUser } = useContext(UserContext);
@@ -49,8 +49,6 @@ export default function CreateEvent() {
       invited: null,
       host_flaked: false,
       invitee_flaked: false,
-      time: "20:00:00", // HardCoded Time whilst the server requires a time
-
     }
 
     setIsLoading(true)
@@ -91,7 +89,7 @@ export default function CreateEvent() {
           onChangeText={setTitle}
         />
 
-        <View style={styles.datePicker}>
+        <View style={{ overflow: "visible", zIndex: 1 }}>
           <DatePickerComponent setDate={setDate} />
         </View>
 
@@ -109,11 +107,7 @@ export default function CreateEvent() {
           onChangeText={setDescription}
           multiline={true}
         />
-        <Button
-          title="Submit"
-          onPress={handleSubmit}
-          // Input to eventPage needed here - forogt how to do it atm
-        />
+        <Button title="Submit" onPress={handleSubmit} />
       </View>
     </SafeAreaView>
   );
@@ -143,8 +137,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: "#ddd",
     boxShadow: "10px 4px 50px rgba(0, 0, 0, 0.1)",
-  },
-  datePicker: {
-    position: "relative",
   },
 });

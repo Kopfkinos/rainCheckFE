@@ -1,0 +1,28 @@
+/* Calendar input field styling */
+.react-datepicker__input-container input {
+  height: 45px;
+  width: 100%;
+  margin: 8px 0;
+  padding: 12px 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  box-shadow: 10px 4px 50px rgba(0, 0, 0, 0.1);
+  font-size: 12px;
+  outline: none;
+  transition: border 0.2s ease-in-out;
+}
+
+/* Calendar dropdown box styling */
+.react-datepicker {
+  border: 1px solid #475569;
+  background-color: #faf9f6;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  font-size: 12px;
+}
+
+/* Highlight selected date */
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: #d97742; /* Warm Clay */
+  color: #f6c6b5;
+}
