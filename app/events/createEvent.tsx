@@ -49,9 +49,9 @@ export default function CreateEvent() {
       invited: null,
       host_flaked: false,
       invitee_flaked: false,
-    };
+    }
 
-    setIsLoading(true);
+    setIsLoading(true)
 
     postEvent(eventData)
       .then((newEventData) => {
@@ -64,9 +64,10 @@ export default function CreateEvent() {
         alert("Something went wrong creating the event Girly Pop!");
       })
       .finally(() => {
-        setIsLoading(false);
-      });
-  };
+
+        setIsLoading(false)
+      })
+  }
 
   if (isLoading) {
     return <LoadingUmbrella />;

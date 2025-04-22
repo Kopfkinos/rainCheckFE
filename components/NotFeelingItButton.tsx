@@ -1,3 +1,4 @@
+import { addFlake } from "@/utils/api-funcs"
 import React, { useState } from "react"
 import {
   Alert,
@@ -9,16 +10,29 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native"
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen"
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context"
 
-export default function NotFeelingItButton() {
+export default function NotFeelingItButton({
+  userFlaked,
+  setUserFlaked,
+  event_id,
+  role,
+  invited,
+  otherUserFlaked,
+  setBothFlaked,
+}) {
   const [modalVisible, setModalVisible] = useState(false)
-  const [confirmedFlake, setconfirmedFlake] = useState(false)
-
-  // Pass in a piece of state you can update when the button is confirmed to be pressed e.g. flakedConfirmed
 
   const confirmClick = () => {
-    setconfirmedFlake(!confirmedFlake)
+    if (otherUserFlaked) {
+      setBothFlaked(true)
+    }
+    setUserFlaked(!userFlaked)
+    addFlake(event_id, role)
     // func to update the event with the {invitee/host flaked}
   }
 
@@ -36,31 +50,33 @@ export default function NotFeelingItButton() {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              {confirmedFlake ? (
-                <View>
+              {userFlaked ? (
+                <View style={styles.modalButtonsWrapper}>
                   <Text style={styles.modalText}>{`Your secret is safe with us girly pop!`}</Text>
                   <Image source={require("../assets/images/shhh.gif")} style={styles.shhgif} />
                   <Pressable
-                    style={[styles.button, styles.dismiss]}
+                    style={[styles.modalButtons, styles.dismiss]}
                     onPress={() => setModalVisible(!modalVisible)}
                   >
-                    <Text style={styles.textStyle}>Okay, cool, thanks? </Text>
+                    <Text style={styles.flakeButtonText}>Phew, thanks! </Text>
                   </Pressable>
                 </View>
               ) : (
-                <View>
+                <View style={styles.modalButtonsWrapper}>
+                  <Text style={styles.modalHeader}>You sure, girl? </Text>
                   <Text style={styles.modalText}>
-                    {`You sure, girl? 
-                Don't worry, we won’t notify your friend unless they also hit the button.`}
+                    (Don't worry, we won’t notify your friend unless they also hit the button!)
                   </Text>
-                  <Pressable style={[styles.button, styles.confirm]} onPress={confirmClick}>
-                    <Text style={styles.textStyle}>Yes diva needs a lie down!!!</Text>
+                  <Pressable style={[styles.modalButtons, styles.confirm]} onPress={confirmClick}>
+                    <Text style={styles.modalButtonsText}>Yes!! Diva needs a lie down!!!</Text>
                   </Pressable>
                   <Pressable
-                    style={[styles.button, styles.dismiss]}
+                    style={[styles.modalButtons, styles.dismiss]}
                     onPress={() => setModalVisible(!modalVisible)}
                   >
-                    <Text style={styles.textStyle}>I'm not sure! Take me back</Text>
+                    <Text style={styles.modalButtonsText}>
+                      Uhh, wait, I'm not sure! Take me back!
+                    </Text>
                   </Pressable>
                 </View>
               )}
@@ -68,14 +84,19 @@ export default function NotFeelingItButton() {
           </View>
         </Modal>
         <Pressable
-          style={[styles.button, styles.buttonOpen]}
-          disabled={confirmedFlake}
+          style={[styles.button, userFlaked && { backgroundColor: "#bdabfd" }]}
+          disabled={userFlaked}
           onPress={() => setModalVisible(true)}
         >
-          {confirmedFlake ? (
-            <Text style={styles.textStyle}>You're not feeling it!</Text>
+          {userFlaked ? (
+            <View>
+              <Text style={styles.flakeButtonText}>You're Not Feeling It!</Text>
+              <Text style={[styles.flakeButtonText, { fontSize: 12, color: "#475046" }]}>
+                (We'll let you know if you're friend feels the same...)
+              </Text>
+            </View>
           ) : (
-            <Text style={styles.textStyle}>Not Feelin' It</Text>
+            <Text style={styles.flakeButtonText}>I'm Not Feelin' It</Text>
           )}
         </Pressable>
       </SafeAreaView>
@@ -89,12 +110,30 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  button: {
+    backgroundColor: "red",
+    borderRadius: 20,
+    padding: 5,
+    elevation: 2,
+    height: hp("20%"),
+    width: wp("60%"),
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  flakeButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 30,
+  },
+  bold: { fontWeight: "bold" },
+  italic: { fontStyle: "italic" },
+  underline: { textDecorationLine: "underline" },
   modalView: {
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -102,15 +141,14 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: "red",
+  modalButtonsWrapper: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: hp("20%"),
+    width: wp("60%"),
   },
   confirm: {
     backgroundColor: "green",
@@ -118,17 +156,32 @@ const styles = StyleSheet.create({
   dismiss: {
     backgroundColor: "red",
   },
-  textStyle: {
+  modalButtonsText: {
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
+  },
+  modalHeader: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontWeight: "bold",
   },
   modalText: {
     marginBottom: 15,
     textAlign: "center",
   },
+  modalButtons: {
+    borderRadius: 20,
+    elevation: 2,
+    height: hp("5%"),
+    marginBottom: 10,
+    width: wp("60%"),
+    justifyContent: "center",
+    alignItems: "center",
+  },
   shhgif: {
     height: 50,
     width: 50,
+    alignSelf: "center",
   },
 })
