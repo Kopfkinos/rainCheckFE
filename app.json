@@ -4,7 +4,7 @@
     "slug": "rainCheckFE",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/images/rainCheck-logo.png",
+    "icon": "./assets/images/app-icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
