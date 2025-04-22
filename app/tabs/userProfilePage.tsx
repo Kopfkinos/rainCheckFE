@@ -19,11 +19,11 @@ import { SafeAreaView } from "react-native-safe-area-context"
 
 import { getEvents } from "@/utils/api-funcs"
 
-import { UserContext } from "../contexts/UserContext"
+import { UserContext } from "../../contexts/UserContext"
 
-import useFetch from "../utils/useFetch"
+import useFetch from "../../utils/useFetch"
 
-import LoadingUmbrella from "../components/LoadingUmbrella"
+import LoadingUmbrella from "../../components/LoadingUmbrella"
 import EventsList from "@/components/EventsList"
 
 interface Event {
@@ -87,12 +87,12 @@ export default function UserProfilePage() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image style={styles.logo} source={require("../assets/images/rainCheck-logo.png")} />
+      <Image style={styles.logo} source={require("../../assets/images/rainCheck-logo.png")} />
       <Text style={styles.text}>Hi {user}!👋</Text>
       <Text style={styles.text}>Events You're Hosting...</Text>
       <EventsList events={events} loading={loading} refetch={refetch} />
 
-      <Link href="/events/createEvent" asChild>
+      <Link href="tabs/events/createEvent" asChild>
         <TouchableOpacity style={styles.createButton}>
           <Text style={styles.createButtonText}>Create Event</Text>
         </TouchableOpacity>

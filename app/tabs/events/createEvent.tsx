@@ -3,12 +3,12 @@ import { useState, useContext } from "react"
 import { Redirect, Link } from "expo-router"
 import { useRouter } from "expo-router"
 import { postEvent } from "@/utils/api-funcs"
-import { UserContext } from "../../contexts/UserContext"
+import { UserContext } from "../../../contexts/UserContext"
 
-import LoadingUmbrella from "../../components/LoadingUmbrella"
+import LoadingUmbrella from "../../../components/LoadingUmbrella"
 // POST /users/:username/events
-import DatePickerComponent from "../../components/DatePicker"
-import TimePickerComponent from "../../components/TimePicker"
+import DatePickerComponent from "../../../components/DatePicker"
+import TimePickerComponent from "../../../components/TimePicker"
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -58,7 +58,7 @@ export default function CreateEvent() {
     postEvent(eventData)
       .then((newEventData) => {
         router.push({
-          pathname: `/events/${newEventData.event_id}` as const,
+          pathname: `/tabs/events/${newEventData.event_id}` as const,
           // 'as const' is saying 'yes TS, this is a real path'
         } as any)
       })
@@ -77,7 +77,7 @@ export default function CreateEvent() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoWrapper}>
-        <Image source={require("../../assets/images/rainCheck-logo.png")} style={styles.logo} />
+        <Image source={require("../../../assets/images/rainCheck-logo.png")} style={styles.logo} />
       </View>
       <View>
         <TextInput

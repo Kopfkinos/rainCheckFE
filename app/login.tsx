@@ -56,7 +56,7 @@ export default function Login() {
 
       if (matchedUser) {
         setUser(data.username)
-        router.push("/userProfilePage")
+        router.push("/tabs")
       } else {
         Alert.alert("Login failed. Incorrect username or password.")
         // Need to change this to Alert.alert later to work on iPhone and Android

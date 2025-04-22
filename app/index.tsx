@@ -1,18 +1,14 @@
 import { View } from "react-native"
-import { useEffect, useState, lazy } from "react"
-
-import Login from "./login"
+import { useContext } from "react"
+import { Redirect } from "expo-router"
+import { UserContext } from "@/contexts/UserContext"
 
 export default function Index() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Login />
-    </View>
-  )
+  const { user, setUser } = useContext(UserContext)
+
+  if (user) {
+    return <Redirect href="/tabs" />
+  }
+
+  return <Redirect href="/login" />
 }

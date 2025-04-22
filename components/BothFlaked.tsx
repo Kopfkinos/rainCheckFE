@@ -6,7 +6,7 @@ export default function BothFlaked() {
       <Image source={require("../assets/images/rainCheck-logo.png")} style={styles.logo} />
       <Image source={require("../assets/images/both-flaked.gif")} style={styles.gif} />
       <Text style={styles.header}> You're both not feeling it!</Text>
-      <Text> Great minds think alike... </Text>
+      <Text> Great minds flake alike... </Text>
     </View>
   )
 }

@@ -7,7 +7,7 @@ export default function EventsList({ events, refetch, loading }) {
       data={events}
       keyExtractor={(item) => item.event_id.toString()}
       renderItem={({ item }) => (
-        <Link href={`/events/${item.event_id}`} asChild>
+        <Link href={`tabs/events/${item.event_id}`} asChild>
           <TouchableOpacity style={styles.eventItem}>
             <Text style={styles.eventTitle}>{item.title}</Text>
             <Text>{new Date(item.date).toLocaleString()}</Text>

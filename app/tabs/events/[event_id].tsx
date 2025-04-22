@@ -1,19 +1,19 @@
 import { Text, View, Image, StyleSheet, TextInput, TouchableOpacity } from "react-native"
 import { useLocalSearchParams, Redirect } from "expo-router"
 import { useEffect, useState, useContext } from "react"
-import { getEventByEventID } from "../../utils/api-funcs.js"
+import { getEventByEventID } from "../../../utils/api-funcs"
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen"
-import { getUsers, addInvitee } from "../../utils/api-funcs.js"
-import { UserContext } from "../../contexts/UserContext"
+
+import { UserContext } from "../../../contexts/UserContext.jsx"
 import { SafeAreaView } from "react-native-safe-area-context"
-import LoadingUmbrella from "../../components/LoadingUmbrella"
-import NotFeelingItButton from "../../components/NotFeelingItButton"
-import BothFlaked from "../../components/BothFlaked"
-import EventDetails from "../../components/EventDetails"
-import InviteFriendButton from "../../components/InviteFriendButton"
+import LoadingUmbrella from "../../../components/LoadingUmbrella"
+import NotFeelingItButton from "../../../components/NotFeelingItButton"
+import BothFlaked from "../../../components/BothFlaked"
+import EventDetails from "../../../components/EventDetails"
+import InviteFriendButton from "../../../components/InviteFriendButton"
 
 interface Event {
   event_id: number
@@ -57,6 +57,9 @@ export default function EventPage() {
   })
 
   useEffect(() => {
+    setBothFlaked(false)
+    setUserFlaked(false)
+    setOtherUserFlaked(false)
     if (bothFlaked) {
       return
     }
@@ -91,9 +94,7 @@ export default function EventPage() {
       }, 1500)
       return () => clearTimeout(timer)
     })
-  }, [bothFlaked])
-
-  console.log(event)
+  }, [event_id])
 
   if (isLoading) {
     return (
@@ -108,7 +109,7 @@ export default function EventPage() {
   } else if (!isLoading && !bothFlaked) {
     return (
       <View style={styles.logoWrapper}>
-        <Image source={require("../../assets/images/rainCheck-logo.png")} style={styles.logo} />
+        <Image source={require("../../../assets/images/rainCheck-logo.png")} style={styles.logo} />
         <View />
         <EventDetails event={event} />
         {!event.invited ? (
