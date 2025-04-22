@@ -96,37 +96,6 @@ export default function EventPage() {
     })
   }, [bothFlaked])
 
-  /* const handleSubmit = () => {
-    if (invitee === user) {
-      setInviteButtonMsg("We're all for self-love, but come on now...")
-      setShowInviteButtonMsg(true)
-      return
-    }
-    setIsLoading(true)
-    getUsers().then((users) => {
-      // use a .find instead?
-      const userFound = users.some((user) => {
-        return user.username === invitee
-      })
-      if (userFound) {
-        addInvitee(event_id, invitee)
-          .then((updatedEvent) => {
-            setEvent(updatedEvent)
-            setInviteButtonMsg(`${invitee} has been invited to the event!`)
-            setShowInviteButtonMsg(true)
-          })
-          .catch((err) => {
-            setInviteButtonMsg("There was an error inviting your friend.")
-            setShowInviteButtonMsg(true)
-          })
-      } else {
-        setInviteButtonMsg(`That user doesn't exist...`)
-        setShowInviteButtonMsg(true)
-      }
-      setIsLoading(false)
-    })
-  } */
-
   if (isLoading) {
     return (
       <SafeAreaView style={styles.centered}>
