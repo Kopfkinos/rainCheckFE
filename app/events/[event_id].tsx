@@ -32,11 +32,8 @@ export default function EventPage() {
   //An Expo Router Hook, allowing access to the query params
   const { user } = useContext(UserContext)
   const [role, setRole] = useState("")
-  const [invitee, setInvitee] = useState("")
 
   const [isLoading, setIsLoading] = useState(true)
-  const [inviteButtonMsg, setInviteButtonMsg] = useState("")
-  const [showInviteButtonMsg, setShowInviteButtonMsg] = useState(false)
 
   const [userFlaked, setUserFlaked] = useState(false)
   const [otherUserFlaked, setOtherUserFlaked] = useState(false)
@@ -95,6 +92,8 @@ export default function EventPage() {
       return () => clearTimeout(timer)
     })
   }, [bothFlaked])
+
+  console.log(event)
 
   if (isLoading) {
     return (
