@@ -100,7 +100,7 @@ export default function UserProfilePage() {
           >
     <SafeAreaView style={styles.container}>
       <Image style={styles.logo} source={require("../assets/images/rainCheck-logo.png")} />
-      <Text style={styles.textTitle}>Hi {user}!👋</Text>
+      <Text style={styles.textTitle}>Hi {user}! 👋</Text>
       <Text style={styles.text}>Events You're Hosting...</Text>
       <EventsList style={styles.eventList} events={events} loading={loading} refetch={refetch} />
       <Link href="/events/createEvent" asChild>
@@ -118,8 +118,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     padding: 0,
     margin: 0,
   },
@@ -145,7 +143,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
+    backgroundColor: "rgba(255, 255, 255, 0.47)", 
+  }, 
   logo: {
     height: hp("40%"),
     width: wp("85%"),
