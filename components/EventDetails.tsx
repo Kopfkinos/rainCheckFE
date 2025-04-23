@@ -36,7 +36,7 @@ export default function EventDetails({ event }) {
               ? { uri: event_img_url }
               : require("../assets/images/rainCheck-logo.png")
           }
-          resizeMode="cover"
+          resizeMode="contain"
         />
       </View>
       <Text style={styles.heading}>{title}</Text>
@@ -80,6 +80,6 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: "#6675D7",
     marginBottom: 10,
-    resizeMode: "cover", // Add this
+    resizeMode: "contain", // Add this
   },
 });
