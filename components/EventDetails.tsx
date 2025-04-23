@@ -35,20 +35,19 @@ export default function EventDetails({ event }) {
         />
       </View>
       <Text style={styles.heading}>{title}</Text>
-      <Text style={styles.italic}>📆 Date: </Text>{" "}
-      <Text style={styles.bold}>{formattedDate}</Text>
-      <Text style={styles.italic}>🕐Time:</Text>{" "}
-      <Text style={styles.bold}>{formatedTime}</Text>
-      <Text style={styles.italic}>📍Location: </Text>{" "}
-      <Text style={styles.bold}>{location}</Text>
-      <Text style={styles.italic}>📝Description: </Text>{" "}
+
+      <Text style={styles.italic}>📆 Date: </Text> <Text style={styles.bold}>{formattedDate}</Text>
+      <Text style={styles.italic}>🕐Time:</Text> <Text style={styles.bold}>{formatedTime}</Text>
+      <Text style={styles.italic}>📍Location: </Text> <Text style={styles.bold}>{location}</Text>
+      <Text style={styles.italic}>📝Description: </Text>
+
       <Text style={styles.bold}>{description}</Text>
       <Text style={styles.italic}>💁‍♀️Host: </Text>
       <Text style={styles.bold}>{created_by}</Text>
       {event.invited ? (
         <View>
           <Text style={styles.italic}>🙌Invited: </Text>
-          <Text style={styles.bold}>{invited}</Text>{" "}
+          <Text style={styles.bold}>{invited}</Text>
         </View>
       ) : null}
     </View>
@@ -68,12 +67,12 @@ const styles = StyleSheet.create({
   imageContainer: {},
   eventImage: {
     alignSelf: "center",
-    width: wp("75%"),
-    height: 150,
+    width: wp("85%"),
+    height: hp("25%"),
     borderRadius: 100 / 2,
     overflow: "hidden",
     borderWidth: 3,
-    borderColor: "#6675D7",
+    borderColor: "white",
     marginBottom: 10,
     resizeMode: "contain", // Add this
   },

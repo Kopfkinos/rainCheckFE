@@ -82,8 +82,8 @@ export default function NotFeelingItButton({
             </View>
           </View>
         </Modal>
-        <Pressable
-          style={[styles.button, userFlaked && { backgroundColor: "#6675D7" }]}
+        <TouchableOpacity
+          style={[styles.button, userFlaked && { backgroundColor: "#6675D7", borderRadius: 25 }]}
           disabled={userFlaked}
           onPress={() => setModalVisible(true)}
         >
@@ -95,9 +95,10 @@ export default function NotFeelingItButton({
               </Text>
             </View>
           ) : (
-            <Text style={styles.flakeButtonText}>I'm Not Feelin' It</Text>
+            <Text style={styles.flakeButtonText}>{` NOT 
+Feelin' It`}</Text>
           )}
-        </Pressable>
+        </TouchableOpacity>
       </SafeAreaView>
     </SafeAreaProvider>
   )
@@ -109,22 +110,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    marginTop: 10,
+    marginTop: 5,
     backgroundColor: "red",
-    borderRadius: 20,
-    elevation: 2,
-    height: hp("20%"),
-    width: wp("60%"),
+    borderRadius: 1000,
+    elevation: 5,
+    height: hp("34%"),
+    width: wp("74%"),
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 3,
+    borderColor: "black",
   },
   flakeButtonText: {
-    fontSize: 25,
+    fontSize: 35,
     padding: 5,
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
     justifyContent: "center",
+    textShadowColor: "black",
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 1,
   },
   flakeButtonTextSub: {
     textAlign: "center",
