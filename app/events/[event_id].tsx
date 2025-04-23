@@ -114,7 +114,7 @@ export default function EventPage() {
       </SafeAreaView>
     )
   } else if (bothFlaked) {
-    return <BothFlaked />
+    return <BothFlaked title={event.title} />
   } else if (!isLoading && !bothFlaked) {
     return (
       <View style={styles.logoWrapper}>
@@ -202,8 +202,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   heading: {
-    color: "#cc56ff",
-    fontSize: 24,
+    color: "#5B3EC6",
+    fontSize: 30,
     marginBottom: 20,
     alignSelf: "center",
   },
