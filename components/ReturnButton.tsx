@@ -8,20 +8,20 @@ import {
 export default function ReturnButton() {
 	const router = useRouter();
 
-	const handleSubmit = () => {
+	const handlePress = () => {
 		router.push("/userProfilePage");
 	};
 
 	return (
-		<TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-			<Text style={styles.submitButtonText}>Return to Your Events Page</Text>
+		<TouchableOpacity style={styles.returnButton} onPress={handlePress}>
+			<Text style={styles.returnButtonText}>🎉  Return to Your Events Page  🎉</Text>
 		</TouchableOpacity>
 	);
 }
 
 const styles = StyleSheet.create({
-	submitButton: {
-		backgroundColor: "#D97742",
+	returnButton: {
+		backgroundColor: "#6675d7",
 		paddingVertical: 12,
 		paddingHorizontal: 20,
 		borderRadius: 8,
@@ -31,10 +31,11 @@ const styles = StyleSheet.create({
 		marginTop: 50,
 		marginBottom: 15,
 	},
-	submitButtonText: {
+	returnButtonText: {
 		color: "white",
 		fontWeight: "bold",
-		fontSize: 16,
-    alignSelf: "center",
+		fontSize: 13.5,
+		textAlign: "center",
+    margin:3,
 	},
 });
