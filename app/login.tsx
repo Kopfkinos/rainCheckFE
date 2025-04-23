@@ -190,12 +190,8 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 20,
     fontWeight: "bold",
-<<<<<<< HEAD
-    color: "#5B3EC6",
-=======
     color: "#7756FF",
     fontFamily: "SenExtraBold",
->>>>>>> 85869c9 (add styling using imported google fonts to all three pages)
   },
   container: {
     width: "100%",
