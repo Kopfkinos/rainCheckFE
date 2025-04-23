@@ -37,13 +37,12 @@ export default function NotFeelingItButton({
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.centeredView}>
+      <SafeAreaView>
         <Modal
-          animationType="fade"
+          animationType="slide"
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
-            Alert.alert("Modal has been closed.")
             setModalVisible(!modalVisible)
           }}
         >
@@ -57,7 +56,7 @@ export default function NotFeelingItButton({
                     style={[styles.modalButtons, styles.dismiss]}
                     onPress={() => setModalVisible(!modalVisible)}
                   >
-                    <Text style={styles.flakeButtonText}>Phew, thanks! </Text>
+                    <Text style={styles.modalButtonsText}>Phew, thanks! </Text>
                   </Pressable>
                 </View>
               ) : (
@@ -67,14 +66,16 @@ export default function NotFeelingItButton({
                     (Don't worry, we won’t notify your friend unless they also hit the button!)
                   </Text>
                   <Pressable style={[styles.modalButtons, styles.confirm]} onPress={confirmClick}>
-                    <Text style={styles.modalButtonsText}>Yes!! Diva needs a lie down!!!</Text>
+                    <Text style={styles.modalButtonsText}>{`Yes!
+This diva needs a lie down!`}</Text>
                   </Pressable>
                   <Pressable
                     style={[styles.modalButtons, styles.dismiss]}
                     onPress={() => setModalVisible(!modalVisible)}
                   >
                     <Text style={styles.modalButtonsText}>
-                      Uhh, wait, I'm not sure! Take me back!
+                      {`Uhhh, wait, I'm not sure! 
+Take me back!`}
                     </Text>
                   </Pressable>
                 </View>
@@ -82,6 +83,7 @@ export default function NotFeelingItButton({
             </View>
           </View>
         </Modal>
+
         <TouchableOpacity
           style={[styles.button, userFlaked && { backgroundColor: "#6675D7", borderRadius: 25 }]}
           disabled={userFlaked}
@@ -108,6 +110,7 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
   },
   button: {
     marginTop: 5,
@@ -154,12 +157,16 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     alignItems: "center",
     justifyContent: "center",
+    borderColor: "black",
+    borderWidth: 2,
   },
   modalButtonsWrapper: {
+    padding: 10,
+    marginTop: 10,
     alignItems: "center",
     justifyContent: "center",
-    height: hp("20%"),
-    width: wp("60%"),
+    height: "auto",
+    width: wp("70%"),
   },
   confirm: {
     backgroundColor: "green",
@@ -173,6 +180,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   modalHeader: {
+    fontSize: 20,
     marginBottom: 15,
     textAlign: "center",
     fontWeight: "bold",
@@ -180,11 +188,12 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+    fontSize: 17,
   },
   modalButtons: {
     borderRadius: 20,
     elevation: 2,
-    height: hp("5%"),
+    height: hp("10%"),
     marginBottom: 10,
     width: wp("60%"),
     justifyContent: "center",
