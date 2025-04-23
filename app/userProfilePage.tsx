@@ -101,9 +101,11 @@ export default function UserProfilePage() {
           >
     <SafeAreaView style={styles.container}>
       <Image style={styles.logo} source={require("../assets/images/rainCheck-logo.png")} />
+
       <Text style={styles.textTitle}>Hi {user}! 👋</Text>
       <Text style={styles.text}>Here are your events...</Text>
       <EventsList style={styles.eventList} events={events} loading={loading} refetch={refetch} />
+
       <Link href="/events/createEvent" asChild>
         <TouchableOpacity style={styles.createButton}>
           <Text style={styles.createButtonText}>Create Event</Text>

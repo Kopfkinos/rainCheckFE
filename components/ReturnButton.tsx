@@ -14,7 +14,7 @@ export default function ReturnButton() {
 
 	return (
 		<TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-			<Text style={styles.submitButtonText}>Return to User Page</Text>
+			<Text style={styles.submitButtonText}>Return to Your Events Page</Text>
 		</TouchableOpacity>
 	);
 }
