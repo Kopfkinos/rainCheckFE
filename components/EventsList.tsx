@@ -10,9 +10,9 @@ export default function EventsList({ events, refetch, loading }) {
         <Link href={`/events/${item.event_id}`} asChild>
           <TouchableOpacity style={styles.eventItem}>
             <Text style={styles.eventTitle}>{item.title}</Text>
-            <Text>{new Date(item.date).toLocaleString()}</Text>
-            <Text>{item.location}</Text>
-            <Text>{item.description}</Text>
+            <Text style={styles.eventText}>{`📆 ${new Date(item.date).toLocaleString("en-GB")}`}</Text>
+            <Text style={styles.eventText}>{`📍 ${item.location}`}</Text>
+            <Text style={styles.eventDescription}>{item.description}</Text>
           </TouchableOpacity>
         </Link>
       )}
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   eventItem: {
     padding: 25,
     marginBottom: 10,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "rgba(255, 255, 255, 0.89)",
     borderRadius: 8,
     shadowColor: "#000",
     shadowOffset: {
@@ -40,14 +40,27 @@ const styles = StyleSheet.create({
   },
   eventTitle: {
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 18,
+    color: "black",
+    marginBottom: 5,
+    fontFamily: "SenExtraBold",
+  },
+  eventText: {
+    fontWeight: "bold",
+    fontSize: 14,
+    color: "black",
+    fontFamily: "SenExtraBold",
+  },
+  eventDescription: {
+    marginTop: 3,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    fontSize: 14,
+    color: "black",
   },
   noEvent: {
     paddingTop: 20,
     textAlign: "center",
     color: "red",
-  },
-  eventsList: {
-    marginBottom: 50,
   },
 })

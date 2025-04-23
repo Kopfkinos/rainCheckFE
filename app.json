@@ -21,7 +21,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/images/rainCheck-logo.png"
+      "favicon": "./assets/images/rainCheck-logo.png"
     },
     "plugins": [
       "expo-router",

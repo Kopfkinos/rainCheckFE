@@ -1,12 +1,23 @@
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
-import { View, Text, StyleSheet, Alert, Image, TextInput, TouchableOpacity, ActivityIndicator, ImageBackground } from "react-native"
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  ActivityIndicator,
+  ImageBackground,
+} from "react-native"
 import { useState, useContext } from "react"
 import { getUsers } from "@/utils/api-funcs"
 import { UserContext } from "@/contexts/UserContext"
 import { useRouter, withLayoutContext } from "expo-router"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
-import { useFonts } from 'expo-font';
+
+import { useFonts } from "expo-font"
 
 import {
   widthPercentageToDP as wp,
@@ -20,7 +31,6 @@ type Inputs = {
 }
 
 export default function Login() {
-
   const {
     control,
     handleSubmit,
@@ -61,72 +71,72 @@ export default function Login() {
   }
 
   return (
-    // <SafeAreaView style={styles.container}>
-      <ImageBackground 
+    <SafeAreaView style={styles.container}>
+      <ImageBackground
         source={require("../assets/images/homepage-bg.jpg")}
         style={styles.backgroundImage}
       >
-      <View style={styles.overlay}>
-      <Image source={require("../assets/images/rainCheck-logo.png")} style={styles.logo} />
-      <Text style={styles.heading}>LOGIN</Text>
+        <View style={styles.overlay}>
+          <Image source={require("../assets/images/rainCheck-logo.png")} style={styles.logo} />
+          <Text style={styles.heading}>LOGIN</Text>
 
-        <View style={styles.inputWrapper}>
-          <Controller
-          control={control}
-            name="username"
-            rules={{ required: true }}
-            render={({ field: { onChange, value } }) => (
-              <TextInput
-                style={styles.input}
-                placeholder="Username"
-                onChangeText={onChange}
-                value={value}
-                autoCapitalize="none"
-                placeholderTextColor="#636363" 
-              />
-            )}
-          />
-
-          {errors.username && <Text style={styles.errorMessage}>Username is required</Text>}
-
-          <View style={{ position: "relative" }}>
+          <View style={styles.inputWrapper}>
             <Controller
-            control={control}
-            name="password"
-            rules={{ required: true }}
-            render={({ field: { onChange, value } }) => (
-              <TextInput
-              style={styles.input}
-              placeholder="Password"
-              onChangeText={onChange}
-              value={value}
-              secureTextEntry={!passwordVisible}
-              placeholderTextColor="#636363" 
+              control={control}
+              name="username"
+              rules={{ required: true }}
+              render={({ field: { onChange, value } }) => (
+                <TextInput
+                  style={styles.input}
+                  placeholder="Username"
+                  onChangeText={onChange}
+                  value={value}
+                  autoCapitalize="none"
+                  placeholderTextColor="#636363"
+                />
+              )}
             />
-            )}
-            />
-          <TouchableOpacity style={styles.eyeIcon} onPress={togglePasswordVisibility}>
-          <MaterialCommunityIcons
-            name={passwordVisible ? "eye-off" : "eye"}
-            size={24}
-            color="#aaa"
-            style={styles.eyeIcon}
-          />
-          </TouchableOpacity>
-          </View>
-          {errors.password && <Text style={styles.errorMessage}>Password is required</Text>}
 
-          <TouchableOpacity style={styles.submitButton} onPress={handleSubmit(onSubmit)}>
-          {isLoading ? (
-            <ActivityIndicator color="#fff" />
-          ) : (
-            <Text style={styles.submitButtonText}>Submit</Text>
-          )}
-          </TouchableOpacity>
+            {errors.username && <Text style={styles.errorMessage}>Username is required</Text>}
+
+            <View style={{ position: "relative" }}>
+              <Controller
+                control={control}
+                name="password"
+                rules={{ required: true }}
+                render={({ field: { onChange, value } }) => (
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Password"
+                    onChangeText={onChange}
+                    value={value}
+                    secureTextEntry={!passwordVisible}
+                    placeholderTextColor="#636363"
+                  />
+                )}
+              />
+              <TouchableOpacity style={styles.eyeIcon} onPress={togglePasswordVisibility}>
+                <MaterialCommunityIcons
+                  name={passwordVisible ? "eye-off" : "eye"}
+                  size={24}
+                  color="#aaa"
+                  style={styles.eyeIcon}
+                />
+              </TouchableOpacity>
+            </View>
+            {errors.password && <Text style={styles.errorMessage}>Password is required</Text>}
+
+            <TouchableOpacity style={styles.submitButton} onPress={handleSubmit(onSubmit)}>
+              {isLoading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text style={styles.submitButtonText}>Submit</Text>
+              )}
+            </TouchableOpacity>
+          </View>
         </View>
-        </View>
-        </ImageBackground>
-    // </SafeAreaView>
+      </ImageBackground>
+    </SafeAreaView>
   )
 }
 
@@ -181,6 +191,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "#7756FF",
+    fontFamily: "SenExtraBold",
   },
   container: {
     width: "100%",
@@ -193,7 +204,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   submitButton: {
-    backgroundColor: "#623dff",
+    backgroundColor: "#402B8B",
     paddingVertical: 14,
     borderRadius: 8,
     alignItems: "center",

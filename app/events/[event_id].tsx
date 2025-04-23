@@ -3,16 +3,17 @@ import { useLocalSearchParams, Redirect } from "expo-router";
 import { useEffect, useState, useContext } from "react";
 import { getEventByEventID } from "../../utils/api-funcs.js";
 import {
-	widthPercentageToDP as wp,
-	heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import { getUsers, addInvitee } from "../../utils/api-funcs.js";
-import { UserContext } from "../../contexts/UserContext";
-import { SafeAreaView } from "react-native-safe-area-context";
-import LoadingUmbrella from "../../components/LoadingUmbrella";
-import NotFeelingItButton from "../../components/NotFeelingItButton";
-import BothFlaked from "../../components/BothFlaked";
-import EventDetails from "../../components/EventDetails";
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen"
+import { getUsers, addInvitee } from "../../utils/api-funcs.js"
+import { UserContext } from "../../contexts/UserContext"
+import { SafeAreaView } from "react-native-safe-area-context"
+import LoadingUmbrella from "../../components/LoadingUmbrella"
+import NotFeelingItButton from "../../components/NotFeelingItButton"
+import BothFlaked from "../../components/BothFlaked"
+import EventDetails from "../../components/EventDetails"
+import InviteFriendButton from "../../components/InviteFriendButton"
 import ReturnButton from "@/components/ReturnButton";
 
 interface Event {
@@ -28,15 +29,13 @@ interface Event {
 }
 
 export default function EventPage() {
-	const { event_id } = useLocalSearchParams();
-	//An Expo Router Hook, allowing access to the query params
-	const { user } = useContext(UserContext);
-	const [role, setRole] = useState("");
-	const [invitee, setInvitee] = useState("");
 
-	const [isLoading, setIsLoading] = useState(true);
-	const [inviteButtonMsg, setInviteButtonMsg] = useState("");
-	const [showInviteButtonMsg, setShowInviteButtonMsg] = useState(false);
+  const { event_id } = useLocalSearchParams()
+  //An Expo Router Hook, allowing access to the query params
+  const { user } = useContext(UserContext)
+  const [role, setRole] = useState("")
+
+  const [isLoading, setIsLoading] = useState(true)
 
 	const [userFlaked, setUserFlaked] = useState(false);
 	const [otherUserFlaked, setOtherUserFlaked] = useState(false);
@@ -96,93 +95,47 @@ export default function EventPage() {
 		});
 	}, [bothFlaked]);
 
-	const handleSubmit = () => {
-		if (invitee === user) {
-			setInviteButtonMsg("We're all for self-love, but come on now...");
-			setShowInviteButtonMsg(true);
-			return;
-		}
-		setIsLoading(true);
-		getUsers().then((users) => {
-			// use a .find instead?
-			const userFound = users.some((user) => {
-				return user.username === invitee;
-			});
-			if (userFound) {
-				addInvitee(event_id, invitee)
-					.then((updatedEvent) => {
-						setEvent(updatedEvent);
-						setInviteButtonMsg(`${invitee} has been invited to the event!`);
-						setShowInviteButtonMsg(true);
-					})
-					.catch((err) => {
-						setInviteButtonMsg("There was an error inviting your friend.");
-						setShowInviteButtonMsg(true);
-					});
-			} else {
-				setInviteButtonMsg(`That user doesn't exist...`);
-				setShowInviteButtonMsg(true);
-			}
-			setIsLoading(false);
-		});
-	};
 
 	if (isLoading) {
 		return (
 			<SafeAreaView style={styles.centered}>
 				<LoadingUmbrella style={styles.lottie} />
 
-				<Text style={styles.loadingText}>Loading...</Text>
-			</SafeAreaView>
-		);
-	} else if (bothFlaked) {
-		return <BothFlaked />;
-	} else if (!isLoading && !bothFlaked) {
-		return (
-			<View style={styles.logoWrapper}>
+
+        <Text style={styles.loadingText}>Loading...</Text>
+      </SafeAreaView>
+    )
+  } else if (bothFlaked) {
+    return <BothFlaked />
+  } else if (!isLoading && !bothFlaked) {
+    return (
+      <View style={styles.logoWrapper}>
         <ScrollView contentContainerStyle={styles.scroll}>
-				<Image source={require("../../assets/images/rainCheck-logo.png")} style={styles.logo} />
-				<View />
-				<EventDetails event={event} />
-				{event.invited ? (
-					<View style={styles.flakeButton}>
-						<NotFeelingItButton
-							event_id={event_id}
-							role={role}
-							userFlaked={userFlaked}
-							setUserFlaked={setUserFlaked}
-							invitee={event.invited}
-							otherUserFlaked={otherUserFlaked}
-							setBothFlaked={setBothFlaked}
-						/>
-					</View>
-				) : (
-					<View style={styles.inviteSection}>
-						<Text style={styles.bold}> So, who're you inviting...?</Text>
-						<TextInput
-							style={styles.input}
-							placeholder="Your friend's name"
-							value={invitee}
-							onChangeText={setInvitee}
-							autoCapitalize="none"
-						/>
-						<TouchableOpacity
-							style={styles.submitButton}
-							onPress={handleSubmit}
-							disabled={invitee.length === 0}
-						>
-							<Text style={styles.submitButtonText}>Invite Friend</Text>
-						</TouchableOpacity>
-						{showInviteButtonMsg ? <Text> {inviteButtonMsg} </Text> : null}
-					</View>
-				)}
-				<View style={styles.returnButton}>
-					<ReturnButton />
-				</View>
+        <Image source={require("../../assets/images/rainCheck-logo.png")} style={styles.logo} />
+        <View />
+        <EventDetails event={event} />
+        {!event.invited ? (
+          <InviteFriendButton event_id={event_id} setEvent={setEvent} />
+        ) : (
+          <View style={styles.flakeButton}>
+            <NotFeelingItButton
+              event_id={event_id}
+              role={role}
+              userFlaked={userFlaked}
+              setUserFlaked={setUserFlaked}
+              otherUserFlaked={otherUserFlaked}
+              setBothFlaked={setBothFlaked}
+            />
+          </View>
+        )}
+        	<View style={styles.returnButton}>
+					  <ReturnButton />
+				  </View>
         </ScrollView>
-			</View>
-		);
-	}
+      </View>
+    )
+  }
+
 }
 
 const styles = StyleSheet.create({

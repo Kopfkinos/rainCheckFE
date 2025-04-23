@@ -83,14 +83,14 @@ export default function NotFeelingItButton({
           </View>
         </Modal>
         <Pressable
-          style={[styles.button, userFlaked && { backgroundColor: "#bdabfd" }]}
+          style={[styles.button, userFlaked && { backgroundColor: "#6675D7" }]}
           disabled={userFlaked}
           onPress={() => setModalVisible(true)}
         >
           {userFlaked ? (
             <View>
               <Text style={styles.flakeButtonText}>You're Not Feeling It!</Text>
-              <Text style={[styles.flakeButtonText, { fontSize: 12, color: "#475046" }]}>
+              <Text style={[styles.flakeButtonTextSub]}>
                 (We'll let you know if you're friend feels the same...)
               </Text>
             </View>
@@ -119,9 +119,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   flakeButtonText: {
+    fontSize: 25,
+    padding: 5,
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
+    justifyContent: "center",
+  },
+  flakeButtonTextSub: {
+    textAlign: "center",
+    fontSize: 15,
+    color: "white",
   },
   bold: { fontWeight: "bold" },
   italic: { fontStyle: "italic" },

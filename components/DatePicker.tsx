@@ -66,7 +66,7 @@ export const IOSDateTimePicker = ({
 
 const styles = {
   button: {
-    backgroundColor: "#623dff",
+    backgroundColor: "#5B3EC6",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 8,
