@@ -20,7 +20,10 @@ export default function EventDetails({ event }) {
   return (
     <View>
       <View style={styles.imageContainer}>
-        <Image style={styles.eventImage} source={{ uri: event_img_url }} />
+        <Image
+          style={styles.eventImage}
+          source={event_img_url ? { uri: event_img_url } : require("../assets/images/app-icon.png")}
+        />
       </View>
       <Text style={styles.heading}>{title}</Text>
       <Text style={styles.italic}>📆 Date: </Text> <Text style={styles.bold}>{formattedDate}</Text>
@@ -32,7 +35,7 @@ export default function EventDetails({ event }) {
       <Text style={styles.bold}>{created_by}</Text>
       {event.invited ? (
         <View>
-          <Text style={styles.italic}>💁‍♀️Invited: </Text>
+          <Text style={styles.italic}>🙌Invited: </Text>
           <Text style={styles.bold}>{invited}</Text>{" "}
         </View>
       ) : null}
