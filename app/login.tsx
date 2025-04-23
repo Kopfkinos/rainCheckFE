@@ -71,7 +71,6 @@ export default function Login() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
       <ImageBackground
         source={require("../assets/images/homepage-bg.jpg")}
         style={styles.backgroundImage}
@@ -136,7 +135,6 @@ export default function Login() {
           </View>
         </View>
       </ImageBackground>
-    </SafeAreaView>
   )
 }
 
