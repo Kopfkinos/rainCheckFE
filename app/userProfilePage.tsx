@@ -51,12 +51,6 @@ export default function UserProfilePage() {
   // Memoize the fetch function
   const fetchEvents = useCallback(() => getEvents(user), [user])
 
-  const [fontsLoaded] = useFonts({
-    Bestime: require("../assets/fonts/Bestime.ttf"),
-    SenMedium: require("../assets/fonts/SenMedium.ttf"),
-    SenExtraBold: require("../assets/fonts/SenExtraBold.ttf"),
-  })
-
   const {
     data: events,
     loading: fetchLoading,
@@ -73,6 +67,12 @@ export default function UserProfilePage() {
 
     return () => clearTimeout(timer)
   }, [])
+
+  const [fontsLoaded] = useFonts({
+    Bestime: require("../assets/fonts/Bestime.ttf"),
+    SenMedium: require("../assets/fonts/SenMedium.ttf"),
+    SenExtraBold: require("../assets/fonts/SenExtraBold.ttf"),
+  })
 
   const loading = fetchLoading || showLoading
 
