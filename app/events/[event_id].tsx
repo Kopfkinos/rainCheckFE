@@ -56,7 +56,7 @@ export default function EventPage() {
     title: "",
     description: "",
     date: new Date(),
-    // 2025-05-17T19:00:00.000Z
+    time: "",
     location: "",
     created_by: "",
     invited: "",
