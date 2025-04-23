@@ -1,4 +1,12 @@
-import { Text, View, TextInput, Button, Image, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  Button,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { useState, useContext } from "react";
 import { Redirect, Link } from "expo-router";
 import { useRouter } from "expo-router";
@@ -119,7 +127,9 @@ export default function CreateEvent() {
           onChangeText={setDescription}
           multiline={true}
         />
-        <Button title="Submit" onPress={handleSubmit} />
+        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+          <Text style={styles.submitButtonText}>Submit</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -148,6 +158,21 @@ const styles = StyleSheet.create({
     padding: wp("2.5%"),
     borderRadius: 5,
     borderColor: "#ddd",
+    boxShadow: "10px 4px 50px rgba(0, 0, 0, 0.1)",
+  },
+  submitButton: {
+    backgroundColor: "#402B8B",
+    paddingVertical: 14,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 20,
+    alignSelf: "center",
+    width: wp("70%"),
+  },
+  submitButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
     boxShadow: "10px 4px 50px rgba(0, 0, 0, 0.1)",
   },
 });
