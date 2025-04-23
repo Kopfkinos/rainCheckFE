@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   SectionList,
+  ImageBackground,
 } from "react-native"
 
 import { Redirect, Link } from "expo-router"
@@ -25,6 +26,8 @@ import useFetch from "../utils/useFetch"
 
 import LoadingUmbrella from "../components/LoadingUmbrella"
 import EventsList from "@/components/EventsList"
+
+import { useFonts } from "expo-font"
 
 interface Event {
   event_id: number
@@ -47,6 +50,12 @@ export default function UserProfilePage() {
 
   // Memoize the fetch function
   const fetchEvents = useCallback(() => getEvents(user), [user])
+
+  const [fontsLoaded] = useFonts({
+    Bestime: require("../assets/fonts/Bestime.ttf"),
+    SenMedium: require("../assets/fonts/SenMedium.ttf"),
+    SenExtraBold: require("../assets/fonts/SenExtraBold.ttf"),
+  })
 
   const {
     data: events,
@@ -86,22 +95,41 @@ export default function UserProfilePage() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Image style={styles.logo} source={require("../assets/images/rainCheck-logo.png")} />
-      <Text style={styles.text}>Hi {user}!👋</Text>
-      <Text style={styles.text}>Events You're Hosting...</Text>
-      <EventsList events={events} loading={loading} refetch={refetch} />
+    <ImageBackground
+      source={require("../assets/images/userProfilePage-bg.jpg")}
+      style={styles.backgroundImage}
+    >
+      <SafeAreaView style={styles.container}>
+        <Image style={styles.logo} source={require("../assets/images/rainCheck-logo.png")} />
 
-      <Link href="/events/createEvent" asChild>
-        <TouchableOpacity style={styles.createButton}>
-          <Text style={styles.createButtonText}>Create Event</Text>
-        </TouchableOpacity>
-      </Link>
-    </SafeAreaView>
+        <Text style={styles.textTitle}>Hi {user}! 👋</Text>
+        <Text style={styles.text}>Here are your events...</Text>
+        <EventsList
+          style={styles.eventList}
+          user={user}
+          events={events}
+          loading={loading}
+          refetch={refetch}
+        />
+
+        <Link href="/events/createEvent" asChild>
+          <TouchableOpacity style={styles.createButton}>
+            <Text style={styles.createButtonText}>Create Event</Text>
+          </TouchableOpacity>
+        </Link>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    width: "100%",
+    height: "100%",
+    flex: 1,
+    padding: 0,
+    margin: 0,
+  },
   loadingCard: {
     backgroundColor: "#fff",
     padding: 24,
@@ -123,43 +151,42 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    // paddingTop: 150,
-    // paddingBottom: 200,
-    backgroundColor: "#FAF9F6",
     alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
   },
   logo: {
     height: hp("40%"),
     width: wp("85%"),
     resizeMode: "contain",
-    marginBottom: -80,
+    marginBottom: -95,
+    marginTop: -100,
   },
-  text: {
-    fontSize: 20,
+  textTitle: {
+    fontSize: 30,
     textAlign: "center",
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 15,
+    color: "#fff",
+    fontFamily: "Bestime",
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
+    textShadowOffset: { width: 3, height: 1 },
+    textShadowRadius: 2,
+  },
+  text: {
+    fontSize: 23,
+    textAlign: "center",
+    fontWeight: "bold",
+    marginBottom: 15,
+    color: "#fff",
+    fontFamily: "SenExtraBold",
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
+    textShadowOffset: { width: 3, height: 1 },
+    textShadowRadius: 2,
   },
   noEvent: {
     paddingTop: 20,
     textAlign: "center",
     color: "red",
-  },
-  viewPastEventsButton: {
-    backgroundColor: "#475569",
-    width: wp("50"),
-    height: 50,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    alignSelf: "center",
-    marginVertical: 10,
-  },
-  viewPastEventsButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 16,
-    alignSelf: "center",
   },
   createButton: {
     backgroundColor: "#402B8B",
@@ -179,7 +206,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   input: {
-    /* what is this being used for? */ height: hp("7%"),
+    /* what is this being used for? */
+    height: hp("7%"),
     width: "100%",
     marginVertical: hp("1%"),
     borderWidth: 1,
@@ -207,16 +235,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 3,
-  },
-  eventTitle: {
-    fontWeight: "bold",
-    fontSize: 18,
-  },
-  eventDescription: {
-    marginTop: 5,
-    fontStyle: "italic",
-    fontWeight: "bold",
-    fontSize: 14,
   },
   eventsList: {
     marginBottom: 10,

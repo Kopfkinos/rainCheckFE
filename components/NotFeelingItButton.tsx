@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
+    marginTop: 10,
     backgroundColor: "red",
     borderRadius: 20,
     elevation: 2,
