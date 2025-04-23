@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+
 import { useState, useContext } from "react";
 import { Redirect, Link } from "expo-router";
 import { useRouter } from "expo-router";
@@ -25,14 +26,15 @@ import {
 import "react-datepicker/dist/react-datepicker.css"; // Web app calendar style
 import { SafeAreaView } from "react-native-safe-area-context";
 import { isAbsolute } from "path";
-import { time } from "console";
 
 export default function CreateEvent() {
   // useState here
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [date, setDate] = useState(new Date());
-  // const [time, setTime] = useState("");
+
+  const [time, setTime] = useState(new Date());
+
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const { user, setUser } = useContext(UserContext);
@@ -58,9 +60,10 @@ export default function CreateEvent() {
     const eventData = {
       title,
       description,
-      date: formattedDate,
-      time: formattedTime,
-      //variable declared here
+      date: date.toISOString().split("T")[0], // YYYY-MM-DD
+      time: time.toTimeString().slice(0, 8), // gets "HH:MM:SS"
+
+
       location,
       created_by: user,
       invited: null,
@@ -160,6 +163,7 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
     boxShadow: "10px 4px 50px rgba(0, 0, 0, 0.1)",
   },
+
   submitButton: {
     backgroundColor: "#402B8B",
     paddingVertical: 14,
