@@ -54,6 +54,7 @@ export default function UserProfilePage() {
   const [fontsLoaded] = useFonts({
     Bestime: require("../assets/fonts/Bestime.ttf"),
     SenMedium: require("../assets/fonts/SenMedium.ttf"),
+    SenExtraBold: require("../assets/fonts/SenExtraBold.ttf"),
   })
 
   const {
@@ -101,7 +102,7 @@ export default function UserProfilePage() {
     <SafeAreaView style={styles.container}>
       <Image style={styles.logo} source={require("../assets/images/rainCheck-logo.png")} />
       <Text style={styles.textTitle}>Hi {user}! 👋</Text>
-      <Text style={styles.text}>Events You're Hosting...</Text>
+      <Text style={styles.text}>Here are your events...</Text>
       <EventsList style={styles.eventList} events={events} loading={loading} refetch={refetch} />
       <Link href="/events/createEvent" asChild>
         <TouchableOpacity style={styles.createButton}>
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.47)", 
+    backgroundColor: "rgba(255, 255, 255, 0.15)", 
   }, 
   logo: {
     height: hp("40%"),
@@ -159,14 +160,20 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     color: "#fff",
     fontFamily: "Bestime",
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 3, height: 1 },
+    textShadowRadius: 2,
   },
   text: {
-    fontSize: 20,
+    fontSize: 23,
     textAlign: "center",
     fontWeight: "bold",
     marginBottom: 15,
     color: "#fff",
-    fontFamily: "SenMedium",
+    fontFamily: "SenExtraBold",
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 3, height: 1 },
+    textShadowRadius: 2,
   },
   noEvent: {
     paddingTop: 20,
