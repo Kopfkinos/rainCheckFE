@@ -13,6 +13,7 @@ import TimePickerComponent from "../../components/TimePicker"
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
+
 } from "react-native-responsive-screen"
 
 import "react-datepicker/dist/react-datepicker.css" // Web app calendar style
@@ -54,7 +55,7 @@ export default function CreateEvent() {
     const eventData = {
       title,
       description,
-      date: date.toISOString().split("T")[0], // YYYY-MM-DD
+      date: date.toISOString().split("T")[0].split("-").reverse().join("-"), // YYYY-MM-DD
       time: time.toTimeString().slice(0, 8), // gets "HH:MM:SS"
       event_img_url,
       location,
@@ -181,3 +182,4 @@ const styles = StyleSheet.create({
     marginTop: -20,
   },
 })
+
