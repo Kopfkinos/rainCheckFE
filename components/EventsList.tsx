@@ -1,34 +1,46 @@
-import { FlatList, Text, TouchableOpacity, StyleSheet } from "react-native"
-import { Link } from "expo-router"
+import { FlatList, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Link } from "expo-router";
 
 export default function EventsList({ user, events, refetch, loading }) {
   return (
     <FlatList
       data={events}
       keyExtractor={(item) => item.event_id.toString()}
-      renderItem={({ item }) => (
-        <Link href={`/events/${item.event_id}`} asChild>
-          <TouchableOpacity style={styles.eventItem}>
-            <Text style={styles.eventTitle}>{item.title}</Text>
-            <Text style={styles.eventText}>{`📆 ${new Date(item.date).toLocaleString(
-              "en-GB"
-            )}`}</Text>
-            <Text style={styles.eventText}>{`📍 ${item.location}`}</Text>
-            <Text style={styles.eventDescription}>{`🗒️ ${item.description}`}</Text>
+      renderItem={({ item }) => {
+        const formattedDate = new Date(item.date).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        });
+        const formattedTime = item.time?.slice(0, 5);
 
-            {user === item.created_by ? (
-              <Text>{`🫴 You invited ${item.invited}`}</Text>
-            ) : (
-              <Text>{`🙌 ${item.created_by} invited you`}</Text>
-            )}
-          </TouchableOpacity>
-        </Link>
-      )}
-      ListEmptyComponent={<Text style={styles.noEvent}>No events found...</Text>}
+        return (
+          <Link href={`/events/${item.event_id}`} asChild>
+            <TouchableOpacity style={styles.eventItem}>
+              <Text style={styles.eventTitle}>{item.title}</Text>
+              <Text style={styles.eventText}>{`📆 ${formattedDate}`}</Text>
+              <Text style={styles.eventText}>{`🕛 ${formattedTime}`}</Text>
+              <Text style={styles.eventText}>{`📍 ${item.location}`}</Text>
+              <Text
+                style={styles.eventDescription}
+              >{`🗒️ ${item.description}`}</Text>
+
+              {user === item.created_by ? (
+                <Text>{`💁‍♀️ You invited ${item.invited}`}</Text>
+              ) : (
+                <Text>{`💁‍♀️ ${item.created_by} invited you`}</Text>
+              )}
+            </TouchableOpacity>
+          </Link>
+        );
+      }}
+      ListEmptyComponent={
+        <Text style={styles.noEvent}>No events found...</Text>
+      }
       onRefresh={refetch}
       refreshing={loading}
     />
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -74,4 +86,4 @@ const styles = StyleSheet.create({
   bold: { fontWeight: "bold" },
   italic: { fontStyle: "italic" },
   underline: { textDecorationLine: "underline" },
-})
+});

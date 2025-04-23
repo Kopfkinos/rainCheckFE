@@ -19,8 +19,8 @@ import LoadingUmbrella from "../../components/LoadingUmbrella";
 import DatePickerComponent from "../../components/DatePicker";
 import TimePickerComponent from "../../components/TimePicker";
 import {
-	widthPercentageToDP as wp,
-	heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
 import "react-datepicker/dist/react-datepicker.css"; // Web app calendar style
@@ -62,7 +62,7 @@ export default function CreateEvent() {
     const eventData = {
       title,
       description,
-      date: date.toISOString().split("T")[0], // YYYY-MM-DD
+      date: date.toISOString().split("T")[0].split("-").reverse().join("-"), // YYYY-MM-DD
       time: time.toTimeString().slice(0, 8), // gets "HH:MM:SS"
       event_img_url,
       location,
@@ -147,48 +147,48 @@ export default function CreateEvent() {
   );
 }
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: "center",
-		padding: 20,
-		backgroundColor: "F7F7F7",
-	},
-	logoWrapper: {
-		alignItems: "center",
-		marginBottom: 20,
-	},
-	logo: {
-		width: 300,
-		height: 150,
-		resizeMode: "contain",
-	},
-	input: {
-		height: hp("7%"),
-		width: "100%",
-		marginVertical: hp("1%"),
-		borderWidth: 1,
-		padding: wp("2.5%"),
-		borderRadius: 5,
-		borderColor: "#ddd",
-		boxShadow: "10px 4px 50px rgba(0, 0, 0, 0.1)",
-	},
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 20,
+    backgroundColor: "F7F7F7",
+  },
+  logoWrapper: {
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  logo: {
+    width: 300,
+    height: 150,
+    resizeMode: "contain",
+  },
+  input: {
+    height: hp("7%"),
+    width: "100%",
+    marginVertical: hp("1%"),
+    borderWidth: 1,
+    padding: wp("2.5%"),
+    borderRadius: 5,
+    borderColor: "#ddd",
+    boxShadow: "10px 4px 50px rgba(0, 0, 0, 0.1)",
+  },
 
-	submitButton: {
-		backgroundColor: "#402B8B",
-		paddingVertical: 14,
-		borderRadius: 8,
-		alignItems: "center",
-		marginTop: 20,
-		alignSelf: "center",
-		width: wp("70%"),
-	},
-	submitButtonText: {
-		color: "white",
-		fontWeight: "bold",
-		fontSize: 16,
-		boxShadow: "10px 4px 50px rgba(0, 0, 0, 0.1)",
-	},
-	returnButton: {
-		marginTop: -20,
-	},
+  submitButton: {
+    backgroundColor: "#402B8B",
+    paddingVertical: 14,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 20,
+    alignSelf: "center",
+    width: wp("70%"),
+  },
+  submitButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+    boxShadow: "10px 4px 50px rgba(0, 0, 0, 0.1)",
+  },
+  returnButton: {
+    marginTop: -20,
+  },
 });
