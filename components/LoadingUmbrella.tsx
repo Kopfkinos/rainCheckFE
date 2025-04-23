@@ -22,17 +22,17 @@ const LoadingUmbrella = () => {
 
   return (
     <ImageBackground
-            source={require("../assets/images/loading-bg.jpg")}
-            style={styles.backgroundImage}
-          >
-    <View style={styles.container}>
-      <AnimatedLottieView
-        source={require("../assets/animations/umbrella.json")}
-        autoPlay
-        loop
-        style={styles.lottie}
-      />
-    </View>
+      source={require("../assets/images/loading-bg.jpg")}
+      style={styles.backgroundImage}
+    >
+      <View style={styles.container}>
+        <AnimatedLottieView
+          source={require("../assets/animations/umbrella.json")}
+          autoPlay
+          loop
+          style={styles.lottie}
+        />
+      </View>
     </ImageBackground>
   );
 };

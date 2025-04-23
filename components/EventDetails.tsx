@@ -31,12 +31,7 @@ export default function EventDetails({ event }) {
       <View style={styles.imageContainer}>
         <Image
           style={styles.eventImage}
-          source={
-            event_img_url
-              ? { uri: event_img_url }
-              : require("../assets/images/rainCheck-logo.png")
-          }
-          resizeMode="contain"
+          source={event_img_url ? { uri: event_img_url } : require("../assets/images/app-icon.png")}
         />
       </View>
       <Text style={styles.heading}>{title}</Text>
@@ -52,7 +47,7 @@ export default function EventDetails({ event }) {
       <Text style={styles.bold}>{created_by}</Text>
       {event.invited ? (
         <View>
-          <Text style={styles.italic}>💁‍♀️Invited: </Text>
+          <Text style={styles.italic}>🙌Invited: </Text>
           <Text style={styles.bold}>{invited}</Text>{" "}
         </View>
       ) : null}
