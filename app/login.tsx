@@ -16,6 +16,7 @@ import { UserContext } from "@/contexts/UserContext"
 import { useRouter, withLayoutContext } from "expo-router"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
+
 import { useFonts } from "expo-font"
 
 import {
@@ -189,7 +190,8 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#5B3EC6",
+    color: "#7756FF",
+    fontFamily: "SenExtraBold",
   },
   container: {
     width: "100%",

@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/images/rainCheck-logo.png",
+        "foregroundImage": "./assets/images/rainCheck-logo.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.kopfkinos.rainCheckFE.androidBuild"
@@ -21,7 +21,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/images/rainCheck-logo.png"
+      "favicon": "./assets/images/rainCheck-logo.png"
     },
     "plugins": [
       "expo-router",
