@@ -51,7 +51,7 @@ const IOSTimePicker = ({ currentTime, onChange }: TimePickerProps) => {
   return (
     <View
       style={{
-        backgroundColor: "rgba(255, 255, 255, 0.07)",
+        backgroundColor: "rgba(255, 255, 255, 0.19)",
         padding: 10,
         borderRadius: 8,
         marginTop: 10,
