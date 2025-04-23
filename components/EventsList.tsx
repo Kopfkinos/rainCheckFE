@@ -1,7 +1,7 @@
 import { FlatList, Text, TouchableOpacity, StyleSheet } from "react-native"
 import { Link } from "expo-router"
 
-export default function EventsList({ events, refetch, loading }) {
+export default function EventsList({ user, events, refetch, loading }) {
   return (
     <FlatList
       data={events}
@@ -10,9 +10,17 @@ export default function EventsList({ events, refetch, loading }) {
         <Link href={`/events/${item.event_id}`} asChild>
           <TouchableOpacity style={styles.eventItem}>
             <Text style={styles.eventTitle}>{item.title}</Text>
-            <Text style={styles.eventText}>{`📆 ${new Date(item.date).toLocaleString("en-GB")}`}</Text>
+            <Text style={styles.eventText}>{`📆 ${new Date(item.date).toLocaleString(
+              "en-GB"
+            )}`}</Text>
             <Text style={styles.eventText}>{`📍 ${item.location}`}</Text>
-            <Text style={styles.eventDescription}>{item.description}</Text>
+            <Text style={styles.eventDescription}>{`🗒️ ${item.description}`}</Text>
+
+            {user === item.created_by ? (
+              <Text>{`💁‍♀️ You invited ${item.invited}`}</Text>
+            ) : (
+              <Text>{`💁‍♀️ ${item.created_by} invited you`}</Text>
+            )}
           </TouchableOpacity>
         </Link>
       )}
@@ -63,4 +71,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "red",
   },
+  bold: { fontWeight: "bold" },
+  italic: { fontStyle: "italic" },
+  underline: { textDecorationLine: "underline" },
 })

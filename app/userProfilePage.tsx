@@ -27,7 +27,7 @@ import useFetch from "../utils/useFetch"
 import LoadingUmbrella from "../components/LoadingUmbrella"
 import EventsList from "@/components/EventsList"
 
-import { useFonts } from 'expo-font';
+import { useFonts } from "expo-font"
 
 interface Event {
   event_id: number
@@ -95,23 +95,29 @@ export default function UserProfilePage() {
   }
 
   return (
-          <ImageBackground 
-            source={require("../assets/images/userProfilePage-bg.jpg")}
-            style={styles.backgroundImage}
-          >
-    <SafeAreaView style={styles.container}>
-      <Image style={styles.logo} source={require("../assets/images/rainCheck-logo.png")} />
+    <ImageBackground
+      source={require("../assets/images/userProfilePage-bg.jpg")}
+      style={styles.backgroundImage}
+    >
+      <SafeAreaView style={styles.container}>
+        <Image style={styles.logo} source={require("../assets/images/rainCheck-logo.png")} />
 
-      <Text style={styles.textTitle}>Hi {user}! 👋</Text>
-      <Text style={styles.text}>Here are your events...</Text>
-      <EventsList style={styles.eventList} events={events} loading={loading} refetch={refetch} />
+        <Text style={styles.textTitle}>Hi {user}! 👋</Text>
+        <Text style={styles.text}>Here are your events...</Text>
+        <EventsList
+          style={styles.eventList}
+          user={user}
+          events={events}
+          loading={loading}
+          refetch={refetch}
+        />
 
-      <Link href="/events/createEvent" asChild>
-        <TouchableOpacity style={styles.createButton}>
-          <Text style={styles.createButtonText}>Create Event</Text>
-        </TouchableOpacity>
-      </Link>
-    </SafeAreaView>
+        <Link href="/events/createEvent" asChild>
+          <TouchableOpacity style={styles.createButton}>
+            <Text style={styles.createButtonText}>Create Event</Text>
+          </TouchableOpacity>
+        </Link>
+      </SafeAreaView>
     </ImageBackground>
   )
 }
@@ -146,8 +152,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.15)", 
-  }, 
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
+  },
   logo: {
     height: hp("40%"),
     width: wp("85%"),
@@ -162,7 +168,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     color: "#fff",
     fontFamily: "Bestime",
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: 3, height: 1 },
     textShadowRadius: 2,
   },
@@ -173,7 +179,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     color: "#fff",
     fontFamily: "SenExtraBold",
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: 3, height: 1 },
     textShadowRadius: 2,
   },
@@ -200,7 +206,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   input: {
-    /* what is this being used for? */ 
+    /* what is this being used for? */
     height: hp("7%"),
     width: "100%",
     marginVertical: hp("1%"),
@@ -234,9 +240,3 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 })
-
-
-
-
-
-
