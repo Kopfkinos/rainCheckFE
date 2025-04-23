@@ -1,36 +1,41 @@
-import { Platform, View, Text, TouchableOpacity } from "react-native"
-import RNDateTimePicker, { DateTimePickerAndroid } from "@react-native-community/datetimepicker"
+import { Platform, View, Text, TouchableOpacity } from "react-native";
+import RNDateTimePicker, {
+  DateTimePickerAndroid,
+} from "@react-native-community/datetimepicker";
 
 interface DatePickerProps {
-  onChange: (date: Date) => void
-  currentDate: Date
+  onChange: (date: Date) => void;
+  currentDate: Date;
 }
 
 export default function DateTimePicker(props: DatePickerProps) {
   if (Platform.OS === "android") {
-    return <AndroidDateTimePicker {...props} />
+    return <AndroidDateTimePicker {...props} />;
   }
 
   if (Platform.OS === "ios") {
-    return <IOSDateTimePicker {...props} />
+    return <IOSDateTimePicker {...props} />;
   }
 
-  return null
+  return null;
 }
 
-export const AndroidDateTimePicker = ({ onChange, currentDate }: DatePickerProps) => {
+export const AndroidDateTimePicker = ({
+  onChange,
+  currentDate,
+}: DatePickerProps) => {
   const showDateTimePicker = () => {
     DateTimePickerAndroid.open({
       value: currentDate,
       onChange: (event, selectedDate) => {
         if (event.type === "set" && selectedDate) {
-          onChange(selectedDate)
+          onChange(selectedDate);
         }
       },
       mode: "date",
       minimumDate: new Date(), // optional, only if you want to block past dates
-    })
-  }
+    });
+  };
 
   return (
     <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -39,10 +44,13 @@ export const AndroidDateTimePicker = ({ onChange, currentDate }: DatePickerProps
         <Text style={styles.buttonText}>Open Calendar</Text>
       </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
-export const IOSDateTimePicker = ({ onChange, currentDate }: DatePickerProps) => {
+export const IOSDateTimePicker = ({
+  onChange,
+  currentDate,
+}: DatePickerProps) => {
   return (
     <RNDateTimePicker
       style={{ alignSelf: "flex-start" }}
@@ -53,8 +61,8 @@ export const IOSDateTimePicker = ({ onChange, currentDate }: DatePickerProps) =>
       display="default"
       onChange={(_, date?: Date) => onChange(date || new Date())}
     />
-  )
-}
+  );
+};
 
 const styles = {
   button: {
@@ -68,4 +76,4 @@ const styles = {
     color: "#fff",
     fontWeight: "bold",
   },
-}
+};
