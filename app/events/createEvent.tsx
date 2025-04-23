@@ -108,11 +108,11 @@ export default function CreateEvent() {
           onChangeText={setTitle}
         />
 
-        <View style={{ overflow: "visible", zIndex: 1 }}>
+        <View>
           <DatePickerComponent onChange={setDate} currentDate={date} />
         </View>
 
-        <View style={{ overflow: "visible", zIndex: 1 }}>
+        <View>
           <TimePickerComponent onChange={setTime} currentTime={time} />
         </View>
 
@@ -171,7 +171,6 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
     boxShadow: "10px 4px 50px rgba(0, 0, 0, 0.1)",
   },
-
   submitButton: {
     backgroundColor: "#402B8B",
     paddingVertical: 14,

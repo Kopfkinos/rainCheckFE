@@ -1,7 +1,17 @@
-import { Platform, View, Text, TouchableOpacity } from "react-native";
+import {
+  Platform,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import RNDateTimePicker, {
   DateTimePickerAndroid,
 } from "@react-native-community/datetimepicker";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 interface TimePickerProps {
   currentTime: Date;
@@ -38,7 +48,7 @@ const AndroidTimePicker = ({ currentTime, onChange }: TimePickerProps) => {
   };
 
   return (
-    <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}>
+    <View style={styles.pickerRow}>
       <Text>{formatTime(currentTime)}</Text>
       <TouchableOpacity onPress={showTimePicker} style={styles.button}>
         <Text style={styles.buttonText}>Set Time</Text>
@@ -71,7 +81,7 @@ const formatTime = (date: Date) =>
     hour12: true,
   });
 
-const styles = {
+const styles = StyleSheet.create({
   button: {
     backgroundColor: "#402B8B",
     paddingVertical: 10,
@@ -83,4 +93,16 @@ const styles = {
     color: "#fff",
     fontWeight: "bold",
   },
-};
+  pickerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: hp("1%"),
+    justifyContent: "space-between",
+    paddingHorizontal: wp("2%"),
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#ddd",
+    height: hp("7%"),
+    backgroundColor: "#fff",
+  },
+});
