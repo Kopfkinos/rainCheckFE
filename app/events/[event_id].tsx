@@ -1,46 +1,54 @@
-import { Text, View, Image, StyleSheet, TextInput, TouchableOpacity } from "react-native"
-import { useLocalSearchParams, Redirect } from "expo-router"
-import { useEffect, useState, useContext } from "react"
-import { getEventByEventID } from "../../utils/api-funcs.js"
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import { useLocalSearchParams, Redirect } from "expo-router";
+import { useEffect, useState, useContext } from "react";
+import { getEventByEventID } from "../../utils/api-funcs.js";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from "react-native-responsive-screen"
-import { getUsers, addInvitee } from "../../utils/api-funcs.js"
-import { UserContext } from "../../contexts/UserContext"
-import { SafeAreaView } from "react-native-safe-area-context"
-import LoadingUmbrella from "../../components/LoadingUmbrella"
-import NotFeelingItButton from "../../components/NotFeelingItButton"
-import BothFlaked from "../../components/BothFlaked"
-import EventDetails from "../../components/EventDetails"
-import InviteFriendButton from "../../components/InviteFriendButton"
+} from "react-native-responsive-screen";
+import { getUsers, addInvitee } from "../../utils/api-funcs.js";
+import { UserContext } from "../../contexts/UserContext";
+import { SafeAreaView } from "react-native-safe-area-context";
+import LoadingUmbrella from "../../components/LoadingUmbrella";
+import NotFeelingItButton from "../../components/NotFeelingItButton";
+import BothFlaked from "../../components/BothFlaked";
+import EventDetails from "../../components/EventDetails";
+import InviteFriendButton from "../../components/InviteFriendButton";
 
 interface Event {
-  event_id: number
-  title: string
-  description: string
-  date: object
-  location: string
-  created_by: string
-  invited: string
-  host_flaked: boolean
-  invitee_flaked: boolean
+  event_id: number;
+  title: string;
+  description: string;
+  date: string | Date;
+  time: string;
+  location: string;
+  created_by: string;
+  invited: string;
+  host_flaked: boolean;
+  invitee_flaked: boolean;
 }
 
 export default function EventPage() {
-  const { event_id } = useLocalSearchParams()
+  const { event_id } = useLocalSearchParams();
   //An Expo Router Hook, allowing access to the query params
-  const { user } = useContext(UserContext)
-  const [role, setRole] = useState("")
+  const { user } = useContext(UserContext);
+  const [role, setRole] = useState("");
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [userFlaked, setUserFlaked] = useState(false)
-  const [otherUserFlaked, setOtherUserFlaked] = useState(false)
-  const [bothFlaked, setBothFlaked] = useState(false)
+  const [userFlaked, setUserFlaked] = useState(false);
+  const [otherUserFlaked, setOtherUserFlaked] = useState(false);
+  const [bothFlaked, setBothFlaked] = useState(false);
 
   if (!user) {
-    return <Redirect href="/" />
+    return <Redirect href="/" />;
   }
 
   const [event, setEvent] = useState<Event>({
@@ -54,46 +62,46 @@ export default function EventPage() {
     invited: "",
     host_flaked: false,
     invitee_flaked: false,
-  })
+  });
 
   useEffect(() => {
     if (bothFlaked) {
-      return
+      return;
     }
-    setIsLoading(true)
+    setIsLoading(true);
     getEventByEventID(event_id).then((fetchedEvent) => {
-      setEvent(fetchedEvent)
-      const { invited, created_by, host_flaked, invitee_flaked } = fetchedEvent
+      setEvent(fetchedEvent);
+      const { invited, created_by, host_flaked, invitee_flaked } = fetchedEvent;
       if (user === created_by) {
         // user is host
-        setRole("host")
+        setRole("host");
         if (host_flaked) {
-          setUserFlaked(true)
+          setUserFlaked(true);
         }
         if (invitee_flaked) {
-          setOtherUserFlaked(true)
+          setOtherUserFlaked(true);
         }
       } else {
         // user is invitee
-        setRole("invitee")
+        setRole("invitee");
         if (invitee_flaked) {
-          setUserFlaked(true)
+          setUserFlaked(true);
         }
         if (host_flaked) {
-          setOtherUserFlaked(true)
+          setOtherUserFlaked(true);
         }
       }
       if (host_flaked && invitee_flaked) {
-        setBothFlaked(true)
+        setBothFlaked(true);
       }
       const timer = setTimeout(() => {
-        setIsLoading(false)
-      }, 1500)
-      return () => clearTimeout(timer)
-    })
-  }, [bothFlaked])
+        setIsLoading(false);
+      }, 1500);
+      return () => clearTimeout(timer);
+    });
+  }, [bothFlaked]);
 
-  console.log(event)
+  console.log(event);
 
   if (isLoading) {
     return (
@@ -102,13 +110,16 @@ export default function EventPage() {
 
         <Text style={styles.loadingText}>Loading profile...</Text>
       </SafeAreaView>
-    )
+    );
   } else if (bothFlaked) {
-    return <BothFlaked />
+    return <BothFlaked />;
   } else if (!isLoading && !bothFlaked) {
     return (
       <View style={styles.logoWrapper}>
-        <Image source={require("../../assets/images/rainCheck-logo.png")} style={styles.logo} />
+        <Image
+          source={require("../../assets/images/rainCheck-logo.png")}
+          style={styles.logo}
+        />
         <View />
         <EventDetails event={event} />
         {!event.invited ? (
@@ -126,7 +137,7 @@ export default function EventPage() {
           </View>
         )}
       </View>
-    )
+    );
   }
 }
 
@@ -193,4 +204,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-})
+});
