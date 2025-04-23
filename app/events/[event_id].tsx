@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   },
   returnButton: {
     position: "absolute",
-    bottom: 20,
+    bottom: 25,
     left: 0,
     right: 0,
     alignItems: "center",
