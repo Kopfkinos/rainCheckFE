@@ -27,6 +27,8 @@ import useFetch from "../utils/useFetch"
 import LoadingUmbrella from "../components/LoadingUmbrella"
 import EventsList from "@/components/EventsList"
 
+import { useFonts } from 'expo-font';
+
 interface Event {
   event_id: number
   title: string
@@ -48,6 +50,11 @@ export default function UserProfilePage() {
 
   // Memoize the fetch function
   const fetchEvents = useCallback(() => getEvents(user), [user])
+
+  const [fontsLoaded] = useFonts({
+    Bestime: require("../assets/fonts/Bestime.ttf"),
+    SenMedium: require("../assets/fonts/SenMedium.ttf"),
+  })
 
   const {
     data: events,
@@ -93,9 +100,9 @@ export default function UserProfilePage() {
           >
     <SafeAreaView style={styles.container}>
       <Image style={styles.logo} source={require("../assets/images/rainCheck-logo.png")} />
-      <Text style={styles.text}>Hi {user}!👋</Text>
+      <Text style={styles.textTitle}>Hi {user}!👋</Text>
       <Text style={styles.text}>Events You're Hosting...</Text>
-      <EventsList style={styles.eventList} events={events.events_created} loading={loading} refetch={refetch} />
+      <EventsList style={styles.eventList} events={events} loading={loading} refetch={refetch} />
       <Link href="/events/createEvent" asChild>
         <TouchableOpacity style={styles.createButton}>
           <Text style={styles.createButtonText}>Create Event</Text>
@@ -146,12 +153,21 @@ const styles = StyleSheet.create({
     marginBottom: -95,
     marginTop: -100,
   },
+  textTitle: {
+    fontSize: 30,
+    textAlign: "center",
+    fontWeight: "bold",
+    marginBottom: 15,
+    color: "#fff",
+    fontFamily: "Bestime",
+  },
   text: {
     fontSize: 20,
     textAlign: "center",
     fontWeight: "bold",
-    marginBottom: 10,
-    color: "#fff"
+    marginBottom: 15,
+    color: "#fff",
+    fontFamily: "SenMedium",
   },
   noEvent: {
     paddingTop: 20,

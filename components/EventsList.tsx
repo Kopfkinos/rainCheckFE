@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   eventItem: {
     padding: 25,
     marginBottom: 10,
-    backgroundColor: "rgba(255, 255, 255, 0.46)",
+    backgroundColor: "rgba(255, 255, 255, 0.37)",
     borderRadius: 8,
     shadowColor: "#000",
     shadowOffset: {
@@ -40,13 +40,16 @@ const styles = StyleSheet.create({
   },
   eventTitle: {
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 18,
     color: "white",
+    marginBottom: 5,
+    fontFamily: "SenExtraBold",
   },
   eventText: {
     fontWeight: "bold",
     fontSize: 14,
     color: "white",
+    fontFamily: "SenExtraBold",
   },
   eventDescription: {
     marginTop: 3,
