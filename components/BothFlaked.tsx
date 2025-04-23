@@ -1,46 +1,85 @@
-import { View, Image, Text, StyleSheet } from "react-native"
+import { View, Image, Text, StyleSheet, ImageBackground } from "react-native"
 import ReturnButton from "./ReturnButton"
+import Confetti from "../components/Confetti"
+import AnimatedStrikeThrough from "./AnimatedStrikeThrough"
 
 export default function BothFlaked({ title }) {
   return (
-    <View style={styles.logoWrapper}>
-      <Image source={require("../assets/images/rainCheck-logo.png")} style={styles.logo} />
-      <Image source={require("../assets/images/both-flaked.gif")} style={styles.gif} />
-      <Text style={styles.eventTitle}>{title}?</Text>
-      <Text style={styles.header}> You're both not feeling it!</Text>
-      <Text> Great minds think alike... </Text>
-      <View style={styles.returnButton}>
-        <ReturnButton />
-      </View>
+    <View style={styles.container}>
+      <Confetti />
+      <ImageBackground
+        source={require("../assets/images/midnightSky.jpg")}
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      >
+        <View style={styles.overlay}>
+          <Image source={require("../assets/images/rainCheck-logo.png")} style={styles.logo} />
+          {/* <Text style={styles.eventTitle}>{title}?</Text> */}
+          <AnimatedStrikeThrough title={title} />
+          <Text style={styles.header}>You're both not feeling it!</Text>
+          <Text style={styles.subHeading}>(Great minds flake alike...)</Text>
+          <View style={styles.returnButton}>
+            <ReturnButton />
+          </View>
+        </View>
+      </ImageBackground>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  logoWrapper: {
+  container: {
+    flex: 1,
+  },
+  backgroundImage: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+  },
+  overlay: {
+    flex: 1,
+    width: "100%",
+    justifyContent: "space-evenly", // nicely spaces vertically
     alignItems: "center",
-    marginBottom: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 40,
   },
   logo: {
     width: 300,
     height: 150,
     resizeMode: "contain",
   },
-  gif: {
-    width: 400,
-    height: 250,
-  },
   eventTitle: {
     color: "#5B3EC6",
-    fontSize: 30,
+    fontSize: 40,
     marginTop: 30,
-    alignSelf: "center",
+    textAlign: "center",
+    textDecorationLine: "line-through",
+    textShadowColor: "white",
+    textShadowRadius: 1,
+    textShadowOffset: {
+      width: 1,
+      height: 1,
+    },
   },
   header: {
-    margin: 25,
-    fontSize: 25,
+    color: "white",
+    marginVertical: 10,
+    fontSize: 40,
+    textAlign: "center",
+    textShadowColor: "green",
+    textShadowRadius: 1,
+    textShadowOffset: {
+      width: 1,
+      height: 1,
+    },
+  },
+  subHeading: {
+    fontSize: 20,
+    color: "white",
+    textAlign: "center",
   },
   returnButton: {
-    marginTop: 3,
+    marginTop: 20,
   },
 })
