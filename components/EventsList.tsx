@@ -17,9 +17,9 @@ export default function EventsList({ user, events, refetch, loading }) {
             <Text style={styles.eventDescription}>{`🗒️ ${item.description}`}</Text>
 
             {user === item.created_by ? (
-              <Text>{`💁‍♀️ You invited ${item.invited}`}</Text>
+              <Text>{`🫴 You invited ${item.invited}`}</Text>
             ) : (
-              <Text>{`💁‍♀️ ${item.created_by} invited you`}</Text>
+              <Text>{`🙌 ${item.created_by} invited you`}</Text>
             )}
           </TouchableOpacity>
         </Link>

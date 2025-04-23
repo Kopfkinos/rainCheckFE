@@ -37,13 +37,12 @@ export default function NotFeelingItButton({
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.centeredView}>
+      <SafeAreaView>
         <Modal
-          animationType="fade"
+          animationType="slide"
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
-            Alert.alert("Modal has been closed.")
             setModalVisible(!modalVisible)
           }}
         >
@@ -57,7 +56,7 @@ export default function NotFeelingItButton({
                     style={[styles.modalButtons, styles.dismiss]}
                     onPress={() => setModalVisible(!modalVisible)}
                   >
-                    <Text style={styles.flakeButtonText}>Phew, thanks! </Text>
+                    <Text style={styles.modalButtonsText}>Phew, thanks! </Text>
                   </Pressable>
                 </View>
               ) : (
@@ -67,14 +66,16 @@ export default function NotFeelingItButton({
                     (Don't worry, we won’t notify your friend unless they also hit the button!)
                   </Text>
                   <Pressable style={[styles.modalButtons, styles.confirm]} onPress={confirmClick}>
-                    <Text style={styles.modalButtonsText}>Yes!! Diva needs a lie down!!!</Text>
+                    <Text style={styles.modalButtonsText}>{`Yes!
+This diva needs a lie down!`}</Text>
                   </Pressable>
                   <Pressable
                     style={[styles.modalButtons, styles.dismiss]}
                     onPress={() => setModalVisible(!modalVisible)}
                   >
                     <Text style={styles.modalButtonsText}>
-                      Uhh, wait, I'm not sure! Take me back!
+                      {`Uhhh, wait, I'm not sure! 
+Take me back!`}
                     </Text>
                   </Pressable>
                 </View>
@@ -82,8 +83,9 @@ export default function NotFeelingItButton({
             </View>
           </View>
         </Modal>
-        <Pressable
-          style={[styles.button, userFlaked && { backgroundColor: "#6675D7" }]}
+
+        <TouchableOpacity
+          style={[styles.button, userFlaked && { backgroundColor: "#6675D7", borderRadius: 25 }]}
           disabled={userFlaked}
           onPress={() => setModalVisible(true)}
         >
@@ -95,9 +97,10 @@ export default function NotFeelingItButton({
               </Text>
             </View>
           ) : (
-            <Text style={styles.flakeButtonText}>I'm Not Feelin' It</Text>
+            <Text style={styles.flakeButtonText}>{` NOT 
+Feelin' It`}</Text>
           )}
-        </Pressable>
+        </TouchableOpacity>
       </SafeAreaView>
     </SafeAreaProvider>
   )
@@ -107,24 +110,30 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
   },
   button: {
-    marginTop: 10,
+    marginTop: 5,
     backgroundColor: "red",
-    borderRadius: 20,
-    elevation: 2,
-    height: hp("20%"),
-    width: wp("60%"),
+    borderRadius: 1000,
+    elevation: 5,
+    height: hp("34%"),
+    width: wp("74%"),
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 3,
+    borderColor: "black",
   },
   flakeButtonText: {
-    fontSize: 25,
+    fontSize: 35,
     padding: 5,
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
     justifyContent: "center",
+    textShadowColor: "black",
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 1,
   },
   flakeButtonTextSub: {
     textAlign: "center",
@@ -148,12 +157,16 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     alignItems: "center",
     justifyContent: "center",
+    borderColor: "black",
+    borderWidth: 2,
   },
   modalButtonsWrapper: {
+    padding: 10,
+    marginTop: 10,
     alignItems: "center",
     justifyContent: "center",
-    height: hp("20%"),
-    width: wp("60%"),
+    height: "auto",
+    width: wp("70%"),
   },
   confirm: {
     backgroundColor: "green",
@@ -167,6 +180,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   modalHeader: {
+    fontSize: 20,
     marginBottom: 15,
     textAlign: "center",
     fontWeight: "bold",
@@ -174,11 +188,12 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+    fontSize: 17,
   },
   modalButtons: {
     borderRadius: 20,
     elevation: 2,
-    height: hp("5%"),
+    height: hp("10%"),
     marginBottom: 10,
     width: wp("60%"),
     justifyContent: "center",

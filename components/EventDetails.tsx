@@ -1,43 +1,57 @@
-import { View, Text, StyleSheet, Image } from "react-native"
+import { View, Text, StyleSheet, Image } from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from "react-native-responsive-screen"
+} from "react-native-responsive-screen";
 
 export default function EventDetails({ event }) {
-  const { title, date, location, description, created_by, invited, time, event_img_url } = event
+  const {
+    title,
+    date,
+    location,
+    description,
+    created_by,
+    invited,
+    time,
+    event_img_url,
+  } = event;
 
-  console.log("url", event_img_url)
+  console.log("url", event_img_url);
 
   const formattedDate = new Date(date).toLocaleDateString("en-GB", {
     day: "2-digit",
     month: "short",
     year: "numeric",
-  })
+  });
 
-  const formatedTime = time.slice(0, 5)
+  const formatedTime = time.slice(0, 5);
 
   return (
     <View>
       <View style={styles.imageContainer}>
-        <Image style={styles.eventImage} source={{ uri: event_img_url }} />
+        <Image
+          style={styles.eventImage}
+          source={event_img_url ? { uri: event_img_url } : require("../assets/images/app-icon.png")}
+        />
       </View>
       <Text style={styles.heading}>{title}</Text>
+
       <Text style={styles.italic}>📆 Date: </Text> <Text style={styles.bold}>{formattedDate}</Text>
       <Text style={styles.italic}>🕐Time:</Text> <Text style={styles.bold}>{formatedTime}</Text>
       <Text style={styles.italic}>📍Location: </Text> <Text style={styles.bold}>{location}</Text>
-      <Text style={styles.italic}>📝Description: </Text>{" "}
+      <Text style={styles.italic}>📝Description: </Text>
+
       <Text style={styles.bold}>{description}</Text>
       <Text style={styles.italic}>💁‍♀️Host: </Text>
       <Text style={styles.bold}>{created_by}</Text>
       {event.invited ? (
         <View>
-          <Text style={styles.italic}>💁‍♀️Invited: </Text>
-          <Text style={styles.bold}>{invited}</Text>{" "}
+          <Text style={styles.italic}>🙌Invited: </Text>
+          <Text style={styles.bold}>{invited}</Text>
         </View>
       ) : null}
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -53,12 +67,13 @@ const styles = StyleSheet.create({
   imageContainer: {},
   eventImage: {
     alignSelf: "center",
-    width: wp("75%"),
-    height: 150,
+    width: wp("85%"),
+    height: hp("25%"),
     borderRadius: 100 / 2,
     overflow: "hidden",
     borderWidth: 3,
-    borderColor: "#6675D7",
+    borderColor: "white",
     marginBottom: 10,
+    resizeMode: "contain", // Add this
   },
-})
+});
