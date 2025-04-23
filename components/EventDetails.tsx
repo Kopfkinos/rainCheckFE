@@ -1,7 +1,13 @@
-import { View, Text, StyleSheet } from "react-native"
+import { View, Text, StyleSheet, Image } from "react-native"
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen"
 
 export default function EventDetails({ event }) {
-  const { title, date, location, description, created_by, invited, time } = event
+  const { title, date, location, description, created_by, invited, time, event_img_url } = event
+
+  console.log("url", event_img_url)
 
   const formattedDate = new Date(date).toLocaleDateString("en-GB", {
     day: "2-digit",
@@ -13,6 +19,9 @@ export default function EventDetails({ event }) {
 
   return (
     <View>
+      <View style={styles.imageContainer}>
+        <Image style={styles.eventImage} source={{ uri: event_img_url }} />
+      </View>
       <Text style={styles.heading}>{title}</Text>
       <Text style={styles.italic}>📆 Date: </Text> <Text style={styles.bold}>{formattedDate}</Text>
       <Text style={styles.italic}>🕐Time:</Text> <Text style={styles.bold}>{formatedTime}</Text>
@@ -41,4 +50,15 @@ const styles = StyleSheet.create({
   bold: { fontWeight: "bold" },
   italic: { fontStyle: "italic" },
   underline: { textDecorationLine: "underline" },
+  imageContainer: {},
+  eventImage: {
+    alignSelf: "center",
+    width: wp("75%"),
+    height: 150,
+    borderRadius: 100 / 2,
+    overflow: "hidden",
+    borderWidth: 3,
+    borderColor: "#6675D7",
+    marginBottom: 10,
+  },
 })
