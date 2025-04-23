@@ -1,41 +1,45 @@
+
 import { Text, View, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView } from "react-native";
+        
 import { useLocalSearchParams, Redirect } from "expo-router";
 import { useEffect, useState, useContext } from "react";
 import { getEventByEventID } from "../../utils/api-funcs.js";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from "react-native-responsive-screen"
-import { getUsers, addInvitee } from "../../utils/api-funcs.js"
-import { UserContext } from "../../contexts/UserContext"
-import { SafeAreaView } from "react-native-safe-area-context"
-import LoadingUmbrella from "../../components/LoadingUmbrella"
-import NotFeelingItButton from "../../components/NotFeelingItButton"
-import BothFlaked from "../../components/BothFlaked"
-import EventDetails from "../../components/EventDetails"
-import InviteFriendButton from "../../components/InviteFriendButton"
-import ReturnButton from "@/components/ReturnButton";
 
+} from "react-native-responsive-screen";
+import { getUsers, addInvitee } from "../../utils/api-funcs.js";
+import { UserContext } from "../../contexts/UserContext";
+import { SafeAreaView } from "react-native-safe-area-context";
+import LoadingUmbrella from "../../components/LoadingUmbrella";
+import NotFeelingItButton from "../../components/NotFeelingItButton";
+import BothFlaked from "../../components/BothFlaked";
+import EventDetails from "../../components/EventDetails";
+import InviteFriendButton from "../../components/InviteFriendButton";
+import ReturnButton from "@/components/ReturnButton";
+        
 interface Event {
-	event_id: number;
-	title: string;
-	description: string;
-	date: object;
-	location: string;
-	created_by: string;
-	invited: string;
-	host_flaked: boolean;
-	invitee_flaked: boolean;
+  event_id: number;
+  title: string;
+  description: string;
+  date: string | Date;
+  time: string;
+  location: string;
+  created_by: string;
+  invited: string;
+  host_flaked: boolean;
+  invitee_flaked: boolean;
 }
 
 export default function EventPage() {
+  const { event_id } = useLocalSearchParams();
 
-  const { event_id } = useLocalSearchParams()
   //An Expo Router Hook, allowing access to the query params
-  const { user } = useContext(UserContext)
-  const [role, setRole] = useState("")
+  const { user } = useContext(UserContext);
+  const [role, setRole] = useState("");
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
 
 	const [userFlaked, setUserFlaked] = useState(false);
 	const [otherUserFlaked, setOtherUserFlaked] = useState(false);
@@ -49,8 +53,8 @@ export default function EventPage() {
 		event_id: 0,
 		title: "",
 		description: "",
-		date: new Date(),
-		// 2025-05-17T19:00:00.000Z
+    date: new Date(),
+    time: "",
 		location: "",
 		created_by: "",
 		invited: "",
@@ -95,7 +99,6 @@ export default function EventPage() {
 		});
 	}, [bothFlaked]);
 
-
 	if (isLoading) {
 		return (
 			<SafeAreaView style={styles.centered}>
@@ -104,14 +107,15 @@ export default function EventPage() {
 
         <Text style={styles.loadingText}>Loading...</Text>
       </SafeAreaView>
-    )
+    );
   } else if (bothFlaked) {
-    return <BothFlaked />
+    return <BothFlaked />;
   } else if (!isLoading && !bothFlaked) {
     return (
       <View style={styles.logoWrapper}>
-        <ScrollView contentContainerStyle={styles.scroll}>
+      <ScrollView contentContainerStyle={styles.scroll}>
         <Image source={require("../../assets/images/rainCheck-logo.png")} style={styles.logo} />
+
         <View />
         <EventDetails event={event} />
         {!event.invited ? (
@@ -133,7 +137,7 @@ export default function EventPage() {
 				  </View>
         </ScrollView>
       </View>
-    )
+    );
   }
 
 }
@@ -186,6 +190,7 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
     alignItems: "center",
   },
+
 	flakeButton: {
 		margin: "2.5%",
 		paddingVertical: 7,
@@ -212,4 +217,4 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 	},
-});
+

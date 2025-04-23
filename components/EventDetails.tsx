@@ -3,7 +3,11 @@ import { View, Text, StyleSheet } from "react-native";
 export default function EventDetails({ event }) {
   const { title, date, location, description, created_by, invited } = event;
 
-  const formattedDate = new Date(date).toLocaleString("en-GB");
+  const formattedDate = new Date(date).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
 
   return (
     <View>
