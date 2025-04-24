@@ -59,17 +59,27 @@ const AndroidTimePicker = ({ currentTime, onChange }: TimePickerProps) => {
 
 const IOSTimePicker = ({ currentTime, onChange }: TimePickerProps) => {
   return (
-    <RNDateTimePicker
-      value={currentTime}
-      mode="time"
-      display="spinner"
-      onChange={(_, selectedTime) => {
-        if (selectedTime) {
-          onChange(selectedTime);
-        }
+    <View
+      style={{
+        backgroundColor: "rgba(255, 255, 255, 0.19)",
+        padding: 10,
+        borderRadius: 8,
+        marginTop: 10,
       }}
-      style={{ alignSelf: "flex-start", marginTop: 10 }}
-    />
+    >
+      <RNDateTimePicker
+        value={currentTime}
+        mode="time"
+        display="spinner"
+        textColor="white"
+        onChange={(_, selectedTime) => {
+          if (selectedTime) {
+            onChange(selectedTime);
+          }
+        }}
+        style={{ alignSelf: "flex-start", marginTop: 10 }}
+      />
+    </View>
   );
 };
 

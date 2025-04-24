@@ -80,8 +80,6 @@ export default function UserProfilePage() {
     return (
       <SafeAreaView style={styles.centered}>
         <LoadingUmbrella style={styles.lottie} />
-
-        <Text style={styles.loadingText}>Loading profile...</Text>
       </SafeAreaView>
     )
   }
