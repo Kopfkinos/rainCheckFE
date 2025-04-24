@@ -64,7 +64,7 @@ export default function CreateEvent() {
     const eventData = {
       title,
       description,
-      date: date.toISOString().split("T")[0].split("-").reverse().join("-"), // YYYY-MM-DD
+      date: date.toISOString(), // YYYY-MM-DD
       time: time.toTimeString().slice(0, 8), // gets "HH:MM:SS"
       event_img_url,
       location,
@@ -97,10 +97,10 @@ export default function CreateEvent() {
 
   return (
     <ImageBackground
-    source={require("../../assets/images/homepage-bg.jpg")}
-    style={styles.backgroundImage}
+      source={require("../../assets/images/homepage-bg.jpg")}
+      style={styles.backgroundImage}
     >
-    <StatusBar hidden />
+      <StatusBar hidden />
       <SafeAreaView style={styles.container}>
         <View>
           <Text style={styles.textTitle}>Create An Event</Text>
@@ -138,7 +138,7 @@ export default function CreateEvent() {
           />
 
           <TextInput
-            placeholder="Enter Event Image URL"
+            placeholder="Enter Event Image URL (Optional)"
             style={styles.input}
             value={event_img_url}
             onChangeText={setEventImageUrl}
