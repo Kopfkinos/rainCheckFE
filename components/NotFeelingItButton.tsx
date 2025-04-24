@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   button: {
-    marginTop: 5,
+    marginTop: 2,
     backgroundColor: "red",
     borderRadius: 1000,
     elevation: 5,
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 3,
     borderColor: "black",
+    marginBottom:5,
   },
   flakeButtonText: {
     fontSize: 35,
