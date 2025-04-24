@@ -1,4 +1,13 @@
-import { Text, View, TextInput, Button, Image, StyleSheet, TouchableOpacity, ImageBackground } from "react-native"
+import {
+  Text,
+  View,
+  TextInput,
+  Button,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native"
 
 import { useState, useContext } from "react"
 import { Redirect, Link } from "expo-router"
@@ -13,7 +22,6 @@ import TimePickerComponent from "../../components/TimePicker"
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-
 } from "react-native-responsive-screen"
 
 import "react-datepicker/dist/react-datepicker.css" // Web app calendar style
@@ -87,7 +95,6 @@ export default function CreateEvent() {
   }
 
   return (
-
     <ImageBackground
       source={require("../../assets/images/homepage-bg.jpg")}
       style={styles.backgroundImage}
@@ -130,45 +137,25 @@ export default function CreateEvent() {
             multiline={true}
             placeholderTextColor="black"
           />
+
+          <TextInput
+            placeholder="Enter Event Image URL"
+            style={styles.input}
+            value={event_img_url}
+            onChangeText={setEventImageUrl}
+          />
+
           <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-            <Text style={styles.submitButtonText}>Submit</Text>
+            <Text style={styles.submitButtonText}>Create Event</Text>
           </TouchableOpacity>
+
+          <View style={styles.returnButton}>
+            <ReturnButton />
+          </View>
         </View>
       </SafeAreaView>
-    </ImageBackground >
-
-        <TextInput
-          placeholder="Enter Event Location"
-          style={styles.input}
-          value={location}
-          onChangeText={setLocation}
-        />
-
-        <TextInput
-          placeholder="Enter Event Description"
-          style={styles.input}
-          value={description}
-          onChangeText={setDescription}
-          multiline={true}
-        />
-
-        <TextInput
-          placeholder="Enter Event Image URL"
-          style={styles.input}
-          value={event_img_url}
-          onChangeText={setEventImageUrl}
-        />
-
-        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-          <Text style={styles.submitButtonText}>Create Event</Text>
-        </TouchableOpacity>
-      </View>
-      <View style = {styles.returnButton}>
-        <ReturnButton />
-      </View>
-    </SafeAreaView>
-  );
-
+    </ImageBackground>
+  )
 }
 const styles = StyleSheet.create({
   backgroundImage: {
@@ -255,4 +242,3 @@ const styles = StyleSheet.create({
     marginTop: -20,
   },
 })
-
