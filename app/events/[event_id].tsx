@@ -119,9 +119,6 @@ export default function EventPage() {
     return (
       <View style={styles.logoWrapper}>
         <ScrollView contentContainerStyle={styles.scroll}>
-          <Image source={require("../../assets/images/rainCheck-logo.png")} style={styles.logo} />
-
-          <View />
           <EventDetails event={event} />
           {!event.invited ? (
             <InviteFriendButton event_id={event_id} setEvent={setEvent} />
