@@ -22,7 +22,11 @@ export default function EventDetails({ event }) {
       <View>
         <Image
           style={styles.eventImage}
-          source={event_img_url ? { uri: event_img_url } : require("../assets/images/app-icon.png")}
+          source={
+            event_img_url
+              ? { uri: event_img_url }
+              : require("../assets/images/default-event-image.png")
+          }
         />
       </View>
       <View style={styles.headingContainer}>

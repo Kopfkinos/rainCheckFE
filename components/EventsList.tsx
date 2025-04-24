@@ -24,7 +24,11 @@ export default function EventsList({ user, events, refetch, loading }) {
               <Text style={styles.eventDescription}>{`🗒️ ${item.description}`}</Text>
 
               {user === item.created_by ? (
-                <Text style={styles.eventText}>{`🙋‍♀️ You invited ${item.invited}`}</Text>
+                item.invited ? (
+                  <Text style={styles.eventText}>{`🙋‍♀️ You invited ${item.invited}`}</Text>
+                ) : (
+                  <Text style={styles.eventText}>{`😱 You've not invited anyone yet!`}</Text>
+                )
               ) : (
                 <Text style={styles.eventText}>{`💌 ${item.created_by} invited you`}</Text>
               )}
