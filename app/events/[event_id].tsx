@@ -139,10 +139,10 @@ export default function EventPage() {
               />
             </View>
           )}
-          <View style={styles.returnButton}>
+        </ScrollView>
+        <View style={styles.returnButton}>
             <ReturnButton />
           </View>
-        </ScrollView>
       </ImageBackground>
     )
   }
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   },
   returnButton: {
     position: "absolute",
-    bottom: -55,
+    bottom: 10,
     left: 0,
     right: 0,
     alignItems: "center",

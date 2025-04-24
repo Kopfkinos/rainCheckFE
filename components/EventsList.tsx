@@ -41,7 +41,7 @@ export default function EventsList({ user, events, refetch, loading }) {
 
 const styles = StyleSheet.create({
   eventItem: {
-    padding: 25,
+    padding: 30,
     marginBottom: 10,
     backgroundColor: "rgba(255, 255, 255, 0.89)",
     borderRadius: 8,
