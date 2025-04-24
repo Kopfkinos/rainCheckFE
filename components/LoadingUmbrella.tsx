@@ -1,16 +1,16 @@
-import { View, Text, StyleSheet, Animated, Easing, ImageBackground } from "react-native";
-import LottieView from "lottie-react-native";
-import React, { useEffect, useRef } from "react";
+import { View, Text, StyleSheet, Animated, Easing, ImageBackground } from "react-native"
+import LottieView from "lottie-react-native"
+import React, { useEffect, useRef } from "react"
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import { StatusBar } from "expo-status-bar";
+} from "react-native-responsive-screen"
+import { StatusBar } from "expo-status-bar"
 
-const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
+const AnimatedLottieView = Animated.createAnimatedComponent(LottieView)
 
 const LoadingUmbrella = () => {
-  const animationProgress = useRef(new Animated.Value(0));
+  const animationProgress = useRef(new Animated.Value(0))
 
   useEffect(() => {
     Animated.timing(animationProgress.current, {
@@ -18,8 +18,8 @@ const LoadingUmbrella = () => {
       duration: 5000,
       easing: Easing.linear,
       useNativeDriver: false,
-    }).start();
-  }, []);
+    }).start()
+  }, [])
 
   return (
     <ImageBackground
@@ -36,10 +36,10 @@ const LoadingUmbrella = () => {
         />
       </View>
     </ImageBackground>
-  );
-};
+  )
+}
 
-export default LoadingUmbrella;
+export default LoadingUmbrella
 
 const styles = StyleSheet.create({
   backgroundImage: {
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
     height: hp("100%"),
     alignSelf: "center",
   },
-});
+})
