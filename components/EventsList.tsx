@@ -1,5 +1,5 @@
-import { FlatList, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Link } from "expo-router";
+import { FlatList, Text, TouchableOpacity, StyleSheet } from "react-native"
+import { Link } from "expo-router"
 
 export default function EventsList({ user, events, refetch, loading }) {
   return (
@@ -11,8 +11,8 @@ export default function EventsList({ user, events, refetch, loading }) {
           day: "2-digit",
           month: "long",
           year: "numeric",
-        });
-        const formattedTime = item.time?.slice(0, 5);
+        })
+        const formattedTime = item.time?.slice(0, 5)
 
         return (
           <Link href={`/events/${item.event_id}`} asChild>
@@ -21,27 +21,22 @@ export default function EventsList({ user, events, refetch, loading }) {
               <Text style={styles.eventText}>{`📆 ${formattedDate}`}</Text>
               <Text style={styles.eventText}>{`🕛 ${formattedTime}`}</Text>
               <Text style={styles.eventText}>{`📍 ${item.location}`}</Text>
-              <Text
-                style={styles.eventDescription}
-              >{`🗒️ ${item.description}`}</Text>
+              <Text style={styles.eventDescription}>{`🗒️ ${item.description}`}</Text>
 
               {user === item.created_by ? (
-                <Text style={styles.eventText}>{`💁‍♀️ You invited ${item.invited}`}</Text>
+                <Text style={styles.eventText}>{`🙋‍♀️ You invited ${item.invited}`}</Text>
               ) : (
-                <Text style={styles.eventText}>{`💁‍♀️ ${item.created_by} invited you`}</Text>
+                <Text style={styles.eventText}>{`💌 ${item.created_by} invited you`}</Text>
               )}
             </TouchableOpacity>
           </Link>
-        );
+        )
       }}
-      ListEmptyComponent={
-        <Text style={styles.noEvent}>No events found...</Text>
-      }
-
+      ListEmptyComponent={<Text style={styles.noEvent}>No events found...</Text>}
       onRefresh={refetch}
       refreshing={loading}
     />
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -87,4 +82,4 @@ const styles = StyleSheet.create({
   bold: { fontWeight: "bold" },
   italic: { fontStyle: "italic" },
   underline: { textDecorationLine: "underline" },
-});
+})
