@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   },
   returnButton: {
     position: "absolute",
-    bottom: 25,
+    bottom: -55,
     left: 0,
     right: 0,
     alignItems: "center",
