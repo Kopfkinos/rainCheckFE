@@ -42,6 +42,7 @@ export default function Login() {
   const { user, setUser } = useContext(UserContext)
   const router = useRouter()
   const [passwordVisible, setPasswordVisible] = useState(false)
+  const [incorrectInputMsg, setIncorrectInputMsg] = useState(null)
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible)
@@ -60,83 +61,81 @@ export default function Login() {
         setUser(data.username)
         router.push("/userProfilePage")
       } else {
-        Alert.alert("Login failed. Incorrect username or password.")
-        // Need to change this to Alert.alert later to work on iPhone and Android
+        setIncorrectInputMsg("Incorrect username or password")
       }
     } catch (err) {
       Alert.alert("Error. Could not fetch users. Please try again later")
-      // Need to change this to Alert.alert later to work on iPhone and Android
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-      <ImageBackground
-        source={require("../assets/images/homepage-bg.jpg")}
-        style={styles.backgroundImage}
-      >
-        <StatusBar hidden />
-        <View style={styles.overlay}>
-          <Image source={require("../assets/images/rainCheck-logo.png")} style={styles.logo} />
-          <Text style={styles.heading}>LOGIN</Text>
+    <ImageBackground
+      source={require("../assets/images/homepage-bg.jpg")}
+      style={styles.backgroundImage}
+    >
+      <StatusBar hidden />
+      <View style={styles.overlay}>
+        <Image source={require("../assets/images/rainCheck-logo.png")} style={styles.logo} />
+        <Text style={styles.heading}>LOGIN</Text>
 
-          <View style={styles.inputWrapper}>
+        <View style={styles.inputWrapper}>
+          <Controller
+            control={control}
+            name="username"
+            rules={{ required: true }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={styles.input}
+                placeholder="Username"
+                onChangeText={onChange}
+                value={value}
+                autoCapitalize="none"
+                placeholderTextColor="#636363"
+              />
+            )}
+          />
+
+          {errors.username && <Text style={styles.errorMessage}>Username is required</Text>}
+
+          <View style={{ position: "relative" }}>
             <Controller
               control={control}
-              name="username"
+              name="password"
               rules={{ required: true }}
               render={({ field: { onChange, value } }) => (
                 <TextInput
                   style={styles.input}
-                  placeholder="Username"
+                  placeholder="Password"
                   onChangeText={onChange}
                   value={value}
-                  autoCapitalize="none"
+                  secureTextEntry={!passwordVisible}
                   placeholderTextColor="#636363"
                 />
               )}
             />
-
-            {errors.username && <Text style={styles.errorMessage}>Username is required</Text>}
-
-            <View style={{ position: "relative" }}>
-              <Controller
-                control={control}
-                name="password"
-                rules={{ required: true }}
-                render={({ field: { onChange, value } }) => (
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Password"
-                    onChangeText={onChange}
-                    value={value}
-                    secureTextEntry={!passwordVisible}
-                    placeholderTextColor="#636363"
-                  />
-                )}
+            <TouchableOpacity style={styles.eyeIcon} onPress={togglePasswordVisibility}>
+              <MaterialCommunityIcons
+                name={passwordVisible ? "eye-off" : "eye"}
+                size={24}
+                color="#aaa"
+                style={styles.eyeIcon}
               />
-              <TouchableOpacity style={styles.eyeIcon} onPress={togglePasswordVisibility}>
-                <MaterialCommunityIcons
-                  name={passwordVisible ? "eye-off" : "eye"}
-                  size={24}
-                  color="#aaa"
-                  style={styles.eyeIcon}
-                />
-              </TouchableOpacity>
-            </View>
-            {errors.password && <Text style={styles.errorMessage}>Password is required</Text>}
-
-            <TouchableOpacity style={styles.submitButton} onPress={handleSubmit(onSubmit)}>
-              {isLoading ? (
-                <ActivityIndicator color="#fff" />
-              ) : (
-                <Text style={styles.submitButtonText}>Submit</Text>
-              )}
             </TouchableOpacity>
           </View>
+          {errors.password && <Text style={styles.errorMessage}>Password is required</Text>}
+          {incorrectInputMsg && <Text style={styles.errorMessage}>{incorrectInputMsg}</Text>}
+          <TouchableOpacity style={styles.submitButton} onPress={handleSubmit(onSubmit)}>
+            {isLoading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.submitButtonText}>Submit</Text>
+            )}
+          </TouchableOpacity>
         </View>
-      </ImageBackground>
+      </View>
+    </ImageBackground>
   )
 }
 
@@ -154,10 +153,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "rgba(255, 255, 255, 0.18)",  // Should make overlay semi-transparent to help with readability
     width: "100%",
     height: "100%",
-    padding: 20,
+    paddingHorizontal: 20,
+    marginTop: 200,
   },
   logo: {
     width: 300,
@@ -183,8 +182,8 @@ const styles = StyleSheet.create({
   },
   eyeIcon: {
     position: "absolute",
-    right: 2,
-    top: 4,
+    right: 5,
+    top: 5,
     color: "#fff",
   },
   heading: {
