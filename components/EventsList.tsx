@@ -26,9 +26,9 @@ export default function EventsList({ user, events, refetch, loading }) {
               >{`🗒️ ${item.description}`}</Text>
 
               {user === item.created_by ? (
-                <Text>{`💁‍♀️ You invited ${item.invited}`}</Text>
+                <Text style={styles.eventText}>{`💁‍♀️ You invited ${item.invited}`}</Text>
               ) : (
-                <Text>{`💁‍♀️ ${item.created_by} invited you`}</Text>
+                <Text style={styles.eventText}>{`💁‍♀️ ${item.created_by} invited you`}</Text>
               )}
             </TouchableOpacity>
           </Link>
@@ -37,6 +37,7 @@ export default function EventsList({ user, events, refetch, loading }) {
       ListEmptyComponent={
         <Text style={styles.noEvent}>No events found...</Text>
       }
+
       onRefresh={refetch}
       refreshing={loading}
     />

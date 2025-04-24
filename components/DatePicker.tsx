@@ -42,7 +42,8 @@ export const AndroidDateTimePicker = ({
   };
 
   return (
-    <View style={styles.pickerRow}>
+    <View style={{ flexDirection: "row", alignItems: "center", backgroundColor: "rgba(255, 255, 255, 0.19)", }}>
+
       <Text>{currentDate.toLocaleDateString()}</Text>
       <TouchableOpacity onPress={showDateTimePicker} style={styles.button}>
         <Text style={styles.buttonText}>Open Calendar</Text>
