@@ -1,36 +1,25 @@
-import {
-  Platform,
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
-import RNDateTimePicker, {
-  DateTimePickerAndroid,
-} from "@react-native-community/datetimepicker";
+import { Platform, View, Text, TouchableOpacity, StyleSheet } from "react-native"
+import RNDateTimePicker, { DateTimePickerAndroid } from "@react-native-community/datetimepicker"
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+} from "react-native-responsive-screen"
 
 interface TimePickerProps {
-  currentTime: Date;
-  onChange: (time: Date) => void;
+  currentTime: Date
+  onChange: (time: Date) => void
 }
 
-export default function TimePickerComponent({
-  currentTime,
-  onChange,
-}: TimePickerProps) {
+export default function TimePickerComponent({ currentTime, onChange }: TimePickerProps) {
   if (Platform.OS === "android") {
-    return <AndroidTimePicker currentTime={currentTime} onChange={onChange} />;
+    return <AndroidTimePicker currentTime={currentTime} onChange={onChange} />
   }
 
   if (Platform.OS === "ios") {
-    return <IOSTimePicker currentTime={currentTime} onChange={onChange} />;
+    return <IOSTimePicker currentTime={currentTime} onChange={onChange} />
   }
 
-  return null;
+  return null
 }
 
 const AndroidTimePicker = ({ currentTime, onChange }: TimePickerProps) => {
@@ -39,13 +28,13 @@ const AndroidTimePicker = ({ currentTime, onChange }: TimePickerProps) => {
       value: currentTime,
       onChange: (event, selectedTime) => {
         if (event.type === "set" && selectedTime) {
-          onChange(selectedTime);
+          onChange(selectedTime)
         }
       },
       mode: "time",
       is24Hour: false,
-    });
-  };
+    })
+  }
 
   return (
     <View style={styles.pickerRow}>
@@ -54,8 +43,8 @@ const AndroidTimePicker = ({ currentTime, onChange }: TimePickerProps) => {
         <Text style={styles.buttonText}>Set Time</Text>
       </TouchableOpacity>
     </View>
-  );
-};
+  )
+}
 
 const IOSTimePicker = ({ currentTime, onChange }: TimePickerProps) => {
   return (
@@ -74,14 +63,14 @@ const IOSTimePicker = ({ currentTime, onChange }: TimePickerProps) => {
         textColor="white"
         onChange={(_, selectedTime) => {
           if (selectedTime) {
-            onChange(selectedTime);
+            onChange(selectedTime)
           }
         }}
         style={{ alignSelf: "flex-start", marginTop: 10 }}
       />
     </View>
-  );
-};
+  )
+}
 
 // Helper to format time nicely
 const formatTime = (date: Date) =>
@@ -89,7 +78,7 @@ const formatTime = (date: Date) =>
     hour: "2-digit",
     minute: "2-digit",
     hour12: true,
-  });
+  })
 
 const styles = StyleSheet.create({
   button: {
@@ -113,6 +102,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: "#ddd",
     height: hp("7%"),
-    backgroundColor: "#fff",
+    backgroundColor: "rgba(255, 255, 255, 0.34)",
   },
-});
+})
