@@ -28,17 +28,16 @@ export default function EventDetails({ event }) {
       <Text style={styles.heading}>{title}</Text>
 
       <Text>
-        {" "}
-        <Text style={styles.italic}>📆 Date: </Text>{" "}
-        <Text style={styles.bold}>{formattedDate}</Text>{" "}
+        <Text style={styles.italic}>📆 Date: </Text>
+        <Text style={styles.bold}>{formattedDate}</Text>
       </Text>
 
       <Text>
-        <Text style={styles.italic}>🕐Time:</Text> <Text style={styles.bold}>{formatedTime}</Text>{" "}
+        <Text style={styles.italic}>🕐Time:</Text> <Text style={styles.bold}>{formatedTime}</Text>
       </Text>
 
       <Text>
-        <Text style={styles.italic}>📍Location: </Text> <Text style={styles.bold}>{location}</Text>{" "}
+        <Text style={styles.italic}>📍Location: </Text> <Text style={styles.bold}>{location}</Text>
       </Text>
       <Text>
         <Text style={styles.italic}>📝Description: </Text>

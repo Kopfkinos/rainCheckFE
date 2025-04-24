@@ -79,18 +79,19 @@ export default function UserProfilePage() {
 
   if (loading) {
     return (
-      <SafeAreaView style={styles.centered}>
+      <View style={styles.centered}>
         <StatusBar hidden />
         <LoadingUmbrella style={styles.lottie} />
-      </SafeAreaView>
+      </View>
     )
   }
 
   if (error) {
     return (
-      <SafeAreaView style={styles.centered}>
+      <View style={styles.centered}>
+        <StatusBar hidden />
         <Text style={styles.text}>{error.message}</Text>
-      </SafeAreaView>
+      </View>
     )
   }
 

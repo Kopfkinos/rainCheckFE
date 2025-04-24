@@ -109,19 +109,17 @@ export default function EventPage() {
 
   if (isLoading) {
     return (
-      <SafeAreaView style={styles.centered}>
-        <StatusBar  hidden />
+      <View style={styles.centered}>
+        <StatusBar hidden />
         <LoadingUmbrella style={styles.lottie} />
-
-        <Text style={styles.loadingText}>Loading...</Text>
-      </SafeAreaView>
+      </View>
     )
   } else if (bothFlaked) {
     return <BothFlaked title={event.title} />
   } else if (!isLoading && !bothFlaked) {
     return (
       <ImageBackground
-        source={require("../../assets/images/midnightSky.jpg")}
+        source={require("../../assets/images/userProfilePage-bg.jpg")}
         style={styles.backgroundImage}
       >
         <StatusBar hidden />
@@ -145,7 +143,7 @@ export default function EventPage() {
             <ReturnButton />
           </View>
         </ScrollView>
-      </ImageBackground >
+      </ImageBackground>
     )
   }
 }
