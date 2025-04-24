@@ -13,11 +13,13 @@ import TimePickerComponent from "../../components/TimePicker"
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
+
 } from "react-native-responsive-screen"
 
 import "react-datepicker/dist/react-datepicker.css" // Web app calendar style
 import { SafeAreaView } from "react-native-safe-area-context"
 import { isAbsolute } from "path"
+import ReturnButton from "@/components/ReturnButton"
 
 export default function CreateEvent() {
   // useState here
@@ -29,6 +31,7 @@ export default function CreateEvent() {
 
   const [location, setLocation] = useState("")
   const [description, setDescription] = useState("")
+  const [event_img_url, setEventImageUrl] = useState("")
   const { user, setUser } = useContext(UserContext)
   //handleSubmit here
   const router = useRouter()
@@ -52,9 +55,9 @@ export default function CreateEvent() {
     const eventData = {
       title,
       description,
-      date: date.toISOString().split("T")[0], // YYYY-MM-DD
+      date: date.toISOString().split("T")[0].split("-").reverse().join("-"), // YYYY-MM-DD
       time: time.toTimeString().slice(0, 8), // gets "HH:MM:SS"
-
+      event_img_url,
       location,
       created_by: user,
       invited: null,
@@ -84,6 +87,7 @@ export default function CreateEvent() {
   }
 
   return (
+
     <ImageBackground
       source={require("../../assets/images/homepage-bg.jpg")}
       style={styles.backgroundImage}
@@ -132,6 +136,7 @@ export default function CreateEvent() {
         </View>
       </SafeAreaView>
     </ImageBackground >
+
   )
 }
 const styles = StyleSheet.create({
@@ -215,4 +220,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     boxShadow: "10px 4px 50px rgba(0, 0, 0, 0.1)",
   },
+  returnButton: {
+    marginTop: -20,
+  },
 })
+
