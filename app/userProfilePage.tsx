@@ -1,4 +1,5 @@
 import React, { useState, useContext, useCallback, useEffect } from "react"
+import { StatusBar } from "expo-status-bar"
 import {
   View,
   Text,
@@ -79,6 +80,7 @@ export default function UserProfilePage() {
   if (loading) {
     return (
       <SafeAreaView style={styles.centered}>
+        <StatusBar hidden />
         <LoadingUmbrella style={styles.lottie} />
       </SafeAreaView>
     )
@@ -97,6 +99,7 @@ export default function UserProfilePage() {
       source={require("../assets/images/userProfilePage-bg.jpg")}
       style={styles.backgroundImage}
     >
+      <StatusBar hidden />
       <SafeAreaView style={styles.container}>
         <Image style={styles.logo} source={require("../assets/images/rainCheck-logo.png")} />
 
