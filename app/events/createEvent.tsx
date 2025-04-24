@@ -140,8 +140,11 @@ export default function CreateEvent() {
         />
 
         <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-          <Text style={styles.submitButtonText}>Submit</Text>
+          <Text style={styles.submitButtonText}>Create Event</Text>
         </TouchableOpacity>
+      </View>
+      <View style = {styles.returnButton}>
+        <ReturnButton />
       </View>
     </SafeAreaView>
   );
