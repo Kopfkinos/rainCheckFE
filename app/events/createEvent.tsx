@@ -28,6 +28,7 @@ import "react-datepicker/dist/react-datepicker.css" // Web app calendar style
 import { SafeAreaView } from "react-native-safe-area-context"
 import { isAbsolute } from "path"
 import ReturnButton from "@/components/ReturnButton"
+import { StatusBar } from "expo-status-bar"
 
 export default function CreateEvent() {
   // useState here
@@ -96,9 +97,10 @@ export default function CreateEvent() {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/homepage-bg.jpg")}
-      style={styles.backgroundImage}
+    source={require("../../assets/images/homepage-bg.jpg")}
+    style={styles.backgroundImage}
     >
+    <StatusBar hidden />
       <SafeAreaView style={styles.container}>
         <View style={styles.logoWrapper}>
           <Image source={require("../../assets/images/rainCheck-logo.png")} style={styles.logo} />

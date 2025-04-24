@@ -1,4 +1,5 @@
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
+import { StatusBar } from "expo-status-bar"
 import {
   View,
   Text,
@@ -75,6 +76,7 @@ export default function Login() {
         source={require("../assets/images/homepage-bg.jpg")}
         style={styles.backgroundImage}
       >
+        <StatusBar hidden />
         <View style={styles.overlay}>
           <Image source={require("../assets/images/rainCheck-logo.png")} style={styles.logo} />
           <Text style={styles.heading}>LOGIN</Text>

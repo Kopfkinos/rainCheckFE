@@ -5,6 +5,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { StatusBar } from "expo-status-bar";
 
 const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
 
@@ -25,6 +26,7 @@ const LoadingUmbrella = () => {
       source={require("../assets/images/loading-bg.jpg")}
       style={styles.backgroundImage}
     >
+      <StatusBar hidden />
       <View style={styles.container}>
         <AnimatedLottieView
           source={require("../assets/animations/umbrella.json")}

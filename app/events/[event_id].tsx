@@ -25,6 +25,7 @@ import BothFlaked from "../../components/BothFlaked"
 import EventDetails from "../../components/EventDetails"
 import InviteFriendButton from "../../components/InviteFriendButton"
 import ReturnButton from "@/components/ReturnButton"
+import { StatusBar } from "expo-status-bar"
 
 interface Event {
   event_id: number
@@ -109,6 +110,7 @@ export default function EventPage() {
   if (isLoading) {
     return (
       <SafeAreaView style={styles.centered}>
+        <StatusBar  hidden />
         <LoadingUmbrella style={styles.lottie} />
 
         <Text style={styles.loadingText}>Loading...</Text>
@@ -122,6 +124,7 @@ export default function EventPage() {
         source={require("../../assets/images/midnightSky.jpg")}
         style={styles.backgroundImage}
       >
+        <StatusBar hidden />
         <ScrollView contentContainerStyle={styles.scroll}>
           <EventDetails event={event} />
           {!event.invited ? (
