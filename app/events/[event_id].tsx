@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  ImageBackground,
 } from "react-native"
 
 import { useLocalSearchParams, Redirect } from "expo-router"
@@ -119,7 +120,10 @@ export default function EventPage() {
     return <BothFlaked title={event.title} />
   } else if (!isLoading && !bothFlaked) {
     return (
-      <View style={styles.logoWrapper}>
+      <ImageBackground
+        source={require("../../assets/images/midnightSky.jpg")}
+        style={styles.backgroundImage}
+      >
         <StatusBar hidden />
         <ScrollView contentContainerStyle={styles.scroll}>
           <EventDetails event={event} />
@@ -141,12 +145,22 @@ export default function EventPage() {
             <ReturnButton />
           </View>
         </ScrollView>
-      </View>
+      </ImageBackground >
     )
   }
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    width: "100%",
+    height: "100%",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 0,
+    margin: 0,
+    resizeMode: "stretch",
+  },
   logoWrapper: {
     alignItems: "center",
     marginBottom: 20,
@@ -191,7 +205,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   scroll: {
-    paddingBottom: 100,
+    paddingTop: 100,
     alignItems: "center",
   },
 
