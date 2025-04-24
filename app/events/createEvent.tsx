@@ -102,9 +102,6 @@ export default function CreateEvent() {
     >
       <StatusBar hidden />
       <SafeAreaView style={styles.container}>
-        <View style={styles.logoWrapper}>
-          <Image source={require("../../assets/images/rainCheck-logo.png")} style={styles.logo} />
-        </View>
         <View>
           <Text style={styles.textTitle}>Create An Event</Text>
           <TextInput
