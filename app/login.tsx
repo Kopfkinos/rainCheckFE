@@ -62,7 +62,6 @@ export default function Login() {
         router.push("/userProfilePage")
       } else {
         setIncorrectInputMsg("Incorrect username or password")
-        // Alert.alert("Login failed. Incorrect username or password.")
       }
     } catch (err) {
       Alert.alert("Error. Could not fetch users. Please try again later")
@@ -183,8 +182,8 @@ const styles = StyleSheet.create({
   },
   eyeIcon: {
     position: "absolute",
-    right: 2,
-    top: 4,
+    right: 5,
+    top: 5,
     color: "#fff",
   },
   heading: {
