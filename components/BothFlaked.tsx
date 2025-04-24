@@ -16,8 +16,10 @@ export default function BothFlaked({ title }) {
           <Image source={require("../assets/images/rainCheck-logo.png")} style={styles.logo} />
           {/* <Text style={styles.eventTitle}>{title}?</Text> */}
           <AnimatedStrikeThrough title={title} />
-          <Text style={styles.header}>You're both not feeling it!</Text>
-          <Text style={styles.subHeading}>(Great minds flake alike...)</Text>
+          <View>
+            <Text style={styles.header}>You're both not feeling it!</Text>
+            <Text style={styles.subHeading}>(Great minds flake alike...)</Text>
+          </View>
           <View style={styles.returnButton}>
             <ReturnButton />
           </View>
