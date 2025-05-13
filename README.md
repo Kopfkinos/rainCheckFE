@@ -1,50 +1,20 @@
-# Welcome to your Expo app 👋
+# Welcome to rainCheck 🌧️☂️
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## Get started
+## What is rainCheck? 
 
-1. Install dependencies
+Ever made plans with a friend, only to feel the creeping dread of social obligation as the date approaches? You don’t really want to cancel in case they’re still keen—but what if they’re also secretly hoping you’ll flake first? Suddenly, you’re both trapped in a standoff of stiff upper lips, heading to an event neither of you truly wants to attend. Enter our event-cancelling app: a discreet escape hatch for the anxious-avoidant. Our app lets users quietly check if their friend is also thinking about bailing. No awkward messages, no guilt-laced apologies—just a discreet button that only reveals your intention to cancel if the other person feels the same. 
 
-   ```bash
-   npm install
-   ```
+## How Does It Work? 
 
-2. Start the app
+The app is designed to be simple and to the point, with a sprinkling of visual flare, style and copy to match the slightly tongue-in-cheek USP. Users can log in, create and browse events, and invite another user to an event. Every event page contains the event details as well as a “Not Feelin’ It” button. If a user presses this button, the backend will register that they no longer wish to attend the event. Only if both users have pressed the button, will the event page instead display a "Both Not Feeling It" page. 
 
-   ```bash
-    npx expo start
-   ```
+You can view a demo of the app here: 
+https://www.youtube.com/embed/pILxsErrngM
 
-In the output, you'll find options to open the app in a
+## Hosted Version Coming Soon...
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
 
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
